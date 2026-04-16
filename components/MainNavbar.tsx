@@ -24,6 +24,11 @@ export default function Navbar() {
               Projects
             </Link>
           </li>
+          <li>
+            <Link href="/contact" className="hover:text-zinc-950 dark:hover:text-white">
+              Contact
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>
