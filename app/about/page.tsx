@@ -1,4 +1,8 @@
-export default function About() {
+import { Metadata } from "next";
+
+export const metadata: Metadata = { title: "About" };
+
+export default function AboutPage() {
   return (
     <section>
       <h1 className="text-2xl font-bold mb-2">About Me</h1>
