@@ -9,14 +9,7 @@ export default function Projects() {
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2 ">
         {projects.map((project) => (
-          <ProjectCard
-            key={project.slug}
-            title={project.title}
-            description={project.description}
-            technologies={project.technologies.join(", ")}
-            details={project.details}
-            link={`/projects/${project.slug}`}
-          />
+          <ProjectCard key={project.slug} project={project} />
         ))}
       </div>
     </section>

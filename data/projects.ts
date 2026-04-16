@@ -1,9 +1,11 @@
-export const projects = [
+import { Project } from "@/types/projects";
+
+export const projects: Project[] = [
   {
     slug: "freaky-fashion",
     title: "Freaky Fashion",
     description: "A fictional E-Commerce for Vintage Fashion",
-    technologies: ["Tailwind CSS", "React", "Better SQlite3"],
+    technologies: ["Tailwind CSS", "React", "Better SQLite3"],
     details:
       "This project showcases my skills, projects, and contact information. I focused on clean structure, reusable components, and responsive layout.",
   },
@@ -12,7 +14,7 @@ export const projects = [
     slug: "idea",
     title: "Idea application",
     description: "An application that handles Ideas",
-    technologies: ["Laravel", "SQlite", "PHP", "Tailwind CSS", "Daisy UI"],
+    technologies: ["Laravel", "SQLite", "PHP", "Tailwind CSS", "DaisyUI"],
     details: "This project is a learning project in the basic fundamentals in how Laravel works.",
   },
 
