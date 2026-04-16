@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
-import { projects } from "@/data/projects";
-import { getProjectBySlug } from "@/lib/projects";
+import { getProjectBySlug, getProjects } from "@/lib/projects";
 import Link from "next/link";
 
 type ProjectPageProps = {
@@ -9,7 +8,9 @@ type ProjectPageProps = {
   }>;
 };
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const projects = await getProjects();
+
   return projects.map((project) => ({
     slug: project.slug,
   }));

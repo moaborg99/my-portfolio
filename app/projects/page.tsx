@@ -1,7 +1,8 @@
 import ProjectCard from "@/components/ProjectCard";
-import { projects } from "@/data/projects";
+import { getProjects } from "@/lib/projects";
 
-export default function Projects() {
+export default async function Projects() {
+  const projects = await getProjects();
   return (
     <section>
       <h1 className="text-3xl font-bold tracking-tight">Projects</h1>
