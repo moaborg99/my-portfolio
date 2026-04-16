@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { projects } from "@/data/projects";
+import { getProjectBySlug } from "@/lib/projects";
 import Link from "next/link";
 
 type ProjectPageProps = {
@@ -16,11 +17,9 @@ export function generateStaticParams() {
 
 export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
+  const project = await getProjectBySlug(slug);
 
-  if (!project) {
-    notFound();
-  }
+  if (!project) notFound();
 
   return (
     <section>
