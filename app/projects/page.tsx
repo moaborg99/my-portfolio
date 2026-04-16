@@ -1,4 +1,5 @@
 import ProjectCard from "@/components/ProjectCard";
+import { projects } from "@/data/projects";
 
 export default function Projects() {
     return (
@@ -9,24 +10,16 @@ export default function Projects() {
             </p>
 
             <div className="mt-8 grid gap-5 sm:grid-cols-2 ">
-                <ProjectCard
-                    title="Project 1"
-                    description="This is a description of project 1."
-                    technologies="HTML, CSS, JavaScript"
-                    details="Details coming soon"
-                />
-                <ProjectCard
-                    title="Project 2"
-                    description="This is a description of project 2."
-                    technologies="React, Next.js, Tailwind CSS"
-                    details="Details coming soon"
-                />
-                <ProjectCard
-                    title="Project 3"
-                    description="This is a description of project 3."
-                    technologies="TypeScript, Next.js, Tailwind CSS"
-                    details="Details coming soon"
-                />
+                    {projects.map((project) => (
+                    <ProjectCard
+                        key={project.slug}
+                        title={project.title}
+                        description={project.description}
+                        technologies={project.technologies.join(", ")}
+                        details={project.details}
+                        link={`/projects/${project.slug}`}
+                    />
+                ))}
             </div>
         </section>
     );
