@@ -1,35 +1,5 @@
 @import "tailwindcss";
-
-:root {
-  /* Raw palette (hex only) */
-  --palette-navy-dark: #0a1828;
-  --palette-navy-light: #132b3f;
-  --palette-coral: #ff6b6b;
-  --palette-turquoise: #4ecdc4;
-  --palette-text-primary: #fefefe;
-  --palette-text-secondary: #b8c5d0;
-
-  /* Page defaults: what `body` and bg-background / text-foreground use */
-  --background: var(--palette-navy-dark);
-  --foreground: var(--palette-text-primary);
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-geist-mono);
-
-  /* Named brand colors → bg-navy-dark, text-coral, etc. */
-  --color-navy-dark: var(--palette-navy-dark);
-  --color-navy-light: var(--palette-navy-light);
-  --color-coral: var(--palette-coral);
-  --color-turquoise: var(--palette-turquoise);
-
-  /* Text: use fg / fg-muted so utilities are text-fg, text-fg-muted */
-  --color-fg: var(--palette-text-primary);
-  --color-fg-muted: var(--palette-text-secondary);
-}
+@import "./theme.css";
 
 body {
   background: var(--background);

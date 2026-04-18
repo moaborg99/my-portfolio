@@ -1,0 +1,196 @@
+/* Design tokens + global button classes. Loaded from globals.css after Tailwind. */
+
+:root {
+  /* Portfolio palette — Midnight Navy & Coral Sunrise */
+  --palette-navy-dark: #0a1828;
+  --palette-navy-light: #132b3f;
+  --palette-coral: #ff6b6b;
+  --palette-turquoise: #4ecdc4;
+  --palette-text-primary: #fefefe;
+  --palette-text-secondary: #b8c5d0;
+
+  --background: var(--palette-navy-dark);
+  --foreground: var(--palette-text-primary);
+
+  /* Fluid type scale — clamp(min, preferred, max) */
+  --text-display: clamp(2rem, 5vw + 1rem, 3.5rem);
+  --text-h1: clamp(1.875rem, 3.2vw + 1rem, 2.75rem);
+  --text-h2: clamp(1.5rem, 2.4vw + 0.85rem, 2.125rem);
+  --text-h3: clamp(1.25rem, 1.8vw + 0.65rem, 1.625rem);
+  --text-h4: clamp(1.0625rem, 1.2vw + 0.55rem, 1.25rem);
+  --text-body: clamp(1rem, 0.35vw + 0.92rem, 1.125rem);
+  --text-small: clamp(0.8125rem, 0.2vw + 0.78rem, 0.875rem);
+
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-body: 1.6;
+  --leading-relaxed: 1.65;
+  --space-heading-trim: 0.02em;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-geist-mono);
+
+  --color-navy-dark: var(--palette-navy-dark);
+  --color-navy-light: var(--palette-navy-light);
+  --color-coral: var(--palette-coral);
+  --color-turquoise: var(--palette-turquoise);
+
+  --color-fg: var(--palette-text-primary);
+  --color-fg-muted: var(--palette-text-secondary);
+}
+
+@layer base {
+  /*
+     * Default typography — plain CSS + fluid vars.
+     * Override with Tailwind utilities in JSX when a page needs an exception.
+     */
+
+  /* Hero / marketing line — not a heading level; use when you want display type */
+  .type-display {
+    font-size: var(--text-display);
+    font-weight: 700;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--space-heading-trim);
+    color: var(--color-fg);
+    text-wrap: balance;
+    margin: 0 0 0.5em;
+  }
+
+  h1 {
+    font-size: var(--text-h1);
+    font-weight: 700;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--space-heading-trim);
+    color: var(--color-fg);
+    text-wrap: balance;
+    margin: 0 0 0.45em;
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+    font-weight: 600;
+    line-height: var(--leading-snug);
+    letter-spacing: var(--space-heading-trim);
+    color: var(--color-fg);
+    text-wrap: balance;
+    margin: 1.25em 0 0.4em;
+  }
+
+  h3 {
+    font-size: var(--text-h3);
+    font-weight: 600;
+    line-height: var(--leading-snug);
+    color: var(--color-fg);
+    text-wrap: balance;
+    margin: 1.1em 0 0.35em;
+  }
+
+  h4 {
+    font-size: var(--text-h4);
+    font-weight: 600;
+    line-height: var(--leading-snug);
+    color: var(--color-fg);
+    text-wrap: balance;
+    margin: 1em 0 0.3em;
+  }
+
+  p {
+    font-size: var(--text-body);
+    font-weight: 400;
+    line-height: var(--leading-body);
+    color: var(--color-fg);
+    margin: 0 0 1em;
+    max-width: 65ch;
+  }
+
+  small {
+    font-size: var(--text-small);
+    font-weight: 400;
+    line-height: var(--leading-relaxed);
+    color: var(--color-fg-muted);
+  }
+
+  ul,
+  ol {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-fg);
+    margin: 0 0 1em;
+    padding-inline-start: 1.25em;
+    max-width: 65ch;
+  }
+
+  li {
+    margin-block: 0.35em;
+  }
+}
+
+@layer components {
+  .btn-primary:focus-visible,
+  .btn-secondary:focus-visible {
+    outline: 2px solid var(--color-turquoise);
+    outline-offset: 2px;
+  }
+
+  .btn-primary:disabled,
+  .btn-secondary:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-coral);
+    color: var(--color-navy-dark);
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.25;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #ff8a8a;
+    box-shadow: 0 4px 12px rgb(255 107 107 / 0.3);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: var(--color-turquoise);
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.25;
+    border: 2px solid var(--color-turquoise);
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-turquoise);
+    color: var(--color-navy-dark);
+  }
+}
