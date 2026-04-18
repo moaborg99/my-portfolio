@@ -46,7 +46,7 @@ export function MobileNavPanel({ id, open, onClose }: MobileNavPanelProps) {
       hidden={!open}
       className="fixed inset-0 z-40 bg-gradient-to-b from-navy-dark to-navy-light md:hidden"
     >
-      <div className="mx-auto flex h-full max-w-4xl flex-col px-4 pb-10 pt-24 text-left">
+      <div className="container flex h-full flex-col px-4 pb-10 pt-24 text-left">
         <div className="border-l-2 border-turquoise pl-6">
           <p className={sectionLabelClass}>Navigate</p>
 

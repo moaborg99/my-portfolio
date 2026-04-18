@@ -4,7 +4,7 @@ import { SocialLinks } from "@/components/social/SocialLinks";
 export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-navy-light">
-      <div className="mx-auto max-w-4xl px-6 py-10">
+      <div className="container px-6 py-10">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-col gap-1">
             <Link href="/" className="text-xl font-semibold text-fg">

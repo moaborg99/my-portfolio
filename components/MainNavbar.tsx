@@ -13,7 +13,7 @@ export default function Navbar() {
   return (
     <header className="relative z-[60]">
       <nav className="relative z-50 w-full border-b border-white/10 bg-dark backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-4xl items-center justify-between gap-4 px-6">
+        <div className="container flex h-16 items-center justify-between gap-4 px-6">
           <div className="flex items-center">
             <Link href="/" className="text-lg font-semibold text-fg">
               Moa Borg
