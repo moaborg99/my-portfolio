@@ -2,34 +2,33 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <header className="border-b border-zinc-200 bg-white/90 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/90">
-      <nav className="mx-auto flex w-full max-w-4xl items-center justify-between px-6 py-4">
-        <Link href="/" className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-          Moa Borg
-        </Link>
+    <header className="border-b border-white/10 bg-dark backdrop-blur">
+      <nav className="mx-auto flex h-16 w-full max-w-4xl items-stretch justify-between gap-4 px-6">
+        <div className="flex items-center">
+          <Link href="/" className="text-lg font-semibold text-fg">
+            Moa Borg
+          </Link>
+        </div>
 
-        <ul className="flex items-center gap-6 text-sm font-medium text-zinc-700 dark:text-zinc-300">
-          <li>
-            <Link href="/" className="hover:text-zinc-950 dark:hover:text-white">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link href="/about" className="hover:text-zinc-950 dark:hover:text-white">
-              About
-            </Link>
-          </li>
-          <li>
-            <Link href="/projects" className="hover:text-zinc-950 dark:hover:text-white">
-              Projects
-            </Link>
-          </li>
-          <li>
-            <Link href="/contact" className="hover:text-zinc-950 dark:hover:text-white">
-              Contact
-            </Link>
-          </li>
-        </ul>
+        <div className="flex items-center">
+          <ul className="flex items-center gap-6 text-base font-medium text-fg-muted-50">
+            <li>
+              <Link href="/about" className="transition-colors hover:text-turquoise">
+                About
+              </Link>
+            </li>
+            <li>
+              <Link href="/projects" className="transition-colors hover:text-turquoise">
+                Projects
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact" className="transition-colors hover:text-turquoise">
+                Contact
+              </Link>
+            </li>
+          </ul>
+        </div>
       </nav>
     </header>
   );

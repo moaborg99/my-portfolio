@@ -28,17 +28,17 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
   return (
     <section>
-      <h1 className="text-2xl font-bold mb-2">{project.title}</h1>
-      <p className="text-zinc-700 dark:text-zinc-300 mb-4">{project.description}</p>
+      <h1>{project.title}</h1>
+      <p className="mb-4 text-fg-muted">{project.description}</p>
 
-      <h2 className="text-lg font-bold mb-2">Technologies</h2>
-      <ul className="list-disc list-inside mb-4">
+      <h2>Technologies</h2>
+      <ul className="mb-4 list-inside list-disc">
         {project.technologies.map((tech) => (
           <li key={tech}>{tech}</li>
         ))}
       </ul>
 
-      <Link href="/projects" className="text-blue-600 dark:text-blue-400 mt-4 block">
+      <Link href="/projects" className="mt-4 block text-turquoise transition-colors hover:text-fg">
         Back to Projects
       </Link>
     </section>

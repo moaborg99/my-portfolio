@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-screen">
+      <body className="flex min-h-screen flex-col">
         <Navbar />
         <main className="mx-auto w-full max-w-4xl flex-1 px-6 py-10">{children}</main>
         <Footer />

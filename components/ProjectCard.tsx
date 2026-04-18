@@ -6,14 +6,14 @@ export default function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="block rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:shadow-md hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700"
+      className="block rounded-xl border border-white/10 bg-navy-light/50 p-5 shadow-sm transition hover:border-turquoise/50 hover:bg-navy-light/80 hover:shadow-md hover:shadow-turquoise/10"
     >
-      <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">{project.title}</h2>
-      <p className="mt-2 text-zinc-700 dark:text-zinc-300">{project.description}</p>
-      <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
-        <span className="font-medium">Technologies:</span> {project.technologies.join(", ")}
+      <h2 className="text-lg font-semibold text-fg">{project.title}</h2>
+      <p className="mt-2 text-fg-muted">{project.description}</p>
+      <p className="mt-3 text-sm text-fg-muted">
+        <span className="font-medium text-fg">Technologies:</span> {project.technologies.join(", ")}
       </p>
-      <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-400">{project.details}</p>
+      <p className="mt-4 text-sm text-fg-muted/90">{project.details}</p>
     </Link>
   );
 }

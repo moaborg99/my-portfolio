@@ -113,20 +113,6 @@
     line-height: var(--leading-relaxed);
     color: var(--color-fg-muted);
   }
-
-  ul,
-  ol {
-    font-size: var(--text-body);
-    line-height: var(--leading-body);
-    color: var(--color-fg);
-    margin: 0 0 1em;
-    padding-inline-start: 1.25em;
-    max-width: 65ch;
-  }
-
-  li {
-    margin-block: 0.35em;
-  }
 }
 
 @layer components {
