@@ -2,18 +2,16 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { buttonClassName } from "@/components/ui/Button";
 import Image from "next/image";
+import { getGroupedTechStack } from "@/lib/tech-skills";
+import { TechStack } from "@/components/tech/TechStack";
 
 export const metadata: Metadata = { title: "Om mig" };
 
 /** Vertikal etikett mellan text och bild — ändra strängen om du vill. */
 const HERO_SIDE_LABEL = "Design · Kod · Människa";
 
-const TECH_PILL =
-  "rounded-full border border-white/15 bg-navy-light/30 px-4 py-2 text-sm font-medium text-fg transition-colors hover:border-turquoise/40 hover:bg-navy-light/50";
-
-const TECH_GROUP_LABEL = "text-xs font-semibold uppercase tracking-[0.2em] text-turquoise";
-
-export default function AboutPage() {
+export default async function AboutPage() {
+  const techStackGroups = await getGroupedTechStack();
   return (
     <div className="flex flex-col gap-16">
       <section
@@ -189,89 +187,8 @@ export default function AboutPage() {
           </div>
 
           <div className="min-w-0 lg:w-1/2">
-            <div className="mt-8 space-y-8">
-              <div>
-                <h3 className={TECH_GROUP_LABEL}>Frontend</h3>
-                <ul className="mt-4 flex list-none flex-wrap gap-4 space-y-2 p-0">
-                  {[
-                    "HTML",
-                    "CSS",
-                    "Tailwind CSS",
-                    "JavaScript",
-                    "TypeScript",
-                    "React",
-                    "Next.js",
-                    "Angular",
-                    "Alpine.js",
-                  ].map((name) => (
-                    <li key={name}>
-                      <span className={TECH_PILL}>{name}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h3 className={TECH_GROUP_LABEL}>Backend</h3>
-                <ul className="mt-4 flex list-none flex-wrap gap-4 space-y-2 p-0">
-                  {["Node.js", "PHP", "Laravel", "Livewire", "ASP.NET Core"].map((name) => (
-                    <li key={name}>
-                      <span className={TECH_PILL}>{name}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h3 className={TECH_GROUP_LABEL}>Databaser</h3>
-                <ul className="mt-4 flex list-none flex-wrap gap-4 space-y-2 p-0">
-                  {["MySQL", "SQLite", "Better SQLite"].map((name) => (
-                    <li key={name}>
-                      <span className={TECH_PILL}>{name}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h3 className={TECH_GROUP_LABEL}>UX/UI &amp; design</h3>
-                <ul className="mt-4 flex list-none flex-wrap gap-4 space-y-2 p-0">
-                  {["Figma", "Canva", "SketchUp"].map((name) => (
-                    <li key={name}>
-                      <span className={TECH_PILL}>{name}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h3 className={TECH_GROUP_LABEL}>CMS</h3>
-                <ul className="mt-4 flex list-none flex-wrap gap-4 space-y-2 p-0">
-                  <li>
-                    <span className={TECH_PILL}>WordPress · eget tema</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className={TECH_GROUP_LABEL}>Verktyg &amp; metoder</h3>
-                <ul className="mt-4 flex list-none flex-wrap gap-4 space-y-2 p-0">
-                  {[
-                    "Git",
-                    "GitHub",
-                    "VS Code",
-                    "Cursor",
-                    "TablePlus",
-                    "Laravel Herd",
-                    "Scrum",
-                    "Domän & DNS-hantering",
-                  ].map((name) => (
-                    <li key={name}>
-                      <span className={TECH_PILL}>{name}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className="mt-8">
+              <TechStack groups={techStackGroups} />
             </div>
           </div>
         </div>

@@ -8,10 +8,31 @@ datasource db {
 }
 
 model Project {
-  id           Int     @id @default(autoincrement())
-  slug         String  @unique
-  title        String
-  description  String
-  technologies Json
-  details      String
+  id                     Int                       @id @default(autoincrement())
+  slug                   String                    @unique
+  title                  String
+  description            String
+  technologies           Json
+  details                String
+  projectTechnicalSkills ProjectTechnicalSkill[]
+}
+
+model TechnicalSkill {
+  id          Int                       @id @default(autoincrement())
+  name        String
+  slug        String                    @unique
+  group       String
+  sortOrder   Int                       @default(0)
+  projects    ProjectTechnicalSkill[]
+}
+
+model ProjectTechnicalSkill {
+  id               Int            @id @default(autoincrement())
+  projectId        Int
+  technicalSkillId Int
+  displayOrder     Int?
+  project          Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  technicalSkill   TechnicalSkill @relation(fields: [technicalSkillId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, technicalSkillId])
 }
