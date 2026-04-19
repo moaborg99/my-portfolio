@@ -11,7 +11,7 @@ type TextColumnGridProps = {
 
 export function TextColumnGrid({ columns, className }: TextColumnGridProps) {
   return (
-    <div className={className ?? "mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-10"}>
+    <div className={className ?? "mt-2 grid grid-cols-1 gap-2 lg:mt-4 lg:grid-cols-3 lg:gap-8"}>
       {columns.map((column, index) => (
         <div
           key={column.title}

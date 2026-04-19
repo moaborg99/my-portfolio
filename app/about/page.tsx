@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { buttonClassName } from "@/components/ui/Button";
-import Image from "next/image";
 import { TextColumnGrid } from "@/components/blocks/TextColumnGrid";
 import { getGroupedTechStack } from "@/lib/tech-skills";
 import { TechStack } from "@/components/tech/TechStack";
@@ -10,7 +9,7 @@ import { FeaturedProjects } from "@/components/blocks/FeaturedProjects";
 export const metadata: Metadata = { title: "Om mig" };
 
 /** Vertikal etikett mellan text och bild — ändra strängen om du vill. */
-const HERO_SIDE_LABEL = "Design · Kod · Människa";
+const HERO_SIDE_LABEL = "Kreativ · Utvecklare · Fullstack";
 
 const ABOUT_INTRO_COLUMNS = [
   {
@@ -49,7 +48,7 @@ export default async function AboutPage() {
             </p>
             <Link
               href="/contact"
-              className={`${buttonClassName("primary")} mt-2 inline-flex w-fit`}
+              className={`${buttonClassName("primary")} mt-2 inline-flex w-full justify-center sm:w-fit`}
             >
               Säg hej
             </Link>
@@ -133,42 +132,46 @@ export default async function AboutPage() {
           </div>
 
           <div className="min-w-0 lg:w-1/2">
-            <div className="mt-8">
+            <div className="lg:mt-4">
               <TechStack groups={techStackGroups} />
             </div>
           </div>
         </div>
       </section>
+
       <section
-        aria-labelledby="about-cta-heading"
-        className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-clip border-t border-white/10"
+        aria-labelledby="about-cta"
+        className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-clip bg-navy-dark text-fg border-t border-white/10 pt-12"
       >
-        <div className="grid min-h-[min(26rem,78vh)] grid-cols-1 lg:grid-cols-2 lg:min-h-[min(28rem,70vh)]">
-          <div className="flex flex-col justify-center gap-6 bg-navy-light px-6 py-12 text-fg md:px-10 lg:px-12 lg:py-16">
-            <div className="mx-auto w-full max-w-xl text-left">
-              <h2 id="about-cta-heading" className="text-fg">
-                Hör av dig
-              </h2>
-              <p className="mt-4 max-w-none text-pretty leading-relaxed text-fg-muted">
-                Vill du prata om ett projekt, LIA eller bara utbyta idéer? Skicka ett meddelande —
-                jag svarar så snart jag kan.
-              </p>
-              <div className="mt-8 flex justify-start">
-                <Link href="/contact" className="btn btn-primary">
-                  Kontaka mig!
-                </Link>
+        <div className="grid min-h-[28rem] grid-cols-1 md:min-h-[min(70vh,40rem)] md:grid-cols-[44vw_minmax(0,1fr)]">
+          <div className="flex min-h-[18rem] flex-row md:min-h-full">
+            <div className="relative min-h-[18rem] flex-1 bg-gradient-to-br from-navy-light to-navy-dark md:min-h-0">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-4 text-center">
+                <span className="text-xs font-medium text-fg-muted/80">Bildyta</span>
+                <span className="max-w-[10rem] text-[0.65rem] leading-snug text-fg-muted/60">
+                  Lägg bilden här — fyll med next/image, fill, object-cover.
+                </span>
               </div>
             </div>
+            <div
+              className="flex shrink-0 items-end justify-center border-r border-white/10 bg-navy-dark px-3 py-10 md:px-4"
+              aria-hidden="true"
+            ></div>
           </div>
-          <div className="relative min-h-[18rem] w-full lg:min-h-0">
-            <Image
-              src="/about-cta.jpg"
-              alt="Porträtt av Moa Borg"
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              loading="eager"
-            />
+          <div className="flex flex-col justify-center gap-4 px-6 py-14 md:px-10 md:py-10 lg:pr-[max(1.5rem,calc((100vw-1320px)/2+1.5rem))]">
+            <h2 id="about-cta-heading" className="text-fg">
+              Hör av dig
+            </h2>
+            <p className="max-w-xl text-pretty text-base leading-relaxed text-fg-muted md:text-lg">
+              Vill du prata om ett projekt, LIA eller bara utbyta idéer? Skicka ett meddelande — jag
+              svarar så snart jag kan.
+            </p>
+            <Link
+              href="/contact"
+              className={`${buttonClassName("primary")} mt-2 inline-flex w-full justify-center sm:w-fit`}
+            >
+              Säg hej
+            </Link>
           </div>
         </div>
       </section>
