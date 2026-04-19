@@ -3,7 +3,7 @@ import { SocialLinks } from "@/components/social/SocialLinks";
 
 export default function Footer() {
   return (
-    <footer className="">
+    <footer className="border-t border-white/10">
       <div className="container px-6 py-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-col gap-1">
