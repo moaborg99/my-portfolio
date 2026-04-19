@@ -31,7 +31,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="flex min-h-screen flex-col">
         <Navbar />
-        <main className="container flex-1 py-10">{children}</main>
+        <main className="container flex-1 pt-12">{children}</main>
         <Footer />
       </body>
     </html>
