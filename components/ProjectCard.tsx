@@ -1,19 +1,38 @@
+import Image from "next/image";
 import Link from "next/link";
 
+import { TechPill } from "@/components/tech/TechPill";
+import { getTechPillVariantByGroup } from "@/lib/tech-pill-variant";
 import type { Project } from "@/types/projects";
 
 export default function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="block rounded-xl border border-white/10 bg-navy-light/50 p-5 shadow-sm transition hover:border-turquoise/50 hover:bg-navy-light/80 hover:shadow-md hover:shadow-turquoise/10"
+      className="group block overflow-hidden rounded-xl border border-white/10 bg-navy-light shadow-lg shadow-black/25 transition hover:border-turquoise/50"
     >
-      <h2 className="text-lg font-semibold text-fg">{project.title}</h2>
-      <p className="mt-2 text-fg-muted">{project.description}</p>
-      <p className="mt-3 text-sm text-fg-muted">
-        <span className="font-medium text-fg">Technologies:</span> {project.technologies.join(", ")}
-      </p>
-      <p className="mt-4 text-sm text-fg-muted/90">{project.details}</p>
+      <div className="relative aspect-[16/10] w-full">
+        <Image
+          src={project.featuredImage}
+          alt={project.title}
+          fill
+          className="object-cover transition duration-300 group-hover:scale-[1.01]"
+          sizes="(max-width: 640px) 100vw, 50vw"
+        />
+
+        <ul className="absolute right-3 top-3 flex list-none flex-col gap-4 p-0">
+          {project.skills.slice(0, 3).map((skill) => (
+            <li key={skill.name}>
+              <TechPill variant={getTechPillVariantByGroup(skill.group)}>{skill.name}</TechPill>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="space-y-2 p-4">
+        <h2 className="text-2xl font-semibold leading-tight text-fg">{project.title}</h2>
+        <p className="line-clamp-2 text-base leading-relaxed text-fg-muted">{project.summary}</p>
+      </div>
     </Link>
   );
 }

@@ -11,10 +11,26 @@ model Project {
   id                     Int                       @id @default(autoincrement())
   slug                   String                    @unique
   title                  String
+  summary                String
+  intro                  String
   description            String
-  technologies           Json
-  details                String
+  featuredImage          String
+  githubUrl              String?
+  deployUrl              String?
+  videoUrl               String?
+  images                 ProjectImage[]
   projectTechnicalSkills ProjectTechnicalSkill[]
+}
+
+model ProjectImage {
+  id        Int     @id @default(autoincrement())
+  projectId Int
+  src       String
+  alt       String  @default("")
+  sortOrder Int     @default(0)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
 }
 
 model TechnicalSkill {
@@ -27,7 +43,7 @@ model TechnicalSkill {
 }
 
 model ProjectTechnicalSkill {
-  id               Int            @id @default(autoincrement())
+  id                 Int            @id @default(autoincrement())
   projectId        Int
   technicalSkillId Int
   displayOrder     Int?
