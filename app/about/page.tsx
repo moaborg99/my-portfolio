@@ -88,13 +88,18 @@ export default async function AboutPage() {
         aria-labelledby="about-featured-projects-heading"
         className="border-t border-white/10 pt-12"
       >
-        <h2 id="about-featured-projects-heading" className="text-fg">
-          Utvalda projekt
-        </h2>
-        <p className="mt-3 max-w-prose text-pretty leading-relaxed text-fg-muted">
-          Här lyfter jag snart två case — tills dess är rutorna platshållare som följer samma yta
-          som projektkorten.
-        </p>
+        <div className="mb-10 text-center">
+          <h2
+            id="about-featured-projects-heading"
+            className="text-4xl font-bold tracking-tight text-fg md:text-5xl"
+          >
+            Utvalda projekt
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-base text-fg-muted md:text-lg">
+            Utforka några av projekten jag byggt. De skarpa kundprojekten är projekt jag drivit
+            självständigt från mockup till lanserad site.
+          </p>
+        </div>
         <FeaturedProjects />
       </section>
 
