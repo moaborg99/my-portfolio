@@ -1,8 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { NavLink } from "@/components/ui/NavLink";
 import { TechPill } from "@/components/tech/TechPill";
 import { getProjectBySlug } from "@/lib/projects";
 
@@ -105,12 +105,9 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         ) : null}
       </div>
 
-      <Link
-        href="/projects"
-        className="mt-10 inline-block text-turquoise transition-colors hover:text-fg"
-      >
-        Back to projects
-      </Link>
+      <NavLink href="/projects" leadingArrow className="mt-10">
+        Alla projekt
+      </NavLink>
     </section>
   );
 }
