@@ -12,20 +12,20 @@
   --background: var(--palette-navy-dark);
   --foreground: var(--palette-text-primary);
 
-  /* Fluid type scale — clamp(min, preferred, max) */
-  --text-display: clamp(2rem, 5vw + 1rem, 3.5rem);
-  --text-h1: clamp(1.875rem, 3.2vw + 1rem, 2.75rem);
-  --text-h2: clamp(1.5rem, 2.4vw + 0.85rem, 2.125rem);
-  --text-h3: clamp(1.25rem, 1.8vw + 0.65rem, 1.625rem);
-  --text-h4: clamp(1.0625rem, 1.2vw + 0.55rem, 1.25rem);
-  --text-body: clamp(1rem, 0.35vw + 0.92rem, 1.125rem);
-  --text-small: clamp(0.8125rem, 0.2vw + 0.78rem, 0.875rem);
+  /* Fluid type scale — balanced with your figma-inspired style */
+  --text-display: clamp(2.5rem, 3.2vw + 1.6rem, 4.75rem);
+  --text-h1: clamp(2rem, 2.2vw + 1.25rem, 3.5rem);
+  --text-h2: clamp(1.625rem, 1.5vw + 1rem, 2.5rem);
+  --text-h3: clamp(1.25rem, 1vw + 0.85rem, 1.75rem);
+  --text-h4: clamp(1.0625rem, 0.45vw + 0.92rem, 1.25rem);
+  --text-body: clamp(1rem, 0.2vw + 0.95rem, 1.125rem);
+  --text-small: clamp(0.875rem, 0.12vw + 0.82rem, 0.95rem);
 
-  --leading-tight: 1.2;
-  --leading-snug: 1.35;
-  --leading-body: 1.6;
-  --leading-relaxed: 1.65;
-  --space-heading-trim: 0.02em;
+  --leading-tight: 1.08;
+  --leading-snug: 1.25;
+  --leading-body: 1.65;
+  --leading-relaxed: 1.7;
+  --space-heading-trim: -0.015em;
 
   /* Centrerad layout — används av `.container` */
   --container-max-width: 1320px;
@@ -64,6 +64,15 @@
     margin: 0 0 0.5em;
   }
 
+  .type-overline {
+    font-size: var(--text-small);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+  }
+
   h1 {
     font-size: var(--text-h1);
     font-weight: 700;
@@ -76,12 +85,12 @@
 
   h2 {
     font-size: var(--text-h2);
-    font-weight: 600;
+    font-weight: 650;
     line-height: var(--leading-snug);
     letter-spacing: var(--space-heading-trim);
     color: var(--color-fg);
     text-wrap: balance;
-    margin: 1.25em 0 0.4em;
+    margin: 1.15em 0 0.4em;
   }
 
   h3 {
@@ -90,16 +99,7 @@
     line-height: var(--leading-snug);
     color: var(--color-fg);
     text-wrap: balance;
-    margin: 1.1em 0 0.35em;
-  }
-
-  h4 {
-    font-size: var(--text-h4);
-    font-weight: 600;
-    line-height: var(--leading-snug);
-    color: var(--color-fg);
-    text-wrap: balance;
-    margin: 1em 0 0.3em;
+    margin: 1em 0 0.35em;
   }
 
   p {
@@ -183,6 +183,65 @@
     background-color: var(--color-turquoise);
     color: var(--color-navy-dark);
   }
+
+  /**
+   * Use with `.type-overline.text-turquoise` on subsection titles (cards / columns).
+   * Single source for the faint rule under overlines instead of repeating border/padding utilities.
+   */
+  .type-section-label-bar {
+    margin: 0 0 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgb(255 255 255 / 0.1);
+  }
+
+  /** Skill / tech chips — shared by ProjectCard, project detail, Om mig stack, AboutIntro preview. */
+  .tech-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid color-mix(in srgb, var(--palette-turquoise) 25%, transparent);
+    background-color: color-mix(in srgb, var(--palette-turquoise) 6%, transparent);
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--palette-text-secondary);
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .tech-pill:hover {
+    border-color: color-mix(in srgb, var(--palette-turquoise) 45%, transparent);
+    color: var(--palette-text-primary);
+  }
+
+  /**
+   * Readable on top of photos — `.tech-pill` alone is too faint on busy imagery (project cards).
+   */
+  .tech-pill-on-media {
+    border: 1px solid rgb(255 255 255 / 0.22);
+    background-color: rgb(10 24 40 / 0.88);
+    color: var(--palette-text-primary);
+    box-shadow: 0 2px 10px rgb(0 0 0 / 0.35);
+  }
+
+  .tech-pill-on-media:hover {
+    border-color: rgb(78 205 196 / 0.5);
+    background-color: rgb(10 24 40 / 0.94);
+    color: var(--palette-text-primary);
+  }
+
+  /** With `.tech-pill` / `.tech-pill-on-media` — slightly larger card chips for readability */
+  .tech-pill-compact {
+    padding: 0.375rem 0.875rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
   .container {
     width: 100%;
     max-width: var(--container-max-width);
