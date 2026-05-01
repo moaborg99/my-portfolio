@@ -8,7 +8,6 @@ import { FeaturedProjects } from "@/components/blocks/FeaturedProjects";
 
 export const metadata: Metadata = { title: "Om mig" };
 
-/** Vertikal etikett mellan text och bild — ändra strängen om du vill. */
 const HERO_SIDE_LABEL = "Kreativ · Utvecklare · Fullstack";
 
 const ABOUT_INTRO_COLUMNS = [
@@ -36,10 +35,7 @@ export default async function AboutPage() {
       >
         <div className="grid min-h-[28rem] grid-cols-1 md:min-h-[min(70vh,40rem)] md:grid-cols-[minmax(0,1fr)_44vw]">
           <div className="flex flex-col justify-center gap-6 px-6 py-14 md:px-10 md:py-20 lg:pl-[max(1.5rem,calc((100vw-1320px)/2+1.5rem))]">
-            <h1
-              id="about-hero-heading"
-              className="text-[clamp(2.75rem,6.5vw,4.75rem)] font-bold uppercase leading-[0.95] tracking-tight text-fg"
-            >
+            <h1 id="about-hero-heading" className="type-display  text-fg">
               Moa Borg
             </h1>
             <p className="max-w-xl text-pretty text-base leading-relaxed text-fg-muted md:text-lg">
@@ -89,13 +85,10 @@ export default async function AboutPage() {
         className="border-t border-white/10 pt-12"
       >
         <div className="mb-10 text-center">
-          <h2
-            id="about-featured-projects-heading"
-            className="text-4xl font-bold tracking-tight text-fg md:text-5xl"
-          >
+          <h2 id="about-featured-projects-heading" className="text-fg">
             Utvalda projekt
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-base text-fg-muted md:text-lg">
+          <p className="mx-auto mt-3 max-w-2xl text-fg-muted">
             Utforka några av projekten jag byggt. De skarpa kundprojekten är projekt jag drivit
             självständigt från mockup till lanserad site.
           </p>
@@ -109,7 +102,7 @@ export default async function AboutPage() {
             <h2 id="about-lia-heading" className="text-fg">
               LIA
             </h2>
-            <p className="mt-3 max-w-prose text-sm leading-relaxed text-fg-muted">
+            <p className="mt-3 max-w-prose text-fg-muted">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit — tempus cursus eget sapien
               non. Vestibulum vitae lorem ut arcu varius tincidunt. Integer posuere, neque id
               facilisis aliquet, metus purus fermentum nibh, ut gravida nisl nunc vel risus. Donec
@@ -167,7 +160,7 @@ export default async function AboutPage() {
             <h2 id="about-cta-heading" className="text-fg">
               Hör av dig
             </h2>
-            <p className="max-w-xl text-pretty text-base leading-relaxed text-fg-muted md:text-lg">
+            <p className="max-w-xl text-pretty text-fg-muted">
               Vill du prata om ett projekt, LIA eller bara utbyta idéer? Skicka ett meddelande — jag
               svarar så snart jag kan.
             </p>
