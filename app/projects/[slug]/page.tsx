@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 
 import { TechPill } from "@/components/tech/TechPill";
 import { getProjectBySlug } from "@/lib/projects";
-import { getTechPillVariantByGroup } from "@/lib/tech-pill-variant";
 
 export async function generateMetadata({
   params,
@@ -67,7 +66,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         <ul className="mt-3 flex list-none flex-wrap gap-2 p-0">
           {project.skills.map((skill) => (
             <li key={skill.name}>
-              <TechPill variant={getTechPillVariantByGroup(skill.group)}>{skill.name}</TechPill>
+              <TechPill>{skill.name}</TechPill>
             </li>
           ))}
         </ul>

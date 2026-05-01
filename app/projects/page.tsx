@@ -8,8 +8,10 @@ export default async function Projects() {
   const projects = await getProjects();
   return (
     <section>
-      <h1>Projects</h1>
-      <p className="mt-2 text-fg-muted">Check out some of my projects below.</p>
+      <div className="text-center">
+        <h1>Projekt</h1>
+        <p className="mt-2 mx-auto text-fg-muted">Content kommer att läggas till här</p>
+      </div>
 
       <div className="mt-8 grid gap-5 lg:gap-6 xl:gap-8 sm:grid-cols-2 xl:grid-cols-3">
         {projects.map((project) => (

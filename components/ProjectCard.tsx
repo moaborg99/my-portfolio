@@ -2,37 +2,47 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { TechPill } from "@/components/tech/TechPill";
-import { getTechPillVariantByGroup } from "@/lib/tech-pill-variant";
 import type { Project } from "@/types/projects";
 
 export default function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group block overflow-hidden rounded-xl border border-white/10 bg-navy-light shadow-lg shadow-black/25 transition hover:border-turquoise/50"
+      className="group relative block overflow-hidden rounded-xl border border-white/15 bg-navy-light/50 shadow-lg shadow-black/25 backdrop-blur-sm transition-all duration-300 hover:border-white/28"
     >
-      <div className="relative aspect-[16/10] w-full">
+      <div className="relative aspect-[16/10] w-full overflow-hidden">
         <Image
           src={project.featuredImage}
           alt={project.title}
           fill
-          className="object-cover transition duration-300 group-hover:scale-[1.01]"
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
           sizes="(max-width: 640px) 100vw, 50vw"
         />
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-dark/80 via-navy-dark/25 to-transparent"
+          aria-hidden
+        />
 
-        <ul className="absolute right-3 top-3 flex list-none flex-col gap-4 p-0">
+        <div className="absolute right-4 top-4 z-10 flex max-w-[60%] flex-wrap justify-end gap-2">
           {project.skills.slice(0, 3).map((skill) => (
-            <li key={skill.name}>
-              <TechPill variant={getTechPillVariantByGroup(skill.group)}>{skill.name}</TechPill>
-            </li>
+            <TechPill key={skill.name} onMedia compact>
+              {skill.name}
+            </TechPill>
           ))}
-        </ul>
+        </div>
       </div>
 
-      <div className="space-y-2 p-4">
-        <h2 className="text-2xl font-semibold leading-tight text-fg">{project.title}</h2>
-        <p className="line-clamp-2 text-base leading-relaxed text-fg-muted">{project.summary}</p>
+      <div className="space-y-2 p-6">
+        <h2 className="text-xl font-semibold leading-snug text-fg transition-colors group-hover:text-turquoise">
+          {project.title}
+        </h2>
+        <p className="line-clamp-2 text-sm leading-relaxed text-fg-muted">{project.summary}</p>
       </div>
+
+      <span
+        className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-white/5"
+        aria-hidden
+      />
     </Link>
   );
 }
