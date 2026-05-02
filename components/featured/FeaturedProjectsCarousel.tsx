@@ -26,13 +26,13 @@ export function FeaturedProjectsCarousel({ projects }: FeaturedProjectsCarouselP
   useEffect(() => {
     if (!api) return;
 
-    setCurrent(api.selectedScrollSnap());
+    const sync = () => setCurrent(api.selectedScrollSnap());
 
-    const onSelect = () => setCurrent(api.selectedScrollSnap());
-    api.on("select", onSelect);
+    queueMicrotask(sync);
 
+    api.on("select", sync);
     return () => {
-      api.off("select", onSelect);
+      api.off("select", sync);
     };
   }, [api]);
 
