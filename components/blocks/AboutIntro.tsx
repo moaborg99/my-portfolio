@@ -8,6 +8,7 @@ import { buttonClassName } from "@/components/ui/Button";
 import { NavLink } from "@/components/ui/NavLink";
 import { BulletList } from "@/components/ui/BulletList";
 import { DetailList } from "@/components/ui/DetailList";
+import { SECTION_OVERLINE_LABEL } from "@/lib/section-label";
 
 const FUN_FACTS = [
   "Studerat till webbutvecklare för att kombinera kreativitet, nyfikenhet och logik",
@@ -22,8 +23,6 @@ const EDUCATIONS = [
     school: "Inredningskurser, distans",
   },
 ] as const;
-
-const ABOUT_LABEL_RULE = "type-overline text-turquoise type-section-label-bar";
 
 type AboutIntroProps = {
   techSkills: TechStackSkill[];
@@ -48,14 +47,14 @@ export function AboutIntro({ techSkills, techSkillsTotal }: AboutIntroProps) {
             </div>
 
             <div className="shrink-0 rounded-2xl border border-white/10 bg-navy-light/25 px-8 py-10 transition-colors duration-300 md:px-9 hover:border-white/18">
-              <p className={ABOUT_LABEL_RULE}>Fun facts</p>
+              <p className={SECTION_OVERLINE_LABEL}>Fun facts</p>
               <BulletList items={FUN_FACTS} />
             </div>
           </div>
 
           <div className="flex flex-col justify-between rounded-3xl border border-white/10 bg-navy-light/20 p-6 backdrop-blur-sm transition-all duration-300 hover:border-turquoise/25 md:p-8 lg:col-span-3 lg:h-full lg:min-h-0 lg:p-10">
             <div>
-              <p className={ABOUT_LABEL_RULE}>Om mig</p>
+              <p className={SECTION_OVERLINE_LABEL}>Om mig</p>
 
               <h2 className="mb-3 mt-10 text-balance text-4xl font-bold leading-tight text-fg lg:text-5xl">
                 Vem är jag?
@@ -83,7 +82,7 @@ export function AboutIntro({ techSkills, techSkillsTotal }: AboutIntroProps) {
               <div className="mb-10 space-y-6 pb-2">
                 {techSkillsTotal > 0 && (
                   <div>
-                    <p className={ABOUT_LABEL_RULE}>Tekniker</p>
+                    <p className={SECTION_OVERLINE_LABEL}>Tekniker</p>
                     <div className="flex flex-wrap gap-2">
                       {techSkills.map((skill) => (
                         <TechPill key={skill.slug}>{skill.name}</TechPill>
@@ -99,7 +98,7 @@ export function AboutIntro({ techSkills, techSkillsTotal }: AboutIntroProps) {
                   </div>
                 )}
                 <div>
-                  <p className={ABOUT_LABEL_RULE}>Utbildningar</p>
+                  <p className={SECTION_OVERLINE_LABEL}>Utbildningar</p>
                   <DetailList
                     items={EDUCATIONS.map(({ programme, school }) => ({
                       primary: programme,

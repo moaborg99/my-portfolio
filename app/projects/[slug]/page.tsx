@@ -1,9 +1,7 @@
-import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { NavLink } from "@/components/ui/NavLink";
-import { TechPill } from "@/components/tech/TechPill";
+import { ProjectDetail } from "@/components/projects/ProjectDetail";
 import { getProjectBySlug } from "@/lib/projects";
 
 export async function generateMetadata({
@@ -30,84 +28,23 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
   if (!project) notFound();
 
+  // Set false when seeds/DB populate deploy, GitHub and video URLs.
+  const previewStubHeroLinks = true;
+
   return (
-    <section>
-      <h1 className="text-fg">{project.title}</h1>
-      <p className="mt-3 max-w-prose text-fg-muted">{project.intro}</p>
-
-      {project.images.length > 0 ? (
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {project.images.map((img) => (
-            <div
-              key={`${img.src}-${img.sortOrder}`}
-              className="relative aspect-video overflow-hidden rounded-lg bg-navy-dark/40"
-            >
-              <Image
-                src={img.src}
-                alt={img.alt || project.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 100vw, 50vw"
-              />
-            </div>
-          ))}
-        </div>
-      ) : null}
-
-      <div className="mt-8 max-w-prose">
-        <h2 className="text-fg">About</h2>
-        <p className="mt-3 whitespace-pre-line text-pretty leading-relaxed text-fg-muted">
-          {project.description}
-        </p>
-      </div>
-
-      <div className="mt-8">
-        <h2 className="text-fg">Technologies</h2>
-        <ul className="mt-3 flex list-none flex-wrap gap-2 p-0">
-          {project.skills.map((skill) => (
-            <li key={skill.name}>
-              <TechPill>{skill.name}</TechPill>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="mt-8 flex flex-wrap gap-4">
-        {project.githubUrl ? (
-          <a
-            href={project.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-turquoise underline decoration-turquoise/40 underline-offset-2 transition-colors hover:text-fg"
-          >
-            GitHub
-          </a>
-        ) : null}
-        {project.deployUrl ? (
-          <a
-            href={project.deployUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-turquoise underline decoration-turquoise/40 underline-offset-2 transition-colors hover:text-fg"
-          >
-            Live site
-          </a>
-        ) : null}
-        {project.videoUrl ? (
-          <a
-            href={project.videoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-turquoise underline decoration-turquoise/40 underline-offset-2 transition-colors hover:text-fg"
-          >
-            Video
-          </a>
-        ) : null}
-      </div>
-
-      <NavLink href="/projects" leadingArrow className="mt-10">
-        Alla projekt
-      </NavLink>
-    </section>
+    <ProjectDetail
+      title={project.title}
+      summary={project.summary}
+      intro={project.intro}
+      description={project.description}
+      featuredImage={project.featuredImage}
+      githubUrl={project.githubUrl}
+      deployUrl={project.deployUrl}
+      videoUrl={project.videoUrl}
+      images={project.images}
+      skills={project.skills.map((s) => s.name)}
+      backLabel="Tillbaka till projekt"
+      showStubActionLinks={previewStubHeroLinks}
+    />
   );
 }

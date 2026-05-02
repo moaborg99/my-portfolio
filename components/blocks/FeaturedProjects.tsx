@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { buttonClassName } from "@/components/ui/Button";
 import { FeaturedProjectsCarousel } from "@/components/featured/FeaturedProjectsCarousel";
 import { getProjects } from "@/lib/projects";
 import { ArrowRight } from "lucide-react";
@@ -17,7 +18,10 @@ export async function FeaturedProjects() {
       )}
 
       <div className="mt-8 flex justify-center">
-        <Link href="/projects" className="btn btn-secondary group inline-flex items-center gap-2">
+        <Link
+          href="/projects"
+          className={`${buttonClassName("secondary")} group inline-flex items-center gap-2`}
+        >
           Alla projekt
           <ArrowRight
             size={18}

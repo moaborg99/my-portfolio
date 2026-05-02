@@ -133,13 +133,15 @@
     cursor: not-allowed;
   }
 
+  /**
+   * Primary / secondary CTAs — light solid pill + translucent outline (readable on navy / gradients).
+   * Coral/turquoise stay as accents elsewhere (links, pills, icons).
+   */
   .btn-primary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--color-coral);
-    color: var(--color-navy-dark);
-    padding: 0.75rem 2rem;
+    padding: 0.7rem 1.75rem;
     border-radius: 0.5rem;
     font-size: 0.875rem;
     font-weight: 600;
@@ -147,6 +149,9 @@
     border: none;
     cursor: pointer;
     text-decoration: none;
+    background-color: #f4f8fc;
+    color: var(--palette-navy-dark);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
     transition:
       background-color 0.2s ease,
       color 0.2s ease,
@@ -155,33 +160,36 @@
   }
 
   .btn-primary:hover {
-    background-color: #ff8a8a;
-    box-shadow: 0 4px 12px rgb(255 107 107 / 0.3);
+    background-color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgb(0 0 0 / 0.25);
   }
 
   .btn-secondary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: transparent;
-    color: var(--color-turquoise);
-    padding: 0.75rem 2rem;
+    padding: 0.7rem 1.75rem;
     border-radius: 0.5rem;
     font-size: 0.875rem;
     font-weight: 600;
     line-height: 1.25;
-    border: 2px solid var(--color-turquoise);
     cursor: pointer;
     text-decoration: none;
+    background-color: rgb(255 255 255 / 0.04);
+    color: var(--palette-text-primary);
+    border: 1px solid rgb(255 255 255 / 0.52);
+    backdrop-filter: blur(6px);
     transition:
       background-color 0.2s ease,
+      border-color 0.2s ease,
       color 0.2s ease,
       transform 0.2s ease;
   }
 
   .btn-secondary:hover {
-    background-color: var(--color-turquoise);
-    color: var(--color-navy-dark);
+    background-color: rgb(255 255 255 / 0.1);
+    border-color: rgb(255 255 255 / 0.72);
   }
 
   /**
@@ -192,6 +200,19 @@
     margin: 0 0 1rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid rgb(255 255 255 / 0.1);
+  }
+
+  /**
+   * `h3` + `.type-overline` — base `h3` rules load after `.type-overline` and would win on font-size;
+   * keep Fun-facts–style labels correct when used as a real heading (e.g. project tech deep-dive).
+   */
+  h3.type-overline {
+    font-size: var(--text-small);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    text-wrap: balance;
   }
 
   /** Skill / tech chips — shared by ProjectCard, project detail, Om mig stack, AboutIntro preview. */
