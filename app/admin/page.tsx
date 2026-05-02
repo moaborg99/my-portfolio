@@ -42,9 +42,12 @@ export default async function AdminHomePage() {
                   >
                     View site
                   </Link>
-                  <span className="text-fg-muted/60" title="Added in Part 7">
-                    Edit — will be implemented.
-                  </span>
+                  <Link
+                    href={`/admin/projects/${project.slug}/edit`}
+                    className="text-turquoise hover:underline"
+                  >
+                    Edit
+                  </Link>
                 </div>
               </li>
             ))}
