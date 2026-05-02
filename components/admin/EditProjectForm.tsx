@@ -8,6 +8,7 @@ import {
   updateProjectAction,
   type UpdateProjectState,
 } from "@/app/admin/projects/[slug]/edit/actions";
+import { buttonClassName } from "@/components/ui/Button";
 import type { Project } from "@/types/projects";
 
 type EditProjectFormProps = {
@@ -39,12 +40,6 @@ export function EditProjectForm({ project }: EditProjectFormProps) {
           {state.formError}
         </p>
       ) : null}
-
-      <p className="text-sm text-fg-muted">
-        Slug{" "}
-        <code className="rounded bg-white/10 px-1 font-mono text-fg-muted-50">{project.slug}</code>{" "}
-        — unchanged in Part 7.
-      </p>
 
       <div>
         <label className="mb-1 block text-sm text-fg-muted" htmlFor="title">
@@ -165,11 +160,11 @@ export function EditProjectForm({ project }: EditProjectFormProps) {
         <button
           type="submit"
           disabled={pending}
-          className="rounded bg-turquoise px-4 py-2 text-sm font-medium text-navy-dark disabled:opacity-50"
+          className={[buttonClassName("primary"), "disabled:opacity-50"].filter(Boolean).join(" ")}
         >
           {pending ? "Saving…" : "Save changes"}
         </button>
-        <Link href="/admin" className="rounded bg-white/10 px-4 py-2 text-sm hover:bg-white/15">
+        <Link href="/admin" className={buttonClassName("secondary")}>
           Cancel
         </Link>
       </div>

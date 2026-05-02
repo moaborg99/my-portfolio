@@ -5,6 +5,7 @@ import { useActionState } from "react";
 import Link from "next/link";
 
 import { createProjectAction, type CreateProjectState } from "@/app/admin/projects/create/actions";
+import { buttonClassName } from "@/components/ui/Button";
 
 function fieldHint(errors: Record<string, string[] | undefined> | undefined, key: string) {
   const msg = errors?.[key]?.[0];
@@ -142,11 +143,11 @@ export function CreateProjectForm() {
         <button
           type="submit"
           disabled={pending}
-          className="rounded bg-turquoise px-4 py-2 text-sm font-medium text-navy-dark disabled:opacity-50"
+          className={[buttonClassName("primary"), "disabled:opacity-50"].filter(Boolean).join(" ")}
         >
           {pending ? "Creating…" : "Create project"}
         </button>
-        <Link href="/admin" className="rounded bg-white/10 px-4 py-2 text-sm hover:bg-white/15">
+        <Link href="/admin" className={buttonClassName("secondary")}>
           Cancel
         </Link>
       </div>
