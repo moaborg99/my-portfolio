@@ -1,10 +1,12 @@
 "use server";
 
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { prisma } from "@/lib/prisma";
+import { slugify } from "@/lib/slugify";
 
 function getText(formData: FormData, key: string): string {
   const v = formData.get(key);
@@ -36,7 +38,6 @@ const optionalHttpUrl = z
   .transform((v) => (v === "" ? null : v));
 
 const schema = z.object({
-  slug: z.string().trim().min(1, "Missing project slug."),
   title: z.string().trim().min(1, "Required"),
   summary: z.string().trim().min(1, "Required"),
   intro: z.string().trim().min(1, "Required"),
@@ -49,16 +50,34 @@ const schema = z.object({
   videoUrl: optionalHttpUrl,
 });
 
-export type UpdateProjectState =
+async function allocateUniqueSlugForTitle(title: string): Promise<string> {
+  let base = slugify(title);
+  if (base === "") base = "project";
+
+  let candidate = base;
+  let suffix = 2;
+
+  for (;;) {
+    const clash = await prisma.project.findUnique({
+      where: { slug: candidate },
+      select: { id: true },
+    });
+    if (!clash) return candidate;
+
+    candidate = `${base}-${suffix}`;
+    suffix += 1;
+  }
+}
+
+export type CreateProjectState =
   | undefined
   | { ok?: false; formError?: string; fieldErrors?: Record<string, string[] | undefined> };
 
-export async function updateProjectAction(
-  _prev: UpdateProjectState,
+export async function createProjectAction(
+  _prev: CreateProjectState,
   formData: FormData
-): Promise<UpdateProjectState> {
+): Promise<CreateProjectState> {
   const parsed = schema.safeParse({
-    slug: getText(formData, "slug"),
     title: getText(formData, "title"),
     summary: getText(formData, "summary"),
     intro: getText(formData, "intro"),
@@ -82,17 +101,29 @@ export async function updateProjectAction(
     };
   }
 
-  const { slug, ...scalarData } = parsed.data;
-
-  const existing = await prisma.project.findUnique({ where: { slug } });
-  if (!existing) {
-    return { ok: false, formError: "Project not found." };
+  let slug: string;
+  try {
+    slug = await allocateUniqueSlugForTitle(parsed.data.title);
+  } catch {
+    return { ok: false, formError: "Could not generate a slug. Try a clearer title." };
   }
 
-  await prisma.project.update({
-    where: { slug },
-    data: scalarData,
-  });
+  try {
+    await prisma.project.create({
+      data: {
+        slug,
+        ...parsed.data,
+      },
+    });
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") {
+      return {
+        ok: false,
+        formError: "Slug collision — retry once (or change the title slightly).",
+      };
+    }
+    throw e;
+  }
 
   revalidatePath("/projects");
   revalidatePath(`/projects/${slug}`);

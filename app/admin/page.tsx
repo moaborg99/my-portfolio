@@ -19,7 +19,15 @@ export default async function AdminHomePage() {
       </div>
 
       <div>
-        <h2 className="text-lg font-medium text-fg">All projects</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-medium text-fg">All projects</h2>
+          <Link
+            href="/admin/projects/create"
+            className="rounded bg-turquoise px-3 py-1.5 text-sm font-medium text-navy-dark hover:opacity-90"
+          >
+            Create project
+          </Link>
+        </div>
         {projects.length === 0 ? (
           <p className="mt-2 text-sm text-fg-muted">No projects yet.</p>
         ) : (
