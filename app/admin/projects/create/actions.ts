@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
+import { uploadFeaturedImageToBlob } from "@/lib/featured-image";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slugify";
 
@@ -12,25 +13,6 @@ function getText(formData: FormData, key: string): string {
   const v = formData.get(key);
   if (v === null) return "";
   return typeof v === "string" ? v : "";
-}
-
-function isValidFeaturedImageRef(s: string): boolean {
-  const t = s.trim();
-
-  if (t.startsWith("http://") || t.startsWith("https://")) {
-    try {
-      new URL(t);
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
-  if (t.startsWith("/") && t.length > 1 && !t.includes("..") && !/\s/.test(t)) {
-    return true;
-  }
-
-  return false;
 }
 
 const optionalHttpUrl = z
@@ -42,9 +24,6 @@ const schema = z.object({
   summary: z.string().trim().min(1, "Required"),
   intro: z.string().trim().min(1, "Required"),
   description: z.string().trim().min(1, "Required"),
-  featuredImage: z.string().trim().min(1, "Required").refine(isValidFeaturedImageRef, {
-    message: 'Use a full https URL or a root path starting with "/", e.g. /about-cta.jpg.',
-  }),
   githubUrl: optionalHttpUrl,
   deployUrl: optionalHttpUrl,
   videoUrl: optionalHttpUrl,
@@ -82,22 +61,40 @@ export async function createProjectAction(
     summary: getText(formData, "summary"),
     intro: getText(formData, "intro"),
     description: getText(formData, "description"),
-    featuredImage: getText(formData, "featuredImage"),
     githubUrl: getText(formData, "githubUrl"),
     deployUrl: getText(formData, "deployUrl"),
     videoUrl: getText(formData, "videoUrl"),
   });
 
-  if (!parsed.success) {
-    const flat = parsed.error.flatten();
+  const fileField = formData.get("featuredImageFile");
+  const fileOk = fileField instanceof File && fileField.size > 0;
 
+  if (!parsed.success || !fileOk) {
+    const fieldErrors: Record<string, string[] | undefined> = {};
+    if (!parsed.success) {
+      Object.assign(fieldErrors, parsed.error.flatten().fieldErrors);
+    }
+    if (!fileOk) {
+      fieldErrors.featuredImageFile = ["Choose an image file (JPEG, PNG, WebP, or GIF)."];
+    }
+
+    let formError = "Fix the highlighted fields and try again.";
+    if (!parsed.success) {
+      const flat = parsed.error.flatten();
+      if (flat.formErrors.length > 0) {
+        formError = flat.formErrors.join(" ");
+      }
+    }
+
+    return { ok: false, fieldErrors, formError };
+  }
+
+  const blob = await uploadFeaturedImageToBlob(fileField);
+  if (!blob.ok) {
     return {
       ok: false,
-      fieldErrors: flat.fieldErrors,
-      formError:
-        flat.formErrors.length > 0
-          ? flat.formErrors.join(" ")
-          : "Fix the highlighted fields and try again.",
+      fieldErrors: { featuredImageFile: [blob.message] },
+      formError: "Fix the highlighted fields and try again.",
     };
   }
 
@@ -112,6 +109,7 @@ export async function createProjectAction(
     await prisma.project.create({
       data: {
         slug,
+        featuredImage: blob.url,
         ...parsed.data,
       },
     });

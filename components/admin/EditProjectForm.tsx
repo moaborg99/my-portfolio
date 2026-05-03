@@ -101,17 +101,18 @@ export function EditProjectForm({ project }: EditProjectFormProps) {
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="featuredImage">
-          Featured image (path or URL)
+        <label className="mb-1 block text-sm text-fg-muted" htmlFor="featuredImageFile">
+          Featured image
         </label>
+        <p className="mb-2 text-xs text-fg-muted">JPEG, PNG, WebP, GIF</p>
         <input
-          id="featuredImage"
-          name="featuredImage"
-          required
-          defaultValue={project.featuredImage}
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 font-mono text-sm text-fg"
+          id="featuredImageFile"
+          name="featuredImageFile"
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-sm text-fg file:mr-3 file:rounded file:border-0 file:bg-white/10 file:px-3 file:py-1 file:text-sm file:text-fg"
         />
-        {fieldHint(state?.fieldErrors, "featuredImage")}
+        {fieldHint(state?.fieldErrors, "featuredImageFile")}
       </div>
 
       <div>

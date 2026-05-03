@@ -4,31 +4,13 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
+import { uploadFeaturedImageToBlob } from "@/lib/featured-image";
 import { prisma } from "@/lib/prisma";
 
 function getText(formData: FormData, key: string): string {
   const v = formData.get(key);
   if (v === null) return "";
   return typeof v === "string" ? v : "";
-}
-
-function isValidFeaturedImageRef(s: string): boolean {
-  const t = s.trim();
-
-  if (t.startsWith("http://") || t.startsWith("https://")) {
-    try {
-      new URL(t);
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
-  if (t.startsWith("/") && t.length > 1 && !t.includes("..") && !/\s/.test(t)) {
-    return true;
-  }
-
-  return false;
 }
 
 const optionalHttpUrl = z
@@ -41,9 +23,6 @@ const schema = z.object({
   summary: z.string().trim().min(1, "Required"),
   intro: z.string().trim().min(1, "Required"),
   description: z.string().trim().min(1, "Required"),
-  featuredImage: z.string().trim().min(1, "Required").refine(isValidFeaturedImageRef, {
-    message: 'Use a full https URL or a root path starting with "/", e.g. /about-cta.jpg.',
-  }),
   githubUrl: optionalHttpUrl,
   deployUrl: optionalHttpUrl,
   videoUrl: optionalHttpUrl,
@@ -63,7 +42,6 @@ export async function updateProjectAction(
     summary: getText(formData, "summary"),
     intro: getText(formData, "intro"),
     description: getText(formData, "description"),
-    featuredImage: getText(formData, "featuredImage"),
     githubUrl: getText(formData, "githubUrl"),
     deployUrl: getText(formData, "deployUrl"),
     videoUrl: getText(formData, "videoUrl"),
@@ -89,9 +67,26 @@ export async function updateProjectAction(
     return { ok: false, formError: "Project not found." };
   }
 
+  let featuredImage = existing.featuredImage;
+  const fileField = formData.get("featuredImageFile");
+  if (fileField instanceof File && fileField.size > 0) {
+    const blob = await uploadFeaturedImageToBlob(fileField);
+    if (!blob.ok) {
+      return {
+        ok: false,
+        fieldErrors: { featuredImageFile: [blob.message] },
+        formError: "Fix the highlighted fields and try again.",
+      };
+    }
+    featuredImage = blob.url;
+  }
+
   await prisma.project.update({
     where: { slug },
-    data: scalarData,
+    data: {
+      ...scalarData,
+      featuredImage,
+    },
   });
 
   revalidatePath("/projects");

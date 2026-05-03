@@ -87,17 +87,19 @@ export function CreateProjectForm() {
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="featuredImage">
-          Featured image (path or URL)
+        <label className="mb-1 block text-sm text-fg-muted" htmlFor="featuredImageFile">
+          Featured image
         </label>
+        <p className="mb-2 text-xs text-fg-muted">JPEG, PNG, WebP, GIF</p>
         <input
-          id="featuredImage"
-          name="featuredImage"
+          id="featuredImageFile"
+          name="featuredImageFile"
+          type="file"
           required
-          placeholder="/about-cta.jpg"
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 font-mono text-sm text-fg"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          className="..."
         />
-        {fieldHint(state?.fieldErrors, "featuredImage")}
+        {fieldHint(state?.fieldErrors, "featuredImageFile")}
       </div>
 
       <div>
