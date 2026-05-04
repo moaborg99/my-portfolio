@@ -2,157 +2,36 @@
 
 import { useActionState } from "react";
 
-import Link from "next/link";
-
 import { createProjectAction, type CreateProjectState } from "@/app/admin/projects/create/actions";
-import { buttonClassName } from "@/components/ui/Button";
-
-function fieldHint(errors: Record<string, string[] | undefined> | undefined, key: string) {
-  const msg = errors?.[key]?.[0];
-  if (!msg) return null;
-  return (
-    <p className="mt-1 text-xs text-red-400" role="alert">
-      {msg}
-    </p>
-  );
-}
+import { ProjectDetailFormSections } from "@/components/admin/ProjectDetailFormSections";
+import { ProjectFormActions } from "@/components/admin/ProjectFormActions";
+import { ProjectFormCopyFields } from "@/components/admin/ProjectFormCopyFields";
+import { ProjectFormMediaSection } from "@/components/admin/ProjectFormMediaSection";
+import { FormLevelError } from "@/components/ui/FormField";
 
 export function CreateProjectForm() {
   const [state, formAction, pending] = useActionState(
     createProjectAction,
     undefined as CreateProjectState
   );
+  const err = state?.fieldErrors;
+  const formError = state?.ok === false ? state.formError : undefined;
 
   return (
-    <form action={formAction} className="space-y-4">
-      {state?.ok === false && state.formError ? (
-        <p className="text-sm text-red-400" role="alert">
-          {state.formError}
-        </p>
-      ) : null}
+    <form action={formAction} className="mx-auto max-w-4xl space-y-8">
+      <FormLevelError message={formError} />
 
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="title">
-          Title
-        </label>
-        <input
-          id="title"
-          name="title"
-          required
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-fg"
-        />
-        {fieldHint(state?.fieldErrors, "title")}
-      </div>
+      <ProjectFormCopyFields mode="create" fieldErrors={err} />
 
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="summary">
-          Summary
-        </label>
-        <textarea
-          id="summary"
-          name="summary"
-          required
-          rows={3}
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-fg"
-        />
-        {fieldHint(state?.fieldErrors, "summary")}
-      </div>
+      <ProjectDetailFormSections fieldErrors={err} />
 
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="intro">
-          Intro
-        </label>
-        <textarea
-          id="intro"
-          name="intro"
-          required
-          rows={4}
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-fg"
-        />
-        {fieldHint(state?.fieldErrors, "intro")}
-      </div>
+      <ProjectFormMediaSection mode="create" fieldErrors={err} />
 
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="description">
-          Description
-        </label>
-        <textarea
-          id="description"
-          name="description"
-          required
-          rows={6}
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-fg"
-        />
-        {fieldHint(state?.fieldErrors, "description")}
-      </div>
-
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="featuredImageFile">
-          Featured image
-        </label>
-        <p className="mb-2 text-xs text-fg-muted">JPEG, PNG, WebP, GIF</p>
-        <input
-          id="featuredImageFile"
-          name="featuredImageFile"
-          type="file"
-          required
-          accept="image/jpeg,image/png,image/webp,image/gif"
-          className="..."
-        />
-        {fieldHint(state?.fieldErrors, "featuredImageFile")}
-      </div>
-
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="githubUrl">
-          GitHub URL (optional)
-        </label>
-        <input
-          id="githubUrl"
-          name="githubUrl"
-          type="url"
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-fg"
-        />
-        {fieldHint(state?.fieldErrors, "githubUrl")}
-      </div>
-
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="deployUrl">
-          Deploy URL (optional)
-        </label>
-        <input
-          id="deployUrl"
-          name="deployUrl"
-          type="url"
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-fg"
-        />
-        {fieldHint(state?.fieldErrors, "deployUrl")}
-      </div>
-
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="videoUrl">
-          Video URL (optional)
-        </label>
-        <input
-          id="videoUrl"
-          name="videoUrl"
-          type="url"
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-fg"
-        />
-        {fieldHint(state?.fieldErrors, "videoUrl")}
-      </div>
-
-      <div className="flex flex-wrap gap-3 pt-2">
-        <button
-          type="submit"
-          disabled={pending}
-          className={[buttonClassName("primary"), "disabled:opacity-50"].filter(Boolean).join(" ")}
-        >
-          {pending ? "Creating…" : "Create project"}
-        </button>
-        <Link href="/admin" className={buttonClassName("secondary")}>
-          Cancel
-        </Link>
-      </div>
+      <ProjectFormActions
+        pending={pending}
+        submitLabel="Skapa projekt"
+        pendingLabel="Skapar…"
+      />
     </form>
   );
 }

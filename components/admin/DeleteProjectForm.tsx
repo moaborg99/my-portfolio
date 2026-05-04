@@ -13,15 +13,7 @@ export function DeleteProjectForm({ slug, title }: DeleteProjectFormProps) {
   const label = `Delete “${title}” (${slug})`;
 
   return (
-    <form
-      action={deleteProject}
-      onSubmit={(e) => {
-        if (!window.confirm(`Delete “${title}” (${slug})? This cannot be undone.`)) {
-          e.preventDefault();
-        }
-      }}
-    >
-      <input type="hidden" name="slug" value={slug} />
+    <form action={deleteProject.bind(null, slug)}>
       <button
         type="submit"
         aria-label={label}

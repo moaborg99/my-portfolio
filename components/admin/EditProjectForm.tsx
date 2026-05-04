@@ -2,173 +2,55 @@
 
 import { useActionState } from "react";
 
-import Link from "next/link";
-
 import {
   updateProjectAction,
   type UpdateProjectState,
 } from "@/app/admin/projects/[slug]/edit/actions";
-import { buttonClassName } from "@/components/ui/Button";
+import { ProjectDetailFormSections } from "@/components/admin/ProjectDetailFormSections";
+import { ProjectFormActions } from "@/components/admin/ProjectFormActions";
+import { ProjectFormCopyFields } from "@/components/admin/ProjectFormCopyFields";
+import { ProjectFormMediaSection } from "@/components/admin/ProjectFormMediaSection";
+import { FormLevelError } from "@/components/ui/FormField";
 import type { Project } from "@/types/projects";
 
 type EditProjectFormProps = {
   project: Project;
 };
 
-function fieldHint(errors: Record<string, string[] | undefined> | undefined, key: string) {
-  const msg = errors?.[key]?.[0];
-  if (!msg) return null;
-  return (
-    <p className="mt-1 text-xs text-red-400" role="alert">
-      {msg}
-    </p>
-  );
-}
-
 export function EditProjectForm({ project }: EditProjectFormProps) {
   const [state, formAction, pending] = useActionState(
     updateProjectAction,
     undefined as UpdateProjectState
   );
+  const err = state?.fieldErrors;
+  const formError = state?.ok === false ? state.formError : undefined;
 
   return (
-    <form action={formAction} className="space-y-4">
+    <form action={formAction} className="mx-auto max-w-4xl space-y-8">
       <input type="hidden" name="slug" value={project.slug} />
 
-      {state?.ok === false && state.formError ? (
-        <p className="text-sm text-red-400" role="alert">
-          {state.formError}
-        </p>
-      ) : null}
+      <FormLevelError message={formError} />
 
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="title">
-          Title
-        </label>
-        <input
-          id="title"
-          name="title"
-          required
-          defaultValue={project.title}
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-fg"
-        />
-        {fieldHint(state?.fieldErrors, "title")}
-      </div>
+      <ProjectFormCopyFields mode="edit" fieldErrors={err} project={project} />
 
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="summary">
-          Summary
-        </label>
-        <textarea
-          id="summary"
-          name="summary"
-          required
-          rows={3}
-          defaultValue={project.summary}
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-fg"
-        />
-        {fieldHint(state?.fieldErrors, "summary")}
-      </div>
+      <ProjectDetailFormSections
+        key={project.slug}
+        fieldErrors={err}
+        techDetails={project.techDetails}
+        learnings={project.learnings}
+      />
 
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="intro">
-          Intro
-        </label>
-        <textarea
-          id="intro"
-          name="intro"
-          required
-          rows={4}
-          defaultValue={project.intro}
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-fg"
-        />
-        {fieldHint(state?.fieldErrors, "intro")}
-      </div>
+      <ProjectFormMediaSection
+        mode="edit"
+        fieldErrors={err}
+        urls={{
+          githubUrl: project.githubUrl,
+          deployUrl: project.deployUrl,
+          videoUrl: project.videoUrl,
+        }}
+      />
 
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="description">
-          Description
-        </label>
-        <textarea
-          id="description"
-          name="description"
-          required
-          rows={6}
-          defaultValue={project.description}
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-fg"
-        />
-        {fieldHint(state?.fieldErrors, "description")}
-      </div>
-
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="featuredImageFile">
-          Featured image
-        </label>
-        <p className="mb-2 text-xs text-fg-muted">JPEG, PNG, WebP, GIF</p>
-        <input
-          id="featuredImageFile"
-          name="featuredImageFile"
-          type="file"
-          accept="image/jpeg,image/png,image/webp,image/gif"
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-sm text-fg file:mr-3 file:rounded file:border-0 file:bg-white/10 file:px-3 file:py-1 file:text-sm file:text-fg"
-        />
-        {fieldHint(state?.fieldErrors, "featuredImageFile")}
-      </div>
-
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="githubUrl">
-          GitHub URL (optional)
-        </label>
-        <input
-          id="githubUrl"
-          name="githubUrl"
-          type="url"
-          defaultValue={project.githubUrl ?? ""}
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-fg"
-        />
-        {fieldHint(state?.fieldErrors, "githubUrl")}
-      </div>
-
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="deployUrl">
-          Deploy URL (optional)
-        </label>
-        <input
-          id="deployUrl"
-          name="deployUrl"
-          type="url"
-          defaultValue={project.deployUrl ?? ""}
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-fg"
-        />
-        {fieldHint(state?.fieldErrors, "deployUrl")}
-      </div>
-
-      <div>
-        <label className="mb-1 block text-sm text-fg-muted" htmlFor="videoUrl">
-          Video URL (optional)
-        </label>
-        <input
-          id="videoUrl"
-          name="videoUrl"
-          type="url"
-          defaultValue={project.videoUrl ?? ""}
-          className="w-full rounded border border-white/15 bg-navy-light px-3 py-2 text-fg"
-        />
-        {fieldHint(state?.fieldErrors, "videoUrl")}
-      </div>
-
-      <div className="flex flex-wrap gap-3 pt-2">
-        <button
-          type="submit"
-          disabled={pending}
-          className={[buttonClassName("primary"), "disabled:opacity-50"].filter(Boolean).join(" ")}
-        >
-          {pending ? "Saving…" : "Save changes"}
-        </button>
-        <Link href="/admin" className={buttonClassName("secondary")}>
-          Cancel
-        </Link>
-      </div>
+      <ProjectFormActions pending={pending} submitLabel="Spara" pendingLabel="Sparar…" />
     </form>
   );
 }
