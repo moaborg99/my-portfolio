@@ -7,6 +7,8 @@ const projectInclude = {
     orderBy: { id: "asc" },
     include: { technicalSkill: true },
   },
+  techUsageItems: { orderBy: { sortOrder: "asc" } },
+  learningItems: { orderBy: { sortOrder: "asc" } },
   images: {
     orderBy: { sortOrder: "asc" },
   },
@@ -26,6 +28,16 @@ function mapProjectRow(row: ProjectRow): Project {
     group: pts.technicalSkill.group,
   }));
 
+  const techDetails = row.techUsageItems.map((r) => ({
+    name: r.techName,
+    usage: r.usage,
+  }));
+
+  const learnings = row.learningItems.map((r) => ({
+    title: r.title,
+    description: r.description,
+  }));
+
   return {
     id: row.id,
     slug: row.slug,
@@ -39,6 +51,8 @@ function mapProjectRow(row: ProjectRow): Project {
     videoUrl: row.videoUrl,
     images,
     skills: techSkills,
+    techDetails,
+    learnings,
   };
 }
 
