@@ -61,5 +61,5 @@ export async function createTechStackGroupAction(
 
   await revalidateTechnicalSkillDependentPaths();
 
-  redirect("/admin");
+  redirect("/admin/groups");
 }

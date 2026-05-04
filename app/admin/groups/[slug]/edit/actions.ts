@@ -49,7 +49,7 @@ export async function updateTechStackGroupAction(
   });
 
   if (!existing) {
-    return { ok: false, formError: "Gruppen hittades inte." };
+    return { ok: false, formError: "Teknikgruppen hittades inte." };
   }
 
   const newSlug = await allocateUniqueTechStackGroupSlug(parsed.data.name, existing.id);
@@ -76,5 +76,5 @@ export async function updateTechStackGroupAction(
     redirect(`/admin/groups/${encodeURIComponent(newSlug)}/edit`);
   }
 
-  redirect("/admin");
+  redirect("/admin/groups");
 }

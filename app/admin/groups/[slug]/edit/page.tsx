@@ -18,12 +18,12 @@ export default async function AdminEditTechStackGroupPage({ params }: PageProps)
   return (
     <section className="mx-auto w-full max-w-2xl space-y-6">
       <div>
-        <NavLink href="/admin" leadingArrow className="text-sm">
-          Alla grupper
+        <NavLink href="/admin/groups" leadingArrow className="text-sm">
+          Alla teknikgrupper
         </NavLink>
       </div>
       <header>
-        <h1 className="text-2xl font-bold tracking-tight text-fg sm:text-3xl">Redigera grupp</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-fg sm:text-3xl">Redigera teknikgrupp</h1>
         <p className="mt-1 text-sm text-fg-muted">{group.name}</p>
       </header>
       <EditTechStackGroupForm group={group} />

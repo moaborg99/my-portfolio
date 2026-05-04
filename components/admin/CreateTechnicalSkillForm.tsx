@@ -45,10 +45,14 @@ export function CreateTechnicalSkillForm({ groups }: CreateTechnicalSkillFormPro
 
           <DarkFormPicklist
             name="groupId"
-            label="Grupp"
+            label="Teknikgrupp"
             options={groups.map((g) => ({ value: String(g.id), label: g.name }))}
             defaultValue=""
-            placeholder={groups.length > 0 ? "Välj grupp…" : "Inga grupper finns — skapa en först"}
+            placeholder={
+              groups.length > 0
+                ? "Välj teknikgrupp…"
+                : "Inga teknikgrupper finns — skapa en först"
+            }
             error={err?.groupId?.[0]}
           />
         </div>

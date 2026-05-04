@@ -21,7 +21,7 @@ export default async function AdminEditTechnicalSkillPage({ params }: PageProps)
   return (
     <section className="mx-auto w-full max-w-2xl space-y-6">
       <div>
-        <NavLink href="/admin" leadingArrow className="text-sm">
+        <NavLink href="/admin/skills" leadingArrow className="text-sm">
           Alla tekniker
         </NavLink>
       </div>

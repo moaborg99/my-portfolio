@@ -13,7 +13,7 @@ type ProjectFormActionsProps = {
 export function ProjectFormActions({ pending, submitLabel, pendingLabel }: ProjectFormActionsProps) {
   return (
     <div className="flex flex-wrap justify-end gap-3">
-      <Link href="/admin" className={buttonClassName("secondary")}>
+      <Link href="/admin/projects" className={buttonClassName("secondary")}>
         Avbryt
       </Link>
       <button

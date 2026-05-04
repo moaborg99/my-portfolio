@@ -51,7 +51,7 @@ export function EditTechnicalSkillForm({ skill, groups }: EditTechnicalSkillForm
           <DarkFormPicklist
             key={skill.slug}
             name="groupId"
-            label="Grupp"
+            label="Teknikgrupp"
             options={groups.map((g) => ({ value: String(g.id), label: g.name }))}
             defaultValue={String(skill.groupId)}
             error={err?.groupId?.[0]}

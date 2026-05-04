@@ -20,7 +20,7 @@ export default async function AdminEditProjectPage({ params }: PageProps) {
   return (
     <section className="space-y-6">
       <div>
-        <NavLink href="/admin" leadingArrow className="text-sm">
+        <NavLink href="/admin/projects" leadingArrow className="text-sm">
           Alla projekt
         </NavLink>
       </div>

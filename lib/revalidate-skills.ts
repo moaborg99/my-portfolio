@@ -6,6 +6,9 @@ export async function revalidateTechnicalSkillDependentPaths(): Promise<void> {
   revalidatePath("/");
   revalidatePath("/about");
   revalidatePath("/admin");
+  revalidatePath("/admin/projects");
+  revalidatePath("/admin/skills");
+  revalidatePath("/admin/groups");
   revalidatePath("/projects");
 
   const projects = await prisma.project.findMany({ select: { slug: true } });

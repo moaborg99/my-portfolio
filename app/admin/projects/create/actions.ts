@@ -209,7 +209,7 @@ export async function createProjectAction(
   revalidatePath("/projects");
   revalidatePath(`/projects/${slug}`);
   revalidatePath("/");
-  revalidatePath("/admin");
+  revalidatePath("/admin/projects");
 
-  redirect("/admin");
+  redirect("/admin/projects");
 }

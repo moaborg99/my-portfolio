@@ -17,7 +17,7 @@ function getText(formData: FormData, key: string): string {
 const schema = z.object({
   originalSlug: z.string().trim().min(1, "Missing skill."),
   name: z.string().trim().min(1, "Required"),
-  groupId: z.coerce.number().int().positive("Välj en grupp."),
+  groupId: z.coerce.number().int().positive("Välj en teknikgrupp."),
 });
 
 export type UpdateTechnicalSkillState =
@@ -62,7 +62,7 @@ export async function updateTechnicalSkillAction(
   if (!groupExists) {
     return {
       ok: false,
-      fieldErrors: { groupId: ["Gruppen finns inte längre."] },
+      fieldErrors: { groupId: ["Teknikgruppen finns inte längre."] },
       formError: "Fix the highlighted fields and try again.",
     };
   }
@@ -94,5 +94,5 @@ export async function updateTechnicalSkillAction(
     redirect(`/admin/skills/${encodeURIComponent(newSlug)}/edit`);
   }
 
-  redirect("/admin");
+  redirect("/admin/skills");
 }

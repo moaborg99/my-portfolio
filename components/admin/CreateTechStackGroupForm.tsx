@@ -39,7 +39,7 @@ export function CreateTechStackGroupForm() {
         </div>
       </div>
 
-      <ProjectFormActions pending={pending} submitLabel="Skapa grupp" pendingLabel="Skapar…" />
+      <ProjectFormActions pending={pending} submitLabel="Skapa teknikgrupp" pendingLabel="Skapar…" />
     </form>
   );
 }

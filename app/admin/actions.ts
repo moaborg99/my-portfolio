@@ -21,14 +21,14 @@ export async function deleteProject(slug: string, formData: FormData) {
 
   const clean = typeof slug === "string" ? slug.trim() : "";
   if (clean === "") {
-    redirect("/admin");
+    redirect("/admin/projects");
   }
 
   try {
     await prisma.project.deleteMany({ where: { slug: clean } });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      redirect("/admin");
+      redirect("/admin/projects");
     }
     throw e;
   }
@@ -36,9 +36,9 @@ export async function deleteProject(slug: string, formData: FormData) {
   revalidatePath("/projects");
   revalidatePath(`/projects/${clean}`);
   revalidatePath("/");
-  revalidatePath("/admin");
+  revalidatePath("/admin/projects");
 
-  redirect("/admin");
+  redirect("/admin/projects");
 }
 
 /** DELETE via form POST: slug from `deleteTechnicalSkill.bind(null, slug)`. */
@@ -47,21 +47,21 @@ export async function deleteTechnicalSkill(skillSlug: string, formData: FormData
 
   const clean = typeof skillSlug === "string" ? skillSlug.trim() : "";
   if (clean === "") {
-    redirect("/admin");
+    redirect("/admin/skills");
   }
 
   try {
     await prisma.technicalSkill.deleteMany({ where: { slug: clean } });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      redirect("/admin");
+      redirect("/admin/skills");
     }
     throw e;
   }
 
   await revalidateTechnicalSkillDependentPaths();
 
-  redirect("/admin");
+  redirect("/admin/skills");
 }
 
 /** DELETE via form POST: slug from `deleteTechStackGroup.bind(null, slug)`. Cascades to skills. */
@@ -70,19 +70,19 @@ export async function deleteTechStackGroup(groupSlug: string, formData: FormData
 
   const clean = typeof groupSlug === "string" ? groupSlug.trim() : "";
   if (clean === "") {
-    redirect("/admin");
+    redirect("/admin/groups");
   }
 
   try {
     await prisma.techStackGroup.deleteMany({ where: { slug: clean } });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      redirect("/admin");
+      redirect("/admin/groups");
     }
     throw e;
   }
 
   await revalidateTechnicalSkillDependentPaths();
 
-  redirect("/admin");
+  redirect("/admin/groups");
 }
