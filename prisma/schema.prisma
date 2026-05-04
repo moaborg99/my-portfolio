@@ -21,6 +21,30 @@ model Project {
   videoUrl               String?
   images                 ProjectImage[]
   projectTechnicalSkills ProjectTechnicalSkill[]
+  techUsageItems         ProjectTechUsageItem[]
+  learningItems          ProjectLearningItem[]
+}
+
+model ProjectTechUsageItem {
+  id        Int     @id @default(autoincrement())
+  projectId Int
+  techName  String
+  usage     String  @db.Text
+  sortOrder Int     @default(0)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+}
+
+model ProjectLearningItem {
+  id          Int     @id @default(autoincrement())
+  projectId   Int
+  title       String
+  description String  @db.Text
+  sortOrder   Int     @default(0)
+  project     Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
 }
 
 model ProjectImage {
