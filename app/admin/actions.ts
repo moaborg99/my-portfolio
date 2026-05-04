@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 
 import { ADMIN_SESSION_COOKIE } from "@/lib/admin-session";
 import { prisma } from "@/lib/prisma";
+import { revalidateTechnicalSkillDependentPaths } from "@/lib/revalidate-skills";
 
 export async function logout() {
   const jar = await cookies();
@@ -36,6 +37,29 @@ export async function deleteProject(slug: string, formData: FormData) {
   revalidatePath(`/projects/${clean}`);
   revalidatePath("/");
   revalidatePath("/admin");
+
+  redirect("/admin");
+}
+
+/** DELETE via form POST: slug from `deleteTechnicalSkill.bind(null, slug)`. */
+export async function deleteTechnicalSkill(skillSlug: string, formData: FormData) {
+  void formData;
+
+  const clean = typeof skillSlug === "string" ? skillSlug.trim() : "";
+  if (clean === "") {
+    redirect("/admin");
+  }
+
+  try {
+    await prisma.technicalSkill.deleteMany({ where: { slug: clean } });
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      redirect("/admin");
+    }
+    throw e;
+  }
+
+  await revalidateTechnicalSkillDependentPaths();
 
   redirect("/admin");
 }

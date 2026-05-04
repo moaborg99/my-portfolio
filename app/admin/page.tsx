@@ -2,25 +2,27 @@ import Link from "next/link";
 
 import { logout } from "@/app/admin/actions";
 import { DeleteProjectForm } from "@/components/admin/DeleteProjectForm";
+import { DeleteTechnicalSkillForm } from "@/components/admin/DeleteTechnicalSkillForm";
 import { buttonClassName } from "@/components/ui/Button";
 import { NavLink } from "@/components/ui/NavLink";
 import { getProjects } from "@/lib/projects";
+import { getAllTechnicalSkills } from "@/lib/tech-skills";
 
 export default async function AdminHomePage() {
-  const projects = await getProjects();
+  const [projects, skills] = await Promise.all([getProjects(), getAllTechnicalSkills()]);
 
   return (
     <section className="space-y-8">
       <div>
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <h1 className="...optional m-0 if you tame default h1 margins">Admin</h1>
+          <h1>Admin</h1>
           <form action={logout} className="shrink-0">
             <button type="submit" className={buttonClassName("secondary")}>
               Log out
             </button>
           </form>
         </div>
-        <p className="mt-2 text-fg-muted">Hantera alla projekt för portfolion.</p>
+        <p className="mt-2 text-fg-muted">Hantera projekt och tekniska färdigheter för portfolion.</p>
       </div>
 
       <div>
@@ -63,6 +65,49 @@ export default async function AdminHomePage() {
                     aria-label={`Edit ${project.title}`}
                   />
                   <DeleteProjectForm slug={project.slug} title={project.title} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div>
+        <div className="flex items-center justify-between">
+          <h2>Alla tekniker</h2>
+          <Link
+            href="/admin/skills/create"
+            className={[buttonClassName("primary"), "inline-block text-sm"]
+              .filter(Boolean)
+              .join(" ")}
+          >
+            Skapa teknik
+          </Link>
+        </div>
+        {skills.length === 0 ? (
+          <p className="mt-2 text-sm text-fg-muted">Inga tekniker ännu.</p>
+        ) : (
+          <ul className="mt-3 divide-y divide-white/10 rounded-lg border border-white/10 bg-navy-light/30">
+            {skills.map((skill) => (
+              <li
+                key={skill.slug}
+                className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 text-sm"
+              >
+                <div className="min-w-0">
+                  <p className="font-medium text-fg">{skill.name}</p>
+                  <p className="text-fg-muted">
+                    {skill.group} · /
+                    <span className="font-mono text-fg-muted-50">{skill.slug}</span>
+                  </p>
+                </div>
+                <div className="flex shrink-0 items-center gap-6">
+                  <NavLink
+                    href={`/admin/skills/${encodeURIComponent(skill.slug)}/edit`}
+                    leadingPencil
+                    iconSizeClass="size-6"
+                    aria-label={`Redigera ${skill.name}`}
+                  />
+                  <DeleteTechnicalSkillForm slug={skill.slug} name={skill.name} />
                 </div>
               </li>
             ))}
