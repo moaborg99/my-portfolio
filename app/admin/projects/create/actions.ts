@@ -32,14 +32,14 @@ function parseSkillIdsFromFormData(formData: FormData): number[] {
 }
 
 const optionalHttpUrl = z
-  .union([z.literal(""), z.string().url()])
+  .union([z.literal(""), z.string().url({ message: "Ange en giltig http- eller https-adress." })])
   .transform((v) => (v === "" ? null : v));
 
 const schema = z.object({
-  title: z.string().trim().min(1, "Required"),
-  summary: z.string().trim().min(1, "Required"),
-  intro: z.string().trim().min(1, "Required"),
-  description: z.string().trim().min(1, "Required"),
+  title: z.string().trim().min(1, "Obligatoriskt"),
+  summary: z.string().trim().min(1, "Obligatoriskt"),
+  intro: z.string().trim().min(1, "Obligatoriskt"),
+  description: z.string().trim().min(1, "Obligatoriskt"),
   githubUrl: optionalHttpUrl,
   deployUrl: optionalHttpUrl,
   videoUrl: optionalHttpUrl,
@@ -101,10 +101,10 @@ export async function createProjectAction(
       Object.assign(fieldErrors, gallery.fieldErrors);
     }
     if (!fileOk) {
-      fieldErrors.featuredImageFile = ["Choose an image file (JPEG, PNG, WebP, or GIF)."];
+      fieldErrors.featuredImageFile = ["Välj en bildfil (JPEG, PNG, WebP eller GIF)."];
     }
 
-    let formError = "Fix the highlighted fields and try again.";
+    let formError = "Åtgärda markerade fält och försök igen.";
     if (!parsed.success) {
       const flat = parsed.error.flatten();
       if (flat.formErrors.length > 0) {
@@ -123,8 +123,8 @@ export async function createProjectAction(
     if (found.length !== skillIds.length) {
       return {
         ok: false,
-        fieldErrors: { skillIds: ["One or more selected skills no longer exist."] },
-        formError: "Fix the highlighted fields and try again.",
+        fieldErrors: { skillIds: ["En eller fler valda tekniker finns inte längre."] },
+        formError: "Åtgärda markerade fält och försök igen.",
       };
     }
   }
@@ -134,7 +134,7 @@ export async function createProjectAction(
     return {
       ok: false,
       fieldErrors: { featuredImageFile: [blob.message] },
-      formError: "Fix the highlighted fields and try again.",
+      formError: "Åtgärda markerade fält och försök igen.",
     };
   }
 
@@ -146,7 +146,7 @@ export async function createProjectAction(
       return {
         ok: false,
         fieldErrors: { [`gi_${row.index}_file`]: [g.message] },
-        formError: "Fix the highlighted fields and try again.",
+        formError: "Åtgärda markerade fält och försök igen.",
       };
     }
     galleryCreates.push({
@@ -160,7 +160,7 @@ export async function createProjectAction(
   try {
     slug = await allocateUniqueSlugForTitle(parsed.data.title);
   } catch {
-    return { ok: false, formError: "Could not generate a slug. Try a clearer title." };
+    return { ok: false, formError: "Kunde inte skapa slug. Prova en tydligare titel." };
   }
 
   try {
@@ -200,7 +200,7 @@ export async function createProjectAction(
     if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") {
       return {
         ok: false,
-        formError: "Slug collision — retry once (or change the title slightly).",
+        formError: "Slug-krock — försök igen eller ändra titeln något.",
       };
     }
     throw e;

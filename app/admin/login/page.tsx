@@ -9,11 +9,11 @@ export default function AdminLoginPage() {
 
   return (
     <section className="mx-auto max-w-sm space-y-4">
-      <h1 className="text-xl font-semibold">Admin sign in</h1>
+      <h1 className="text-xl font-semibold">Logga in som admin</h1>
       <form action={formAction} className="space-y-3">
         <div>
           <label htmlFor="password" className="mb-1 block text-sm text-fg-muted">
-            Password
+            Lösenord
           </label>
           <input
             id="password"
@@ -34,7 +34,7 @@ export default function AdminLoginPage() {
           disabled={pending}
           className="w-full rounded bg-turquoise px-3 py-2 text-sm font-medium text-navy-dark disabled:opacity-50"
         >
-          {pending ? "Signing in…" : "Sign in"}
+          {pending ? "Loggar in …" : "Logga in"}
         </button>
       </form>
     </section>

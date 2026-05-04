@@ -3,6 +3,7 @@ import { ArrowRight, MailIcon } from "lucide-react";
 
 import { SocialLinks } from "@/components/social/SocialLinks";
 import { buttonClassName } from "@/components/ui/Button";
+import { sitePath } from "@/lib/site-paths";
 
 export function Hero() {
   return (
@@ -29,7 +30,7 @@ export function Hero() {
 
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
-            href="/projects"
+            href={sitePath.projects}
             className={`${buttonClassName("primary")} group inline-flex items-center gap-2`}
           >
             Mina projekt
@@ -41,7 +42,7 @@ export function Hero() {
           </Link>
 
           <Link
-            href="/contact"
+            href={sitePath.contact}
             className={`${buttonClassName("secondary")} inline-flex items-center gap-2`}
           >
             Kontakta mig

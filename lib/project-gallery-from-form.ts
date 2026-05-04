@@ -43,7 +43,7 @@ export function parseProjectGalleryFromForm(
     if (mode === "edit" && hasExisting) {
       const imageId = Number.parseInt(imageIdStr, 10);
       if (!Number.isFinite(imageId) || imageId <= 0) {
-        fieldErrors[`gi_${i}_imageId`] = ["Invalid image reference."];
+        fieldErrors[`gi_${i}_imageId`] = ["Ogiltig bildreferens."];
         continue;
       }
       if (fileOk) {
@@ -57,7 +57,7 @@ export function parseProjectGalleryFromForm(
     // New slot (create, or new row on edit)
     if (!fileOk) {
       if (alt !== "") {
-        fieldErrors[`gi_${i}_file`] = ["Choose an image file when alt text is set."];
+        fieldErrors[`gi_${i}_file`] = ["Välj en bildfil när alt-text är ifylld."];
       }
       continue;
     }

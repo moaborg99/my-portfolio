@@ -31,7 +31,7 @@ export function AdminNav({ trailing }: AdminNavProps) {
 
   return (
     <nav
-      aria-label="Admin"
+      aria-label="Administration"
       className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-white/10 bg-navy-light/30 px-3 py-2"
     >
       <ul className="m-0 flex list-none flex-wrap items-center gap-1 p-0">

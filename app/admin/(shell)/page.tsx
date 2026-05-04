@@ -33,7 +33,7 @@ export default function AdminDashboardPage() {
   return (
     <section className="space-y-8">
       <div>
-        <h1>Admin</h1>
+        <h1>Administration</h1>
         <p className="mt-2 text-fg-muted">
           Välj ett område nedan för att hantera innehållet i portfolion.
         </p>

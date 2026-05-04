@@ -5,6 +5,7 @@ import { TextColumnGrid } from "@/components/blocks/TextColumnGrid";
 import { getGroupedTechStack } from "@/lib/tech-skills";
 import { TechStack } from "@/components/tech/TechStack";
 import { FeaturedProjects } from "@/components/blocks/FeaturedProjects";
+import { sitePath } from "@/lib/site-paths";
 
 export const metadata: Metadata = { title: "Om mig" };
 
@@ -43,7 +44,7 @@ export default async function AboutPage() {
               Här berättar jag mer om mig själv, min utbildning och vad jag vill härnäst.
             </p>
             <Link
-              href="/contact"
+              href={sitePath.contact}
               className={`${buttonClassName("primary")} mt-2 inline-flex w-full justify-center sm:w-fit`}
             >
               Säg hej
@@ -89,7 +90,7 @@ export default async function AboutPage() {
             Utvalda projekt
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-fg-muted">
-            Utforka några av projekten jag byggt. De skarpa kundprojekten är projekt jag drivit
+            Utforska några av projekten jag byggt. De skarpa kundprojekten är projekt jag drivit
             självständigt från mockup till lanserad site.
           </p>
         </div>
@@ -165,7 +166,7 @@ export default async function AboutPage() {
               svarar så snart jag kan.
             </p>
             <Link
-              href="/contact"
+              href={sitePath.contact}
               className={`${buttonClassName("primary")} mt-2 inline-flex w-full justify-center sm:w-fit`}
             >
               Säg hej

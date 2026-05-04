@@ -9,6 +9,7 @@ import { NavLink } from "@/components/ui/NavLink";
 import { BulletList } from "@/components/ui/BulletList";
 import { DetailList } from "@/components/ui/DetailList";
 import { SECTION_OVERLINE_LABEL } from "@/lib/section-label";
+import { sitePath } from "@/lib/site-paths";
 
 const FUN_FACTS = [
   "Studerat till webbutvecklare för att kombinera kreativitet, nyfikenhet och logik",
@@ -47,7 +48,7 @@ export function AboutIntro({ techSkills, techSkillsTotal }: AboutIntroProps) {
             </div>
 
             <div className="shrink-0 rounded-2xl border border-white/10 bg-navy-light/25 px-8 py-10 transition-colors duration-300 md:px-9 hover:border-white/18">
-              <p className={SECTION_OVERLINE_LABEL}>Fun facts</p>
+              <p className={SECTION_OVERLINE_LABEL}>Kul fakta</p>
               <BulletList items={FUN_FACTS} />
             </div>
           </div>
@@ -90,7 +91,7 @@ export function AboutIntro({ techSkills, techSkillsTotal }: AboutIntroProps) {
                     </div>
                     {techSkillsTotal > techSkills.length && (
                       <p className="mt-4 mb-0 text-sm text-fg-muted">
-                        <NavLink href="/about#about-lia-heading" withArrow>
+                        <NavLink href={sitePath.aboutTechSection} withArrow>
                           Alla tekniker
                         </NavLink>
                       </p>
@@ -110,7 +111,7 @@ export function AboutIntro({ techSkills, techSkillsTotal }: AboutIntroProps) {
             </div>
 
             <Link
-              href="/about"
+              href={sitePath.about}
               aria-label="Läs mer om mig"
               className={`${buttonClassName("secondary")} group inline-flex w-fit items-center gap-2`}
             >

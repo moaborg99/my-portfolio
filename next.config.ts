@@ -1,6 +1,27 @@
 import type { NextConfig } from "next";
 
+/**
+ * Public URLs are Swedish (`/om-mig`, `/projekt`, `/kontakt`); route folders stay English
+ * (`app/about`, `app/projects`, `app/contact`). Rewrites map Swedish → English; redirects
+ * send English paths to Swedish so the address bar never stays on English segments.
+ */
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      { source: "/about", destination: "/om-mig", permanent: true },
+      { source: "/contact", destination: "/kontakt", permanent: true },
+      { source: "/projects", destination: "/projekt", permanent: true },
+      { source: "/projects/:slug", destination: "/projekt/:slug", permanent: true },
+    ];
+  },
+  async rewrites() {
+    return [
+      { source: "/om-mig", destination: "/about" },
+      { source: "/kontakt", destination: "/contact" },
+      { source: "/projekt", destination: "/projects" },
+      { source: "/projekt/:slug", destination: "/projects/:slug" },
+    ];
+  },
   images: {
     remotePatterns: [
       {

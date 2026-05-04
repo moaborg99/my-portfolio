@@ -14,6 +14,8 @@ import {
 } from "@/data/project-detail-fallback";
 import type { DetailItem } from "@/types/project-detail";
 
+import { sitePath } from "@/lib/site-paths";
+
 import { DetailItemList } from "./DetailItemList";
 
 /** Preview-only targets when `showStubActionLinks` fills missing CMS URLs, Will remove this when i have updated my projects with real content and complete data. */
@@ -71,7 +73,7 @@ export function ProjectDetail({
   learnings = [],
   usePlaceholderCaseStudy = true,
   showStubActionLinks = false,
-  backHref = "/projects",
+  backHref = sitePath.projects,
   backLabel = "Tillbaka till projekt",
 }: ProjectDetailProps) {
   const sortedImages = [...images].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
@@ -135,7 +137,7 @@ export function ProjectDetail({
                       }
                     >
                       <ExternalLink aria-hidden />
-                      View live site
+                      Besök live-sajt
                     </Link>
                   ) : null}
                   {effectiveGithubUrl ? (
@@ -149,7 +151,7 @@ export function ProjectDetail({
                       }
                     >
                       <GitBranch aria-hidden />
-                      View source
+                      Visa källkod
                     </Link>
                   ) : null}
                   {effectiveVideoUrl ? (
@@ -163,7 +165,7 @@ export function ProjectDetail({
                       }
                     >
                       <Play aria-hidden />
-                      Watch demo
+                      Se demo
                     </Link>
                   ) : null}
                 </div>
@@ -178,7 +180,7 @@ export function ProjectDetail({
           <div className="mb-6 flex items-center gap-3 md:gap-3.5">
             <Code aria-hidden className="size-6 shrink-0 text-turquoise" />
             <h2 id="project-tech-heading" className="m-0 text-fg">
-              Tech stack
+              Teknikstack
             </h2>
           </div>
           <ul className="mt-1 flex max-w-none list-none flex-wrap gap-2 p-0 md:gap-3">
@@ -191,7 +193,7 @@ export function ProjectDetail({
         </section>
 
         <section>
-          <h2 className="mt-0 text-fg">Overview</h2>
+          <h2 className="mt-0 text-fg">Översikt</h2>
           <p className="mt-3 max-w-none text-pretty text-xl leading-relaxed text-fg-muted">
             {intro}
           </p>
@@ -202,7 +204,7 @@ export function ProjectDetail({
             <div className="mb-6 flex items-center gap-3 md:gap-3.5">
               <Code aria-hidden className="size-6 shrink-0 text-turquoise" />
               <h2 id="project-tech-deep-heading" className="m-0 text-fg">
-                How I used the tech
+                Hur jag använde tekniken
               </h2>
             </div>
             <DetailItemList items={resolvedTechDetails} />
@@ -210,7 +212,7 @@ export function ProjectDetail({
         ) : null}
 
         <section>
-          <h2 className="mt-0 text-fg">About the project</h2>
+          <h2 className="mt-0 text-fg">Om projektet</h2>
           <div className="mt-3 max-w-none whitespace-pre-line text-pretty leading-[var(--leading-relaxed)] text-fg-muted">
             {description}
           </div>
@@ -219,7 +221,7 @@ export function ProjectDetail({
         {resolvedLearnings.length > 0 ? (
           <section aria-labelledby="project-learnings-heading">
             <h2 id="project-learnings-heading" className="mt-0 text-fg">
-              What I learned
+              Vad jag lärde mig
             </h2>
             <TextColumnGrid
               columns={resolvedLearnings.map((learning) => ({
@@ -233,7 +235,7 @@ export function ProjectDetail({
         {sortedImages.length > 0 ? (
           <section aria-labelledby="project-gallery-heading">
             <h2 id="project-gallery-heading" className="mt-0 mb-6 text-fg md:mb-8">
-              Gallery
+              Galleri
             </h2>
             <ul className="mx-auto grid w-full list-none grid-cols-1 gap-4 p-0 sm:gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-7">
               {sortedImages.map((image) => (
@@ -245,7 +247,7 @@ export function ProjectDetail({
                     >
                       <Image
                         src={image.src}
-                        alt={image.alt || `${title} — gallery`}
+                        alt={image.alt || `${title} — galleri`}
                         fill
                         sizes="(max-width: 767px) 92vw, (max-width: 1023px) 46vw, 32vw"
                         className="object-cover transition-transform duration-300 ease-out motion-reduce:transition-none lg:group-hover:scale-[1.03]"

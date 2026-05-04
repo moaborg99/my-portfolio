@@ -24,7 +24,7 @@ export function parseProjectDetailRepeaterFields(formData: FormData): ParsedRepe
   while (formData.has(`tu_${ti}_techName`) || formData.has(`tu_${ti}_usage`)) {
     if (ti >= MAX_PROJECT_DETAIL_REPEATER_ROWS) {
       fieldErrors["_techRepeater"] = [
-        `At most ${MAX_PROJECT_DETAIL_REPEATER_ROWS} technology rows allowed.`,
+        `Högst ${MAX_PROJECT_DETAIL_REPEATER_ROWS} teknikrader tillåtna.`,
       ];
       break;
     }
@@ -38,9 +38,9 @@ export function parseProjectDetailRepeaterFields(formData: FormData): ParsedRepe
       continue;
     }
     if (techName === "" || usage === "") {
-      if (techName === "") fieldErrors[tn] = ["Technology name required when usage is filled."];
+      if (techName === "") fieldErrors[tn] = ["Tekniknamn krävs när användningsbeskrivning är ifylld."];
       if (usage === "")
-        fieldErrors[tu] = ["Usage description required when technology name is filled."];
+        fieldErrors[tu] = ["Användningsbeskrivning krävs när tekniknamn är ifyllt."];
       ti += 1;
       continue;
     }
@@ -52,7 +52,7 @@ export function parseProjectDetailRepeaterFields(formData: FormData): ParsedRepe
   while (formData.has(`lr_${li}_title`) || formData.has(`lr_${li}_description`)) {
     if (li >= MAX_PROJECT_DETAIL_REPEATER_ROWS) {
       fieldErrors["_learnRepeater"] = [
-        `At most ${MAX_PROJECT_DETAIL_REPEATER_ROWS} learning rows allowed.`,
+        `Högst ${MAX_PROJECT_DETAIL_REPEATER_ROWS} rader om lärdomar tillåtna.`,
       ];
       break;
     }
@@ -66,8 +66,8 @@ export function parseProjectDetailRepeaterFields(formData: FormData): ParsedRepe
       continue;
     }
     if (title === "" || description === "") {
-      if (title === "") fieldErrors[ttl] = ["Title required when description is filled."];
-      if (description === "") fieldErrors[dsc] = ["Description required when title is filled."];
+      if (title === "") fieldErrors[ttl] = ["Rubrik krävs när beskrivning är ifylld."];
+      if (description === "") fieldErrors[dsc] = ["Beskrivning krävs när rubrik är ifylld."];
       li += 1;
       continue;
     }

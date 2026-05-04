@@ -24,7 +24,7 @@ export function SocialLinks({
   onNavigate,
 }: SocialLinksProps) {
   return (
-    <ul aria-label="Social links" className={className}>
+    <ul aria-label="Sociala länkar" className={className}>
       <li>
         <a
           href={SOCIAL.github}
@@ -50,7 +50,7 @@ export function SocialLinks({
         </a>
       </li>
       <li>
-        <a href={`mailto:${EMAIL}`} className={linkClass} aria-label="Email" onClick={onNavigate}>
+        <a href={`mailto:${EMAIL}`} className={linkClass} aria-label="E-post" onClick={onNavigate}>
           <IconMail className={iconClassName} />
         </a>
       </li>

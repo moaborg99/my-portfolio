@@ -26,12 +26,12 @@ export async function uploadProjectImageToBlob(
   if (!process.env.BLOB_READ_WRITE_TOKEN?.trim()) {
     return {
       ok: false,
-      message: "Missing BLOB_READ_WRITE_TOKEN. Add it to your environment (e.g. .env).",
+      message: "Saknar BLOB_READ_WRITE_TOKEN. Lägg till den i miljön (t.ex. .env).",
     };
   }
 
   if (file.size === 0) {
-    return { ok: false, message: "The uploaded file is empty." };
+    return { ok: false, message: "Den uppladdade filen är tom." };
   }
   if (file.size > options.maxBytes) {
     return {
@@ -41,7 +41,7 @@ export async function uploadProjectImageToBlob(
   }
 
   if (!ALLOWED_MIME.has(file.type)) {
-    return { ok: false, message: "Use a JPEG, PNG, WebP, or GIF." };
+    return { ok: false, message: "Använd JPEG, PNG, WebP eller GIF." };
   }
 
   const safeName = sanitizeFilenameBaseForPath(file.name);
@@ -54,7 +54,7 @@ export async function uploadProjectImageToBlob(
     });
     return { ok: true, url: blob.url };
   } catch {
-    return { ok: false, message: "Upload failed. Check BLOB_READ_WRITE_TOKEN and try again." };
+    return { ok: false, message: "Uppladdning misslyckades. Kontrollera BLOB_READ_WRITE_TOKEN och försök igen." };
   }
 }
 

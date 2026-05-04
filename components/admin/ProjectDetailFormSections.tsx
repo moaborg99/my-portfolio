@@ -154,7 +154,7 @@ export function ProjectDetailFormSections({
     <div className="space-y-8">
       <RepeaterPanel
         titleId={techTitleId}
-        title="Tech stack & användning"
+        title="Teknikstack och användning"
         errorKey="_techRepeater"
         fieldErrors={fieldErrors}
         count={techRows.length}

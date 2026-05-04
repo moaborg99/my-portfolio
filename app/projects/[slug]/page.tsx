@@ -13,7 +13,7 @@ export async function generateMetadata({
   const project = await getProjectBySlug(slug);
 
   if (!project) {
-    return { title: "Project not found" };
+    return { title: "Projektet hittades inte" };
   }
 
   return {

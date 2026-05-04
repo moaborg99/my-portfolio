@@ -14,6 +14,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/Carousel";
 import type { Project } from "@/types/projects";
+import { sitePath } from "@/lib/site-paths";
 
 type FeaturedProjectsCarouselProps = {
   projects: Project[];
@@ -47,7 +48,7 @@ export function FeaturedProjectsCarousel({ projects }: FeaturedProjectsCarouselP
               id={`featured-carousel-item-${index}`}
             >
               <article className="overflow-hidden rounded-xl border border-white/10 bg-navy-light shadow-lg shadow-black/25">
-                <Link href={`/projects/${project.slug}`} className="group block">
+                <Link href={sitePath.project(project.slug)} className="group block">
                   <div className="relative aspect-[4/5]">
                     <Image
                       src={project.featuredImage}
@@ -89,7 +90,7 @@ export function FeaturedProjectsCarousel({ projects }: FeaturedProjectsCarouselP
       <div
         className="mt-5 flex items-center justify-center gap-2"
         role="tablist"
-        aria-label="Featured projects navigation"
+        aria-label="Navigering för utvalda projekt"
       >
         {projects.map((project, index) => (
           <button
@@ -102,7 +103,7 @@ export function FeaturedProjectsCarousel({ projects }: FeaturedProjectsCarouselP
             ].join(" ")}
             role="tab"
             aria-selected={current === index}
-            aria-label={`Go to ${project.title}`}
+            aria-label={`Gå till ${project.title}`}
             aria-controls={`featured-carousel-item-${index}`}
           />
         ))}

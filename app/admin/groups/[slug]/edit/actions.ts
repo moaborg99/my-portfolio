@@ -15,8 +15,8 @@ function getText(formData: FormData, key: string): string {
 }
 
 const schema = z.object({
-  originalSlug: z.string().trim().min(1, "Missing group."),
-  name: z.string().trim().min(1, "Required"),
+  originalSlug: z.string().trim().min(1, "Saknar teknikgrupp."),
+  name: z.string().trim().min(1, "Obligatoriskt"),
 });
 
 export type UpdateTechStackGroupState =
@@ -40,7 +40,7 @@ export async function updateTechStackGroupAction(
       formError:
         flat.formErrors.length > 0
           ? flat.formErrors.join(" ")
-          : "Fix the highlighted fields and try again.",
+          : "Åtgärda markerade fält och försök igen.",
     };
   }
 

@@ -9,7 +9,7 @@ export default function AdminShellLayout({ children }: { children: React.ReactNo
         trailing={
           <form action={logout}>
             <button type="submit" className={buttonClassName("secondary")}>
-              Log out
+              Logga ut
             </button>
           </form>
         }

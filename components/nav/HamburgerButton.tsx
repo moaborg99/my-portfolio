@@ -15,7 +15,7 @@ export function HamburgerButton({ open, onToggle, menuId }: HamburgerButtonProps
       aria-controls={menuId}
       onClick={onToggle}
     >
-      <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+      <span className="sr-only">{open ? "Stäng menyn" : "Öppna menyn"}</span>
       {!open ? (
         <svg className="h-7 w-7 fill-current" viewBox="0 0 512 512" aria-hidden="true">
           <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />

@@ -4,6 +4,7 @@ import { DeleteProjectForm } from "@/components/admin/DeleteProjectForm";
 import { buttonClassName } from "@/components/ui/Button";
 import { NavLink } from "@/components/ui/NavLink";
 import { getProjects } from "@/lib/projects";
+import { sitePath } from "@/lib/site-paths";
 
 export default async function AdminProjectsListPage() {
   const projects = await getProjects();
@@ -30,7 +31,7 @@ export default async function AdminProjectsListPage() {
             >
               <div className="min-w-0">
                 <Link
-                  href={`/projects/${project.slug}`}
+                  href={sitePath.project(project.slug)}
                   className="font-medium text-fg transition-colors hover:text-turquoise"
                 >
                   {project.title}

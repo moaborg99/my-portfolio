@@ -6,7 +6,7 @@ import { AboutIntro } from "@/components/blocks/AboutIntro";
 import { getGroupedTechStack } from "@/lib/tech-skills";
 
 export const metadata: Metadata = {
-  title: "Home",
+  title: "Start",
 };
 
 const HOME_TECH_SKILLS_PREVIEW = 6;
@@ -24,8 +24,10 @@ export default async function HomePage() {
 
       <section id="projects-section" className="container py-16">
         <div className="mb-10 text-center">
-          <h2 className="text-fg">Featured Projects</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-fg-muted">Explore our latest creative work</p>
+          <h2 className="text-fg">Utvalda projekt</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-fg-muted">
+            Kika in i några av de senaste projekten
+          </p>
         </div>
 
         <FeaturedProjects />

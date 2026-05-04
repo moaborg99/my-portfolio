@@ -15,7 +15,7 @@ function getText(formData: FormData, key: string): string {
 }
 
 const schema = z.object({
-  name: z.string().trim().min(1, "Required"),
+  name: z.string().trim().min(1, "Obligatoriskt"),
   groupId: z.coerce.number().int().positive("Välj en teknikgrupp."),
 });
 
@@ -40,7 +40,7 @@ export async function createTechnicalSkillAction(
       formError:
         flat.formErrors.length > 0
           ? flat.formErrors.join(" ")
-          : "Fix the highlighted fields and try again.",
+          : "Åtgärda markerade fält och försök igen.",
     };
   }
 
@@ -53,7 +53,7 @@ export async function createTechnicalSkillAction(
     return {
       ok: false,
       fieldErrors: { groupId: ["Teknikgruppen finns inte längre."] },
-      formError: "Fix the highlighted fields and try again.",
+      formError: "Åtgärda markerade fält och försök igen.",
     };
   }
 

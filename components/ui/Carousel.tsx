@@ -117,7 +117,7 @@ export function CarouselItem({ className, ...props }: React.ComponentProps<"div"
   return (
     <div
       role="group"
-      aria-roledescription="slide"
+      aria-roledescription="bild"
       className={[
         "min-w-0 shrink-0 grow-0 basis-full",
         orientation === "horizontal" ? "pl-4" : "pt-4",
@@ -136,7 +136,7 @@ export function CarouselPrevious({ className, ...props }: React.ComponentProps<"
   return (
     <button
       type="button"
-      aria-label="Previous slide"
+      aria-label="Föregående bild"
       className={[
         "absolute z-10 inline-flex size-9 items-center justify-center rounded-full border border-white/20 bg-navy-dark/80 text-fg transition hover:border-turquoise/50 hover:text-turquoise disabled:opacity-40",
         orientation === "horizontal"
@@ -161,7 +161,7 @@ export function CarouselNext({ className, ...props }: React.ComponentProps<"butt
   return (
     <button
       type="button"
-      aria-label="Next slide"
+      aria-label="Nästa bild"
       className={[
         "absolute z-10 inline-flex size-9 items-center justify-center rounded-full border border-white/20 bg-navy-dark/80 text-fg transition hover:border-turquoise/50 hover:text-turquoise disabled:opacity-40",
         orientation === "horizontal"

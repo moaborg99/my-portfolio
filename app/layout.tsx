@@ -17,9 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: {
     default: "Portfolio",
-    template: "%s",
+    template: "%s · Moa Borg",
   },
-  description: "Portfolio of the developer",
+  description: "Portfolio av Moa Borg, webbutvecklare.",
 };
 
 export default function RootLayout({
@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="sv" className={`${inter.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="flex min-h-screen flex-col">
         <Navbar />
         <main className="container flex-1 pt-12">{children}</main>

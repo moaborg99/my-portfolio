@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { TechPill } from "@/components/tech/TechPill";
 import type { Project } from "@/types/projects";
+import { sitePath } from "@/lib/site-paths";
 
 const MAX_SKILLS_ON_CARD = 3;
 
@@ -13,7 +14,7 @@ export default function ProjectCard({ project }: { project: Project }) {
 
   return (
     <Link
-      href={`/projects/${project.slug}`}
+      href={sitePath.project(project.slug)}
       className="group relative block overflow-hidden rounded-xl border border-white/15 bg-navy-light/50 shadow-lg shadow-black/25 backdrop-blur-sm transition-all duration-300 hover:border-white/28"
     >
       <div className="relative aspect-[16/10] w-full overflow-hidden">

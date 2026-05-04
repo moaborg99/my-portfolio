@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { SocialLinks } from "@/components/social/SocialLinks";
+import { sitePath } from "@/lib/site-paths";
 
 type MobileNavPanelProps = {
   id: string;
@@ -11,9 +12,9 @@ type MobileNavPanelProps = {
 };
 
 const LINKS = [
-  { href: "/about", label: "About" },
-  { href: "/projects", label: "Projects" },
-  { href: "/contact", label: "Contact" },
+  { href: sitePath.about, label: "Om mig" },
+  { href: sitePath.projects, label: "Projekt" },
+  { href: sitePath.contact, label: "Kontakt" },
 ] as const;
 
 const sectionLabelClass = "text-xs font-semibold uppercase tracking-[0.22em] text-turquoise";
@@ -42,13 +43,13 @@ export function MobileNavPanel({ id, open, onClose }: MobileNavPanelProps) {
       id={id}
       role="dialog"
       aria-modal="true"
-      aria-label="Mobile menu"
+      aria-label="Mobilmeny"
       hidden={!open}
       className="fixed inset-0 z-40 bg-gradient-to-b from-navy-dark to-navy-light md:hidden"
     >
       <div className="container flex h-full flex-col px-4 pb-10 pt-24 text-left">
         <div className="border-l-2 border-turquoise pl-6">
-          <p className={sectionLabelClass}>Navigate</p>
+          <p className={sectionLabelClass}>Navigera</p>
 
           <ul className="mt-6 divide-y divide-white/15 border-y border-white/15">
             {LINKS.map(({ href, label }) => (
@@ -64,7 +65,7 @@ export function MobileNavPanel({ id, open, onClose }: MobileNavPanelProps) {
             ))}
           </ul>
 
-          <p className={`mt-14 ${sectionLabelClass}`}>Connect</p>
+          <p className={`mt-14 ${sectionLabelClass}`}>Hör av dig</p>
           <SocialLinks
             className="mt-5 flex flex-row flex-wrap items-center gap-8 border-b border-white/15 pb-8"
             iconClassName="h-9 w-9"

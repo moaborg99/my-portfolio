@@ -31,15 +31,15 @@ function parseSkillIdsFromFormData(formData: FormData): number[] {
 }
 
 const optionalHttpUrl = z
-  .union([z.literal(""), z.string().url()])
+  .union([z.literal(""), z.string().url({ message: "Ange en giltig http- eller https-adress." })])
   .transform((v) => (v === "" ? null : v));
 
 const schema = z.object({
-  slug: z.string().trim().min(1, "Missing project slug."),
-  title: z.string().trim().min(1, "Required"),
-  summary: z.string().trim().min(1, "Required"),
-  intro: z.string().trim().min(1, "Required"),
-  description: z.string().trim().min(1, "Required"),
+  slug: z.string().trim().min(1, "Saknar projekt-slug."),
+  title: z.string().trim().min(1, "Obligatoriskt"),
+  summary: z.string().trim().min(1, "Obligatoriskt"),
+  intro: z.string().trim().min(1, "Obligatoriskt"),
+  description: z.string().trim().min(1, "Obligatoriskt"),
   githubUrl: optionalHttpUrl,
   deployUrl: optionalHttpUrl,
   videoUrl: optionalHttpUrl,
@@ -88,7 +88,7 @@ export async function updateProjectAction(
       formError:
         flat && flat.formErrors.length > 0
           ? flat.formErrors.join(" ")
-          : "Fix the highlighted fields and try again.",
+          : "Åtgärda markerade fält och försök igen.",
     };
   }
 
@@ -96,7 +96,7 @@ export async function updateProjectAction(
 
   const existing = await prisma.project.findUnique({ where: { slug } });
   if (!existing) {
-    return { ok: false, formError: "Project not found." };
+    return { ok: false, formError: "Projektet hittades inte." };
   }
 
   if (skillIds.length > 0) {
@@ -107,8 +107,8 @@ export async function updateProjectAction(
     if (found.length !== skillIds.length) {
       return {
         ok: false,
-        fieldErrors: { skillIds: ["One or more selected skills no longer exist."] },
-        formError: "Fix the highlighted fields and try again.",
+        fieldErrors: { skillIds: ["En eller fler valda tekniker finns inte längre."] },
+        formError: "Åtgärda markerade fält och försök igen.",
       };
     }
   }
@@ -121,7 +121,7 @@ export async function updateProjectAction(
       return {
         ok: false,
         fieldErrors: { featuredImageFile: [blob.message] },
-        formError: "Fix the highlighted fields and try again.",
+        formError: "Åtgärda markerade fält och försök igen.",
       };
     }
     featuredImage = blob.url;
@@ -141,7 +141,7 @@ export async function updateProjectAction(
         return {
           ok: false,
           fieldErrors: { [`gi_${row.index}_file`]: [g.message] },
-          formError: "Fix the highlighted fields and try again.",
+          formError: "Åtgärda markerade fält och försök igen.",
         };
       }
       resolvedGallery.push({
@@ -156,8 +156,8 @@ export async function updateProjectAction(
     if (!db) {
       return {
         ok: false,
-        fieldErrors: { [`gi_${row.index}_imageId`]: ["Unknown gallery image for this project."] },
-        formError: "Fix the highlighted fields and try again.",
+        fieldErrors: { [`gi_${row.index}_imageId`]: ["Okänd galleribild för detta projekt."] },
+        formError: "Åtgärda markerade fält och försök igen.",
       };
     }
 
@@ -175,7 +175,7 @@ export async function updateProjectAction(
       return {
         ok: false,
         fieldErrors: { [`gi_${row.index}_file`]: [g.message] },
-        formError: "Fix the highlighted fields and try again.",
+        formError: "Åtgärda markerade fält och försök igen.",
       };
     }
     resolvedGallery.push({
@@ -245,7 +245,7 @@ export async function updateProjectAction(
     });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      return { ok: false, formError: "Could not save project. Try again." };
+      return { ok: false, formError: "Kunde inte spara projektet. Försök igen." };
     }
     throw e;
   }

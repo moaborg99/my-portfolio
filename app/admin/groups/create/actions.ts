@@ -15,7 +15,7 @@ function getText(formData: FormData, key: string): string {
 }
 
 const schema = z.object({
-  name: z.string().trim().min(1, "Required"),
+  name: z.string().trim().min(1, "Obligatoriskt"),
 });
 
 export type CreateTechStackGroupState =
@@ -38,7 +38,7 @@ export async function createTechStackGroupAction(
       formError:
         flat.formErrors.length > 0
           ? flat.formErrors.join(" ")
-          : "Fix the highlighted fields and try again.",
+          : "Åtgärda markerade fält och försök igen.",
     };
   }
 

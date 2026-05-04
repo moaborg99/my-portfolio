@@ -53,7 +53,7 @@ export function ProjectFormCopyFields(props: CreateProps | EditProps) {
           name="intro"
           required
           rows={4}
-          placeholder="Lockande ingress till case study"
+          placeholder="Lockande ingress till fallstudien"
           {...(edit ? { defaultValue: edit.project.intro } : {})}
           error={formFieldErrorMessage(err, "intro")}
         />
