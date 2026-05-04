@@ -59,12 +59,11 @@ model ProjectImage {
 }
 
 model TechnicalSkill {
-  id          Int                       @id @default(autoincrement())
-  name        String
-  slug        String                    @unique
-  group       String
-  sortOrder   Int                       @default(0)
-  projects    ProjectTechnicalSkill[]
+  id       Int                     @id @default(autoincrement())
+  name     String
+  slug     String                  @unique
+  group    String
+  projects ProjectTechnicalSkill[]
 }
 
 model ProjectTechnicalSkill {

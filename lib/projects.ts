@@ -4,7 +4,7 @@ import type { Project } from "@/types/projects";
 
 const projectInclude = {
   projectTechnicalSkills: {
-    orderBy: { id: "asc" },
+    orderBy: { technicalSkill: { name: "asc" } },
     include: { technicalSkill: true },
   },
   techUsageItems: { orderBy: { sortOrder: "asc" } },
