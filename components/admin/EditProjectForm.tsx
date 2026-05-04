@@ -41,6 +41,7 @@ export function EditProjectForm({ project }: EditProjectFormProps) {
       />
 
       <ProjectFormMediaSection
+        key={`${project.slug}-media`}
         mode="edit"
         fieldErrors={err}
         urls={{
@@ -48,6 +49,7 @@ export function EditProjectForm({ project }: EditProjectFormProps) {
           deployUrl: project.deployUrl,
           videoUrl: project.videoUrl,
         }}
+        galleryImages={project.images}
       />
 
       <ProjectFormActions pending={pending} submitLabel="Spara" pendingLabel="Sparar…" />

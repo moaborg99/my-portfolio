@@ -5,7 +5,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { uploadFeaturedImageToBlob } from "@/lib/featured-image";
+import { uploadFeaturedImageToBlob, uploadGalleryImageToBlob } from "@/lib/featured-image";
+import { parseProjectGalleryFromForm } from "@/lib/project-gallery-from-form";
 import { parseProjectDetailRepeaterFields } from "@/lib/project-detail-from-form";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slugify";
@@ -68,17 +69,21 @@ export async function createProjectAction(
   });
 
   const detail = parseProjectDetailRepeaterFields(formData);
+  const gallery = parseProjectGalleryFromForm(formData, "create");
 
   const fileField = formData.get("featuredImageFile");
   const fileOk = fileField instanceof File && fileField.size > 0;
 
-  if (!parsed.success || !detail.ok || !fileOk) {
+  if (!parsed.success || !detail.ok || !gallery.ok || !fileOk) {
     const fieldErrors: Record<string, string[] | undefined> = {};
     if (!parsed.success) {
       Object.assign(fieldErrors, parsed.error.flatten().fieldErrors);
     }
     if (!detail.ok) {
       Object.assign(fieldErrors, detail.fieldErrors);
+    }
+    if (!gallery.ok) {
+      Object.assign(fieldErrors, gallery.fieldErrors);
     }
     if (!fileOk) {
       fieldErrors.featuredImageFile = ["Choose an image file (JPEG, PNG, WebP, or GIF)."];
@@ -102,6 +107,24 @@ export async function createProjectAction(
       fieldErrors: { featuredImageFile: [blob.message] },
       formError: "Fix the highlighted fields and try again.",
     };
+  }
+
+  const galleryCreates: { src: string; alt: string; sortOrder: number }[] = [];
+  for (const row of gallery.rows) {
+    if (row.kind !== "new") continue;
+    const g = await uploadGalleryImageToBlob(row.file);
+    if (!g.ok) {
+      return {
+        ok: false,
+        fieldErrors: { [`gi_${row.index}_file`]: [g.message] },
+        formError: "Fix the highlighted fields and try again.",
+      };
+    }
+    galleryCreates.push({
+      src: g.url,
+      alt: row.alt,
+      sortOrder: galleryCreates.length,
+    });
   }
 
   let slug: string;
@@ -131,6 +154,7 @@ export async function createProjectAction(
             sortOrder,
           })),
         },
+        ...(galleryCreates.length > 0 ? { images: { create: galleryCreates } } : {}),
       },
     });
   } catch (e) {

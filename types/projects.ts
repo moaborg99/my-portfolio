@@ -41,7 +41,7 @@ export type Project = {
   githubUrl: string | null;
   deployUrl: string | null;
   videoUrl: string | null;
-  images: { src: string; alt: string; sortOrder: number }[];
+  images: { id: number; src: string; alt: string; sortOrder: number }[];
   skills: ProjectSkill[];
   techDetails: DetailItem[];
   learnings: ProjectLearningBullet[];

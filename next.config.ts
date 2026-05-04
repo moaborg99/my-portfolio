@@ -13,8 +13,8 @@ const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
       // Default is 1mb — too small for featured images via FormData.
-      // Match-ish your lib limit (~4.5 MB) plus form field overhead.
-      bodySizeLimit: "5mb",
+      // Featured (~4.5 MB) + several gallery images (2 MB each) + form overhead.
+      bodySizeLimit: "25mb",
     },
   },
 };

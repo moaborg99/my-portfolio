@@ -18,6 +18,7 @@ type ProjectRow = Prisma.ProjectGetPayload<{ include: typeof projectInclude }>;
 
 function mapProjectRow(row: ProjectRow): Project {
   const images = row.images.map((img) => ({
+    id: img.id,
     src: img.src,
     alt: img.alt,
     sortOrder: img.sortOrder,

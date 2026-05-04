@@ -1,7 +1,10 @@
 import { put } from "@vercel/blob";
 
-/** ~4.5 MB — aligns with Vercel Blob server upload limits */
-const MAX_BYTES = Math.floor(4.5 * 1024 * 1024);
+/** ~4.5 MB — aligns with Vercel Blob server upload limits (featured hero) */
+const FEATURED_MAX_BYTES = Math.floor(4.5 * 1024 * 1024);
+
+/** Smaller cap for gallery slots so multi-image submits stay under Server Actions body limits. */
+export const GALLERY_MAX_BYTES = 2 * 1024 * 1024;
 
 const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
 
@@ -16,8 +19,9 @@ function sanitizeFilenameBaseForPath(original: string): string {
   return ascii || "image";
 }
 
-export async function uploadFeaturedImageToBlob(
-  file: File
+export async function uploadProjectImageToBlob(
+  file: File,
+  options: { maxBytes: number; sizeLabel: string }
 ): Promise<{ ok: true; url: string } | { ok: false; message: string }> {
   if (!process.env.BLOB_READ_WRITE_TOKEN?.trim()) {
     return {
@@ -29,8 +33,11 @@ export async function uploadFeaturedImageToBlob(
   if (file.size === 0) {
     return { ok: false, message: "The uploaded file is empty." };
   }
-  if (file.size > MAX_BYTES) {
-    return { ok: false, message: "Image must be at most 4.5 MB for server uploads." };
+  if (file.size > options.maxBytes) {
+    return {
+      ok: false,
+      message: `Image must be at most ${options.sizeLabel} for this upload.`,
+    };
   }
 
   if (!ALLOWED_MIME.has(file.type)) {
@@ -49,4 +56,19 @@ export async function uploadFeaturedImageToBlob(
   } catch {
     return { ok: false, message: "Upload failed. Check BLOB_READ_WRITE_TOKEN and try again." };
   }
+}
+
+export async function uploadFeaturedImageToBlob(
+  file: File
+): Promise<{ ok: true; url: string } | { ok: false; message: string }> {
+  return uploadProjectImageToBlob(file, { maxBytes: FEATURED_MAX_BYTES, sizeLabel: "4.5 MB" });
+}
+
+export async function uploadGalleryImageToBlob(
+  file: File
+): Promise<{ ok: true; url: string } | { ok: false; message: string }> {
+  return uploadProjectImageToBlob(file, {
+    maxBytes: GALLERY_MAX_BYTES,
+    sizeLabel: "2 MB",
+  });
 }

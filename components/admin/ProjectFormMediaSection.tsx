@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 
+import { ProjectFormGallerySection } from "@/components/admin/ProjectFormGallerySection";
 import type { ProjectFormFieldErrors } from "@/components/admin/ProjectFormTypes";
 import { buttonClassName } from "@/components/ui/Button";
 import {
@@ -82,7 +83,7 @@ type ProjectFormMediaSectionProps = {
   fieldErrors?: ProjectFormFieldErrors;
 } & (
   | { mode: "create" }
-  | { mode: "edit"; urls: UrlSlice }
+  | { mode: "edit"; urls: UrlSlice; galleryImages: Pick<Project, "images">["images"] }
 );
 
 export function ProjectFormMediaSection(props: ProjectFormMediaSectionProps) {
@@ -90,56 +91,68 @@ export function ProjectFormMediaSection(props: ProjectFormMediaSectionProps) {
   const urls = props.mode === "edit" ? props.urls : null;
 
   return (
-    <div className={formSectionCardClassName}>
-      <h2 className="mb-3 text-lg font-semibold tracking-tight text-fg sm:mb-4">Media &amp; länkar</h2>
+    <>
+      <div className={formSectionCardClassName}>
+        <h2 className="mb-3 text-lg font-semibold tracking-tight text-fg sm:mb-4">Media &amp; länkar</h2>
 
-      <div className={formFieldStackClassName}>
-        {props.mode === "create" ? (
-          <FeaturedImageField
-            fieldErrors={err}
-            hint="(JPEG, PNG, WebP eller GIF, max 5 MB)"
-            buttonLabel="Välj bild…"
-            emptyFileLabel="Ingen fil vald"
-            ariaLabel="Välj utvald bild"
-            required
+        <div className={formFieldStackClassName}>
+          {props.mode === "create" ? (
+            <FeaturedImageField
+              fieldErrors={err}
+              hint="(JPEG, PNG, WebP eller GIF, max 5 MB)"
+              buttonLabel="Välj bild…"
+              emptyFileLabel="Ingen fil vald"
+              ariaLabel="Välj utvald bild"
+              required
+            />
+          ) : (
+            <FeaturedImageField
+              fieldErrors={err}
+              hint="(lämna tom för att behålla nuvarande)"
+              buttonLabel="Välj ny bild…"
+              emptyFileLabel="Ingen ny fil vald — nuvarande bild behålls"
+              ariaLabel="Välj ny utvald bild"
+            />
+          )}
+
+          <UrlField
+            label="GitHub"
+            hint="(valfritt)"
+            name="githubUrl"
+            placeholder="https://github.com/…"
+            {...(urls ? { defaultValue: urls.githubUrl ?? "" } : {})}
+            error={formFieldErrorMessage(err, "githubUrl")}
           />
-        ) : (
-          <FeaturedImageField
-            fieldErrors={err}
-            hint="(lämna tom för att behålla nuvarande)"
-            buttonLabel="Välj ny bild…"
-            emptyFileLabel="Ingen ny fil vald — nuvarande bild behålls"
-            ariaLabel="Välj ny utvald bild"
+
+          <UrlField
+            label="Live / demo"
+            hint="(valfritt)"
+            name="deployUrl"
+            placeholder="https://…"
+            {...(urls ? { defaultValue: urls.deployUrl ?? "" } : {})}
+            error={formFieldErrorMessage(err, "deployUrl")}
           />
-        )}
 
-        <UrlField
-          label="GitHub"
-          hint="(valfritt)"
-          name="githubUrl"
-          placeholder="https://github.com/…"
-          {...(urls ? { defaultValue: urls.githubUrl ?? "" } : {})}
-          error={formFieldErrorMessage(err, "githubUrl")}
-        />
-
-        <UrlField
-          label="Live / demo"
-          hint="(valfritt)"
-          name="deployUrl"
-          placeholder="https://…"
-          {...(urls ? { defaultValue: urls.deployUrl ?? "" } : {})}
-          error={formFieldErrorMessage(err, "deployUrl")}
-        />
-
-        <UrlField
-          label="Video"
-          hint="(valfritt)"
-          name="videoUrl"
-          placeholder="https://…"
-          {...(urls ? { defaultValue: urls.videoUrl ?? "" } : {})}
-          error={formFieldErrorMessage(err, "videoUrl")}
-        />
+          <UrlField
+            label="Video"
+            hint="(valfritt)"
+            name="videoUrl"
+            placeholder="https://…"
+            {...(urls ? { defaultValue: urls.videoUrl ?? "" } : {})}
+            error={formFieldErrorMessage(err, "videoUrl")}
+          />
+        </div>
       </div>
-    </div>
+
+      {props.mode === "create" ? (
+        <ProjectFormGallerySection mode="create" fieldErrors={err} />
+      ) : (
+        <ProjectFormGallerySection
+          mode="edit"
+          fieldErrors={err}
+          existingImages={props.galleryImages}
+        />
+      )}
+    </>
   );
 }

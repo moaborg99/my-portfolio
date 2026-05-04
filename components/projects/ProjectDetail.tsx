@@ -235,24 +235,26 @@ export function ProjectDetail({
             <h2 id="project-gallery-heading" className="mt-0 mb-6 text-fg md:mb-8">
               Gallery
             </h2>
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+            <ul className="mx-auto grid w-full list-none grid-cols-1 gap-4 p-0 sm:gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-7">
               {sortedImages.map((image) => (
-                <div
-                  key={`${image.src}-${image.sortOrder ?? 0}`}
-                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-navy-light/25 transition-transform duration-300 ease-out hover:scale-[1.008]"
-                >
-                  <div className="relative aspect-video overflow-hidden">
-                    <Image
-                      src={image.src}
-                      alt={image.alt || `${title} — gallery`}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 50vw"
-                      className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.035]"
-                    />
-                  </div>
-                </div>
+                <li key={`${image.src}-${image.sortOrder ?? 0}`} className="min-w-0 list-none">
+                  <figure className="group m-0 w-full overflow-hidden rounded-2xl border border-white/10 bg-navy-light/25 shadow-sm shadow-black/20">
+                    <div
+                      className="relative w-full min-w-0 overflow-hidden"
+                      style={{ aspectRatio: "4 / 3" }}
+                    >
+                      <Image
+                        src={image.src}
+                        alt={image.alt || `${title} — gallery`}
+                        fill
+                        sizes="(max-width: 767px) 92vw, (max-width: 1023px) 46vw, 32vw"
+                        className="object-cover transition-transform duration-300 ease-out motion-reduce:transition-none lg:group-hover:scale-[1.03]"
+                      />
+                    </div>
+                  </figure>
+                </li>
               ))}
-            </div>
+            </ul>
           </section>
         ) : null}
       </div>

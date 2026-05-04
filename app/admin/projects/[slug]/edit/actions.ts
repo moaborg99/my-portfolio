@@ -5,8 +5,9 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { uploadFeaturedImageToBlob } from "@/lib/featured-image";
+import { uploadFeaturedImageToBlob, uploadGalleryImageToBlob } from "@/lib/featured-image";
 import { parseProjectDetailRepeaterFields } from "@/lib/project-detail-from-form";
+import { parseProjectGalleryFromForm } from "@/lib/project-gallery-from-form";
 import { prisma } from "@/lib/prisma";
 
 function getText(formData: FormData, key: string): string {
@@ -50,14 +51,18 @@ export async function updateProjectAction(
   });
 
   const detail = parseProjectDetailRepeaterFields(formData);
+  const gallery = parseProjectGalleryFromForm(formData, "edit");
 
-  if (!parsed.success || !detail.ok) {
+  if (!parsed.success || !detail.ok || !gallery.ok) {
     const fieldErrors: Record<string, string[] | undefined> = {};
     if (!parsed.success) {
       Object.assign(fieldErrors, parsed.error.flatten().fieldErrors);
     }
     if (!detail.ok) {
       Object.assign(fieldErrors, detail.fieldErrors);
+    }
+    if (!gallery.ok) {
+      Object.assign(fieldErrors, gallery.fieldErrors);
     }
 
     const flat = parsed.success ? null : parsed.error.flatten();
@@ -93,6 +98,64 @@ export async function updateProjectAction(
     featuredImage = blob.url;
   }
 
+  const dbGallery = await prisma.projectImage.findMany({
+    where: { projectId: existing.id },
+    select: { id: true, src: true },
+  });
+  const galleryById = new Map(dbGallery.map((img) => [img.id, img]));
+
+  const resolvedGallery: { src: string; alt: string; sortOrder: number }[] = [];
+  for (const row of gallery.rows) {
+    if (row.kind === "new") {
+      const g = await uploadGalleryImageToBlob(row.file);
+      if (!g.ok) {
+        return {
+          ok: false,
+          fieldErrors: { [`gi_${row.index}_file`]: [g.message] },
+          formError: "Fix the highlighted fields and try again.",
+        };
+      }
+      resolvedGallery.push({
+        src: g.url,
+        alt: row.alt,
+        sortOrder: resolvedGallery.length,
+      });
+      continue;
+    }
+
+    const db = galleryById.get(row.imageId);
+    if (!db) {
+      return {
+        ok: false,
+        fieldErrors: { [`gi_${row.index}_imageId`]: ["Unknown gallery image for this project."] },
+        formError: "Fix the highlighted fields and try again.",
+      };
+    }
+
+    if (row.kind === "keep") {
+      resolvedGallery.push({
+        src: db.src,
+        alt: row.alt,
+        sortOrder: resolvedGallery.length,
+      });
+      continue;
+    }
+
+    const g = await uploadGalleryImageToBlob(row.file);
+    if (!g.ok) {
+      return {
+        ok: false,
+        fieldErrors: { [`gi_${row.index}_file`]: [g.message] },
+        formError: "Fix the highlighted fields and try again.",
+      };
+    }
+    resolvedGallery.push({
+      src: g.url,
+      alt: row.alt,
+      sortOrder: resolvedGallery.length,
+    });
+  }
+
   try {
     await prisma.$transaction(async (tx) => {
       await tx.projectTechUsageItem.deleteMany({ where: { projectId: existing.id } });
@@ -116,6 +179,18 @@ export async function updateProjectAction(
             title: item.title,
             description: item.description,
             sortOrder,
+          })),
+        });
+      }
+
+      await tx.projectImage.deleteMany({ where: { projectId: existing.id } });
+      if (resolvedGallery.length > 0) {
+        await tx.projectImage.createMany({
+          data: resolvedGallery.map((item) => ({
+            projectId: existing.id,
+            src: item.src,
+            alt: item.alt,
+            sortOrder: item.sortOrder,
           })),
         });
       }
