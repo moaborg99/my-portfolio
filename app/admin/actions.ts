@@ -63,3 +63,26 @@ export async function deleteTechnicalSkill(skillSlug: string, formData: FormData
 
   redirect("/admin");
 }
+
+/** DELETE via form POST: slug from `deleteTechStackGroup.bind(null, slug)`. Cascades to skills. */
+export async function deleteTechStackGroup(groupSlug: string, formData: FormData) {
+  void formData;
+
+  const clean = typeof groupSlug === "string" ? groupSlug.trim() : "";
+  if (clean === "") {
+    redirect("/admin");
+  }
+
+  try {
+    await prisma.techStackGroup.deleteMany({ where: { slug: clean } });
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      redirect("/admin");
+    }
+    throw e;
+  }
+
+  await revalidateTechnicalSkillDependentPaths();
+
+  redirect("/admin");
+}

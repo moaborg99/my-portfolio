@@ -33,17 +33,24 @@ function resolveProjectSlug(
 
 async function main() {
   for (const group of techStackGroups) {
+    const groupSlug = slugify(group.title);
+    const dbGroup = await prisma.techStackGroup.upsert({
+      where: { slug: groupSlug },
+      create: { name: group.title, slug: groupSlug },
+      update: { name: group.title },
+    });
+
     for (const skill of group.skills) {
       await prisma.technicalSkill.upsert({
         where: { slug: skill.slug },
         create: {
           name: skill.name,
           slug: skill.slug,
-          group: group.title,
+          groupId: dbGroup.id,
         },
         update: {
           name: skill.name,
-          group: group.title,
+          groupId: dbGroup.id,
         },
       });
     }

@@ -14,9 +14,13 @@ import {
   formFieldStackClassName,
   formSectionCardClassName,
 } from "@/components/ui/FormField";
-import { TECH_STACK_GROUP_ORDER } from "@/lib/tech-stack-groups";
+import type { TechStackGroupListItem } from "@/types/tech-stack-group";
 
-export function CreateTechnicalSkillForm() {
+type CreateTechnicalSkillFormProps = {
+  groups: TechStackGroupListItem[];
+};
+
+export function CreateTechnicalSkillForm({ groups }: CreateTechnicalSkillFormProps) {
   const [state, formAction, pending] = useActionState(
     createTechnicalSkillAction,
     undefined as CreateTechnicalSkillState
@@ -40,12 +44,12 @@ export function CreateTechnicalSkillForm() {
           />
 
           <DarkFormPicklist
-            name="group"
+            name="groupId"
             label="Grupp"
-            options={TECH_STACK_GROUP_ORDER.map((g) => ({ value: g, label: g }))}
+            options={groups.map((g) => ({ value: String(g.id), label: g.name }))}
             defaultValue=""
-            placeholder="Välj grupp…"
-            error={err?.group?.[0]}
+            placeholder={groups.length > 0 ? "Välj grupp…" : "Inga grupper finns — skapa en först"}
+            error={err?.groupId?.[0]}
           />
         </div>
       </div>

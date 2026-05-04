@@ -1,79 +1,46 @@
 import { prisma } from "@/lib/prisma";
-import { TECH_STACK_GROUP_ORDER } from "@/lib/tech-stack-groups";
 import type { TechnicalSkillListItem } from "@/types/technical-skill";
 import type { TechStackGroup } from "@/types/tech-stack";
+import type { TechStackGroupListItem } from "@/types/tech-stack-group";
 
 export async function getGroupedTechStack(): Promise<TechStackGroup[]> {
-  const rows = await prisma.technicalSkill.findMany();
+  const rows = await prisma.technicalSkill.findMany({ include: { group: true } });
 
   const byGroup = new Map<string, { name: string; slug: string }[]>();
 
   for (const row of rows) {
-    const bucket = byGroup.get(row.group) ?? [];
+    const bucket = byGroup.get(row.group.name) ?? [];
     bucket.push({ name: row.name, slug: row.slug });
-    byGroup.set(row.group, bucket);
+    byGroup.set(row.group.name, bucket);
   }
 
   for (const bucket of byGroup.values()) {
     bucket.sort((a, b) => a.name.localeCompare(b.name, "sv"));
   }
 
-  const result: TechStackGroup[] = [];
+  const titles = [...byGroup.keys()].sort((a, b) => a.localeCompare(b, "sv"));
 
-  for (const title of TECH_STACK_GROUP_ORDER) {
-    const bucket = byGroup.get(title);
-    if (bucket) {
-      result.push({
-        title,
-        skills: bucket.map((s) => ({ name: s.name, slug: s.slug })),
-      });
-    }
-  }
-
-  for (const title of [...byGroup.keys()].sort()) {
-    if ((TECH_STACK_GROUP_ORDER as readonly string[]).includes(title)) continue;
-    const bucket = byGroup.get(title)!;
-    result.push({
-      title,
-      skills: bucket.map((s) => ({ name: s.name, slug: s.slug })),
-    });
-  }
-
-  return result;
+  return titles.map((title) => ({
+    title,
+    skills: byGroup.get(title)!.map((s) => ({ name: s.name, slug: s.slug })),
+  }));
 }
 
 export async function getAllTechnicalSkills(): Promise<TechnicalSkillListItem[]> {
-  const rows = await prisma.technicalSkill.findMany();
+  const rows = await prisma.technicalSkill.findMany({ include: { group: true } });
 
-  const byGroup = new Map<string, typeof rows>();
+  const compare = (a: { group: { name: string }; name: string }, b: typeof a) => {
+    const g = a.group.name.localeCompare(b.group.name, "sv");
+    if (g !== 0) return g;
+    return a.name.localeCompare(b.name, "sv");
+  };
 
-  for (const row of rows) {
-    const bucket = byGroup.get(row.group) ?? [];
-    bucket.push(row);
-    byGroup.set(row.group, bucket);
-  }
-
-  for (const bucket of byGroup.values()) {
-    bucket.sort((a, b) => a.name.localeCompare(b.name, "sv"));
-  }
-
-  const ordered: typeof rows = [];
-
-  for (const title of TECH_STACK_GROUP_ORDER) {
-    const bucket = byGroup.get(title);
-    if (bucket) ordered.push(...bucket);
-  }
-
-  for (const title of [...byGroup.keys()].sort()) {
-    if ((TECH_STACK_GROUP_ORDER as readonly string[]).includes(title)) continue;
-    ordered.push(...byGroup.get(title)!);
-  }
-
-  return ordered.map((r) => ({
+  return [...rows].sort(compare).map((r) => ({
     id: r.id,
     name: r.name,
     slug: r.slug,
-    group: r.group,
+    group: r.group.name,
+    groupId: r.groupId,
   }));
 }
 
@@ -83,7 +50,10 @@ export async function getTechnicalSkillBySlug(
   const clean = typeof slug === "string" ? slug.trim() : "";
   if (clean === "") return undefined;
 
-  const row = await prisma.technicalSkill.findUnique({ where: { slug: clean } });
+  const row = await prisma.technicalSkill.findUnique({
+    where: { slug: clean },
+    include: { group: true },
+  });
 
   if (!row) return undefined;
 
@@ -91,6 +61,25 @@ export async function getTechnicalSkillBySlug(
     id: row.id,
     name: row.name,
     slug: row.slug,
-    group: row.group,
+    group: row.group.name,
+    groupId: row.groupId,
   };
+}
+
+export async function getAllTechStackGroups(): Promise<TechStackGroupListItem[]> {
+  const rows = await prisma.techStackGroup.findMany();
+  return [...rows]
+    .sort((a, b) => a.name.localeCompare(b.name, "sv"))
+    .map((r) => ({ id: r.id, name: r.name, slug: r.slug }));
+}
+
+export async function getTechStackGroupBySlug(
+  slug: string
+): Promise<TechStackGroupListItem | undefined> {
+  const clean = typeof slug === "string" ? slug.trim() : "";
+  if (clean === "") return undefined;
+
+  const row = await prisma.techStackGroup.findUnique({ where: { slug: clean } });
+  if (!row) return undefined;
+  return { id: row.id, name: row.name, slug: row.slug };
 }

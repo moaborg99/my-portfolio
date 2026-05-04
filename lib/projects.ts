@@ -5,7 +5,7 @@ import type { Project } from "@/types/projects";
 const projectInclude = {
   projectTechnicalSkills: {
     orderBy: [{ displayOrder: "asc" }, { technicalSkill: { name: "asc" } }],
-    include: { technicalSkill: true },
+    include: { technicalSkill: { include: { group: true } } },
   },
   techUsageItems: { orderBy: { sortOrder: "asc" } },
   learningItems: { orderBy: { sortOrder: "asc" } },
@@ -27,7 +27,7 @@ function mapProjectRow(row: ProjectRow): Project {
   const techSkills = row.projectTechnicalSkills.map((pts) => ({
     id: pts.technicalSkill.id,
     name: pts.technicalSkill.name,
-    group: pts.technicalSkill.group,
+    group: pts.technicalSkill.group.name,
   }));
 
   const techDetails = row.techUsageItems.map((r) => ({

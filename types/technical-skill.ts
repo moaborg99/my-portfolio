@@ -3,4 +3,5 @@ export type TechnicalSkillListItem = {
   name: string;
   slug: string;
   group: string;
+  groupId: number;
 };

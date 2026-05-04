@@ -6,7 +6,7 @@ import { z } from "zod";
 
 import { revalidateTechnicalSkillDependentPaths } from "@/lib/revalidate-skills";
 import { prisma } from "@/lib/prisma";
-import { allocateUniqueTechnicalSkillSlug } from "@/lib/technical-skill-slug";
+import { allocateUniqueTechStackGroupSlug } from "@/lib/tech-stack-group-slug";
 
 function getText(formData: FormData, key: string): string {
   const v = formData.get(key);
@@ -15,21 +15,21 @@ function getText(formData: FormData, key: string): string {
 }
 
 const schema = z.object({
+  originalSlug: z.string().trim().min(1, "Missing group."),
   name: z.string().trim().min(1, "Required"),
-  groupId: z.coerce.number().int().positive("Välj en grupp."),
 });
 
-export type CreateTechnicalSkillState =
+export type UpdateTechStackGroupState =
   | undefined
   | { ok?: false; formError?: string; fieldErrors?: Record<string, string[] | undefined> };
 
-export async function createTechnicalSkillAction(
-  _prev: CreateTechnicalSkillState,
+export async function updateTechStackGroupAction(
+  _prev: UpdateTechStackGroupState,
   formData: FormData
-): Promise<CreateTechnicalSkillState> {
+): Promise<UpdateTechStackGroupState> {
   const parsed = schema.safeParse({
+    originalSlug: getText(formData, "originalSlug"),
     name: getText(formData, "name"),
-    groupId: getText(formData, "groupId"),
   });
 
   if (!parsed.success) {
@@ -44,40 +44,37 @@ export async function createTechnicalSkillAction(
     };
   }
 
-  const groupExists = await prisma.techStackGroup.findUnique({
-    where: { id: parsed.data.groupId },
-    select: { id: true },
+  const existing = await prisma.techStackGroup.findUnique({
+    where: { slug: parsed.data.originalSlug },
   });
 
-  if (!groupExists) {
-    return {
-      ok: false,
-      fieldErrors: { groupId: ["Gruppen finns inte längre."] },
-      formError: "Fix the highlighted fields and try again.",
-    };
+  if (!existing) {
+    return { ok: false, formError: "Gruppen hittades inte." };
   }
 
-  const slugToUse = await allocateUniqueTechnicalSkillSlug(parsed.data.name);
+  const newSlug = await allocateUniqueTechStackGroupSlug(parsed.data.name, existing.id);
 
   try {
-    await prisma.technicalSkill.create({
-      data: {
-        name: parsed.data.name,
-        slug: slugToUse,
-        groupId: parsed.data.groupId,
-      },
+    await prisma.techStackGroup.update({
+      where: { id: existing.id },
+      data: { name: parsed.data.name, slug: newSlug },
     });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") {
       return {
         ok: false,
-        formError: "Slug-kollision — försök med ett tydligare namn.",
+        fieldErrors: { name: ["Namnet används redan."] },
+        formError: "Namnet måste vara unikt.",
       };
     }
     throw e;
   }
 
   await revalidateTechnicalSkillDependentPaths();
+
+  if (newSlug !== parsed.data.originalSlug) {
+    redirect(`/admin/groups/${encodeURIComponent(newSlug)}/edit`);
+  }
 
   redirect("/admin");
 }

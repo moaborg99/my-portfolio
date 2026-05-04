@@ -3,29 +3,26 @@
 import { useActionState } from "react";
 
 import {
-  updateTechnicalSkillAction,
-  type UpdateTechnicalSkillState,
-} from "@/app/admin/skills/[slug]/edit/actions";
+  updateTechStackGroupAction,
+  type UpdateTechStackGroupState,
+} from "@/app/admin/groups/[slug]/edit/actions";
 import { ProjectFormActions } from "@/components/admin/ProjectFormActions";
-import { DarkFormPicklist } from "@/components/ui/DarkFormPicklist";
 import {
   FormLevelError,
   TextField,
   formFieldStackClassName,
   formSectionCardClassName,
 } from "@/components/ui/FormField";
-import type { TechnicalSkillListItem } from "@/types/technical-skill";
 import type { TechStackGroupListItem } from "@/types/tech-stack-group";
 
-type EditTechnicalSkillFormProps = {
-  skill: TechnicalSkillListItem;
-  groups: TechStackGroupListItem[];
+type EditTechStackGroupFormProps = {
+  group: TechStackGroupListItem;
 };
 
-export function EditTechnicalSkillForm({ skill, groups }: EditTechnicalSkillFormProps) {
+export function EditTechStackGroupForm({ group }: EditTechStackGroupFormProps) {
   const [state, formAction, pending] = useActionState(
-    updateTechnicalSkillAction,
-    undefined as UpdateTechnicalSkillState
+    updateTechStackGroupAction,
+    undefined as UpdateTechStackGroupState
   );
 
   const err = state?.fieldErrors;
@@ -33,7 +30,7 @@ export function EditTechnicalSkillForm({ skill, groups }: EditTechnicalSkillForm
 
   return (
     <form action={formAction} className="w-full space-y-8">
-      <input type="hidden" name="originalSlug" value={skill.slug} />
+      <input type="hidden" name="originalSlug" value={group.slug} />
 
       <FormLevelError message={formError} />
 
@@ -43,18 +40,9 @@ export function EditTechnicalSkillForm({ skill, groups }: EditTechnicalSkillForm
             name="name"
             label="Namn"
             required
-            defaultValue={skill.name}
+            defaultValue={group.name}
             error={err?.name?.[0]}
             autoComplete="off"
-          />
-
-          <DarkFormPicklist
-            key={skill.slug}
-            name="groupId"
-            label="Grupp"
-            options={groups.map((g) => ({ value: String(g.id), label: g.name }))}
-            defaultValue={String(skill.groupId)}
-            error={err?.groupId?.[0]}
           />
         </div>
       </div>

@@ -7,7 +7,6 @@ import { z } from "zod";
 import { revalidateTechnicalSkillDependentPaths } from "@/lib/revalidate-skills";
 import { prisma } from "@/lib/prisma";
 import { allocateUniqueTechnicalSkillSlug } from "@/lib/technical-skill-slug";
-import { TECH_STACK_GROUP_ORDER } from "@/lib/tech-stack-groups";
 
 function getText(formData: FormData, key: string): string {
   const v = formData.get(key);
@@ -15,10 +14,10 @@ function getText(formData: FormData, key: string): string {
   return typeof v === "string" ? v : "";
 }
 
-const baseSchema = z.object({
+const schema = z.object({
   originalSlug: z.string().trim().min(1, "Missing skill."),
   name: z.string().trim().min(1, "Required"),
-  group: z.string().trim().min(1, "Required"),
+  groupId: z.coerce.number().int().positive("Välj en grupp."),
 });
 
 export type UpdateTechnicalSkillState =
@@ -29,10 +28,10 @@ export async function updateTechnicalSkillAction(
   _prev: UpdateTechnicalSkillState,
   formData: FormData
 ): Promise<UpdateTechnicalSkillState> {
-  const parsed = baseSchema.safeParse({
+  const parsed = schema.safeParse({
     originalSlug: getText(formData, "originalSlug"),
     name: getText(formData, "name"),
-    group: getText(formData, "group"),
+    groupId: getText(formData, "groupId"),
   });
 
   if (!parsed.success) {
@@ -41,7 +40,9 @@ export async function updateTechnicalSkillAction(
       ok: false,
       fieldErrors: flat.fieldErrors,
       formError:
-        flat.formErrors.length > 0 ? flat.formErrors.join(" ") : "Fix the highlighted fields and try again.",
+        flat.formErrors.length > 0
+          ? flat.formErrors.join(" ")
+          : "Fix the highlighted fields and try again.",
     };
   }
 
@@ -53,14 +54,15 @@ export async function updateTechnicalSkillAction(
     return { ok: false, formError: "Tekniken hittades inte." };
   }
 
-  const canonical = TECH_STACK_GROUP_ORDER as readonly string[];
-  const allowedGroup =
-    canonical.includes(parsed.data.group) || parsed.data.group === existing.group;
+  const groupExists = await prisma.techStackGroup.findUnique({
+    where: { id: parsed.data.groupId },
+    select: { id: true },
+  });
 
-  if (!allowedGroup) {
+  if (!groupExists) {
     return {
       ok: false,
-      fieldErrors: { group: ["Ogiltig grupp."] },
+      fieldErrors: { groupId: ["Gruppen finns inte längre."] },
       formError: "Fix the highlighted fields and try again.",
     };
   }
@@ -73,7 +75,7 @@ export async function updateTechnicalSkillAction(
       data: {
         name: parsed.data.name,
         slug: newSlug,
-        group: parsed.data.group,
+        groupId: parsed.data.groupId,
       },
     });
   } catch (e) {

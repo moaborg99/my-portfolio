@@ -6,7 +6,7 @@ import { z } from "zod";
 
 import { revalidateTechnicalSkillDependentPaths } from "@/lib/revalidate-skills";
 import { prisma } from "@/lib/prisma";
-import { allocateUniqueTechnicalSkillSlug } from "@/lib/technical-skill-slug";
+import { allocateUniqueTechStackGroupSlug } from "@/lib/tech-stack-group-slug";
 
 function getText(formData: FormData, key: string): string {
   const v = formData.get(key);
@@ -16,20 +16,18 @@ function getText(formData: FormData, key: string): string {
 
 const schema = z.object({
   name: z.string().trim().min(1, "Required"),
-  groupId: z.coerce.number().int().positive("Välj en grupp."),
 });
 
-export type CreateTechnicalSkillState =
+export type CreateTechStackGroupState =
   | undefined
   | { ok?: false; formError?: string; fieldErrors?: Record<string, string[] | undefined> };
 
-export async function createTechnicalSkillAction(
-  _prev: CreateTechnicalSkillState,
+export async function createTechStackGroupAction(
+  _prev: CreateTechStackGroupState,
   formData: FormData
-): Promise<CreateTechnicalSkillState> {
+): Promise<CreateTechStackGroupState> {
   const parsed = schema.safeParse({
     name: getText(formData, "name"),
-    groupId: getText(formData, "groupId"),
   });
 
   if (!parsed.success) {
@@ -44,34 +42,18 @@ export async function createTechnicalSkillAction(
     };
   }
 
-  const groupExists = await prisma.techStackGroup.findUnique({
-    where: { id: parsed.data.groupId },
-    select: { id: true },
-  });
-
-  if (!groupExists) {
-    return {
-      ok: false,
-      fieldErrors: { groupId: ["Gruppen finns inte längre."] },
-      formError: "Fix the highlighted fields and try again.",
-    };
-  }
-
-  const slugToUse = await allocateUniqueTechnicalSkillSlug(parsed.data.name);
+  const slugToUse = await allocateUniqueTechStackGroupSlug(parsed.data.name);
 
   try {
-    await prisma.technicalSkill.create({
-      data: {
-        name: parsed.data.name,
-        slug: slugToUse,
-        groupId: parsed.data.groupId,
-      },
+    await prisma.techStackGroup.create({
+      data: { name: parsed.data.name, slug: slugToUse },
     });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") {
       return {
         ok: false,
-        formError: "Slug-kollision — försök med ett tydligare namn.",
+        fieldErrors: { name: ["Namnet används redan."] },
+        formError: "Namnet måste vara unikt.",
       };
     }
     throw e;

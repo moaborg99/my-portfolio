@@ -3,13 +3,18 @@ import Link from "next/link";
 import { logout } from "@/app/admin/actions";
 import { DeleteProjectForm } from "@/components/admin/DeleteProjectForm";
 import { DeleteTechnicalSkillForm } from "@/components/admin/DeleteTechnicalSkillForm";
+import { DeleteTechStackGroupForm } from "@/components/admin/DeleteTechStackGroupForm";
 import { buttonClassName } from "@/components/ui/Button";
 import { NavLink } from "@/components/ui/NavLink";
 import { getProjects } from "@/lib/projects";
-import { getAllTechnicalSkills } from "@/lib/tech-skills";
+import { getAllTechnicalSkills, getAllTechStackGroups } from "@/lib/tech-skills";
 
 export default async function AdminHomePage() {
-  const [projects, skills] = await Promise.all([getProjects(), getAllTechnicalSkills()]);
+  const [projects, skills, groups] = await Promise.all([
+    getProjects(),
+    getAllTechnicalSkills(),
+    getAllTechStackGroups(),
+  ]);
 
   return (
     <section className="space-y-8">
@@ -108,6 +113,48 @@ export default async function AdminHomePage() {
                     aria-label={`Redigera ${skill.name}`}
                   />
                   <DeleteTechnicalSkillForm slug={skill.slug} name={skill.name} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div>
+        <div className="flex items-center justify-between">
+          <h2>Alla grupper</h2>
+          <Link
+            href="/admin/groups/create"
+            className={[buttonClassName("primary"), "inline-block text-sm"]
+              .filter(Boolean)
+              .join(" ")}
+          >
+            Skapa grupp
+          </Link>
+        </div>
+        {groups.length === 0 ? (
+          <p className="mt-2 text-sm text-fg-muted">Inga grupper ännu.</p>
+        ) : (
+          <ul className="mt-3 divide-y divide-white/10 rounded-lg border border-white/10 bg-navy-light/30">
+            {groups.map((group) => (
+              <li
+                key={group.slug}
+                className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 text-sm"
+              >
+                <div className="min-w-0">
+                  <p className="font-medium text-fg">{group.name}</p>
+                  <p className="text-fg-muted">
+                    /<span className="font-mono text-fg-muted-50">{group.slug}</span>
+                  </p>
+                </div>
+                <div className="flex shrink-0 items-center gap-6">
+                  <NavLink
+                    href={`/admin/groups/${encodeURIComponent(group.slug)}/edit`}
+                    leadingPencil
+                    iconSizeClass="size-6"
+                    aria-label={`Redigera ${group.name}`}
+                  />
+                  <DeleteTechStackGroupForm slug={group.slug} name={group.name} />
                 </div>
               </li>
             ))}
