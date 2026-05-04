@@ -7,9 +7,15 @@ import { ProjectDetailFormSections } from "@/components/admin/ProjectDetailFormS
 import { ProjectFormActions } from "@/components/admin/ProjectFormActions";
 import { ProjectFormCopyFields } from "@/components/admin/ProjectFormCopyFields";
 import { ProjectFormMediaSection } from "@/components/admin/ProjectFormMediaSection";
+import { ProjectFormSkillsSection } from "@/components/admin/ProjectFormSkillsSection";
 import { FormLevelError } from "@/components/ui/FormField";
+import type { TechnicalSkillListItem } from "@/types/technical-skill";
 
-export function CreateProjectForm() {
+type CreateProjectFormProps = {
+  skills: TechnicalSkillListItem[];
+};
+
+export function CreateProjectForm({ skills }: CreateProjectFormProps) {
   const [state, formAction, pending] = useActionState(
     createProjectAction,
     undefined as CreateProjectState
@@ -22,6 +28,8 @@ export function CreateProjectForm() {
       <FormLevelError message={formError} />
 
       <ProjectFormCopyFields mode="create" fieldErrors={err} />
+
+      <ProjectFormSkillsSection fieldErrors={err} skills={skills} defaultValues={[]} />
 
       <ProjectDetailFormSections fieldErrors={err} />
 

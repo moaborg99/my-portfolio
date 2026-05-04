@@ -16,6 +16,20 @@ function getText(formData: FormData, key: string): string {
   return typeof v === "string" ? v : "";
 }
 
+function parseSkillIdsFromFormData(formData: FormData): number[] {
+  const seen = new Set<number>();
+  const out: number[] = [];
+  for (const v of formData.getAll("skillIds")) {
+    if (typeof v !== "string") continue;
+    const n = Number(v);
+    if (!Number.isInteger(n) || n <= 0) continue;
+    if (seen.has(n)) continue;
+    seen.add(n);
+    out.push(n);
+  }
+  return out;
+}
+
 const optionalHttpUrl = z
   .union([z.literal(""), z.string().url()])
   .transform((v) => (v === "" ? null : v));
@@ -52,6 +66,7 @@ export async function updateProjectAction(
 
   const detail = parseProjectDetailRepeaterFields(formData);
   const gallery = parseProjectGalleryFromForm(formData, "edit");
+  const skillIds = parseSkillIdsFromFormData(formData);
 
   if (!parsed.success || !detail.ok || !gallery.ok) {
     const fieldErrors: Record<string, string[] | undefined> = {};
@@ -82,6 +97,20 @@ export async function updateProjectAction(
   const existing = await prisma.project.findUnique({ where: { slug } });
   if (!existing) {
     return { ok: false, formError: "Project not found." };
+  }
+
+  if (skillIds.length > 0) {
+    const found = await prisma.technicalSkill.findMany({
+      where: { id: { in: skillIds } },
+      select: { id: true },
+    });
+    if (found.length !== skillIds.length) {
+      return {
+        ok: false,
+        fieldErrors: { skillIds: ["One or more selected skills no longer exist."] },
+        formError: "Fix the highlighted fields and try again.",
+      };
+    }
   }
 
   let featuredImage = existing.featuredImage;
@@ -191,6 +220,17 @@ export async function updateProjectAction(
             src: item.src,
             alt: item.alt,
             sortOrder: item.sortOrder,
+          })),
+        });
+      }
+
+      await tx.projectTechnicalSkill.deleteMany({ where: { projectId: existing.id } });
+      if (skillIds.length > 0) {
+        await tx.projectTechnicalSkill.createMany({
+          data: skillIds.map((technicalSkillId, displayOrder) => ({
+            projectId: existing.id,
+            technicalSkillId,
+            displayOrder,
           })),
         });
       }

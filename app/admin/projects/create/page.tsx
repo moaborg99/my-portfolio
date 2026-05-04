@@ -1,7 +1,10 @@
 import { CreateProjectForm } from "@/components/admin/CreateProjectForm";
 import { NavLink } from "@/components/ui/NavLink";
+import { getAllTechnicalSkills } from "@/lib/tech-skills";
 
-export default function AdminCreateProjectPage() {
+export default async function AdminCreateProjectPage() {
+  const skills = await getAllTechnicalSkills();
+
   return (
     <section className="space-y-6">
       <div>
@@ -14,7 +17,7 @@ export default function AdminCreateProjectPage() {
           Skapa nytt projekt
         </h1>
       </header>
-      <CreateProjectForm />
+      <CreateProjectForm skills={skills} />
     </section>
   );
 }

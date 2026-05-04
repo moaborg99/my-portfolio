@@ -21,6 +21,7 @@ export type ProjectSeed = {
 };
 
 export type ProjectSkill = {
+  id: number;
   name: string;
   group: string;
 };

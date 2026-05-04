@@ -10,14 +10,17 @@ import { ProjectDetailFormSections } from "@/components/admin/ProjectDetailFormS
 import { ProjectFormActions } from "@/components/admin/ProjectFormActions";
 import { ProjectFormCopyFields } from "@/components/admin/ProjectFormCopyFields";
 import { ProjectFormMediaSection } from "@/components/admin/ProjectFormMediaSection";
+import { ProjectFormSkillsSection } from "@/components/admin/ProjectFormSkillsSection";
 import { FormLevelError } from "@/components/ui/FormField";
 import type { Project } from "@/types/projects";
+import type { TechnicalSkillListItem } from "@/types/technical-skill";
 
 type EditProjectFormProps = {
   project: Project;
+  skills: TechnicalSkillListItem[];
 };
 
-export function EditProjectForm({ project }: EditProjectFormProps) {
+export function EditProjectForm({ project, skills }: EditProjectFormProps) {
   const [state, formAction, pending] = useActionState(
     updateProjectAction,
     undefined as UpdateProjectState
@@ -32,6 +35,13 @@ export function EditProjectForm({ project }: EditProjectFormProps) {
       <FormLevelError message={formError} />
 
       <ProjectFormCopyFields mode="edit" fieldErrors={err} project={project} />
+
+      <ProjectFormSkillsSection
+        key={`${project.slug}-skills`}
+        fieldErrors={err}
+        skills={skills}
+        defaultValues={project.skills.map((s) => String(s.id))}
+      />
 
       <ProjectDetailFormSections
         key={project.slug}

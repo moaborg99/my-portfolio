@@ -4,7 +4,13 @@ import Link from "next/link";
 import { TechPill } from "@/components/tech/TechPill";
 import type { Project } from "@/types/projects";
 
+const MAX_SKILLS_ON_CARD = 3;
+
 export default function ProjectCard({ project }: { project: Project }) {
+  const skills = project.skills;
+  const visible = skills.slice(0, MAX_SKILLS_ON_CARD);
+  const extraCount = skills.length > MAX_SKILLS_ON_CARD ? skills.length - MAX_SKILLS_ON_CARD : 0;
+
   return (
     <Link
       href={`/projects/${project.slug}`}
@@ -24,11 +30,19 @@ export default function ProjectCard({ project }: { project: Project }) {
         />
 
         <div className="absolute right-4 top-4 z-10 flex max-w-[60%] flex-wrap justify-end gap-2">
-          {project.skills.slice(0, 3).map((skill) => (
-            <TechPill key={skill.name} onMedia compact>
+          {visible.map((skill) => (
+            <TechPill key={skill.id} onMedia compact>
               {skill.name}
             </TechPill>
           ))}
+          {extraCount > 0 ? (
+            <span
+              className="inline-flex"
+              aria-label={`${extraCount} ytterligare ${extraCount === 1 ? "teknik" : "tekniker"}`}
+            >
+              <TechPill onMedia compact>+{extraCount}</TechPill>
+            </span>
+          ) : null}
         </div>
       </div>
 

@@ -17,6 +17,20 @@ function getText(formData: FormData, key: string): string {
   return typeof v === "string" ? v : "";
 }
 
+function parseSkillIdsFromFormData(formData: FormData): number[] {
+  const seen = new Set<number>();
+  const out: number[] = [];
+  for (const v of formData.getAll("skillIds")) {
+    if (typeof v !== "string") continue;
+    const n = Number(v);
+    if (!Number.isInteger(n) || n <= 0) continue;
+    if (seen.has(n)) continue;
+    seen.add(n);
+    out.push(n);
+  }
+  return out;
+}
+
 const optionalHttpUrl = z
   .union([z.literal(""), z.string().url()])
   .transform((v) => (v === "" ? null : v));
@@ -70,6 +84,7 @@ export async function createProjectAction(
 
   const detail = parseProjectDetailRepeaterFields(formData);
   const gallery = parseProjectGalleryFromForm(formData, "create");
+  const skillIds = parseSkillIdsFromFormData(formData);
 
   const fileField = formData.get("featuredImageFile");
   const fileOk = fileField instanceof File && fileField.size > 0;
@@ -98,6 +113,20 @@ export async function createProjectAction(
     }
 
     return { ok: false, fieldErrors, formError };
+  }
+
+  if (skillIds.length > 0) {
+    const found = await prisma.technicalSkill.findMany({
+      where: { id: { in: skillIds } },
+      select: { id: true },
+    });
+    if (found.length !== skillIds.length) {
+      return {
+        ok: false,
+        fieldErrors: { skillIds: ["One or more selected skills no longer exist."] },
+        formError: "Fix the highlighted fields and try again.",
+      };
+    }
   }
 
   const blob = await uploadFeaturedImageToBlob(fileField);
@@ -154,6 +183,16 @@ export async function createProjectAction(
             sortOrder,
           })),
         },
+        ...(skillIds.length > 0
+          ? {
+              projectTechnicalSkills: {
+                create: skillIds.map((technicalSkillId, displayOrder) => ({
+                  technicalSkillId,
+                  displayOrder,
+                })),
+              },
+            }
+          : {}),
         ...(galleryCreates.length > 0 ? { images: { create: galleryCreates } } : {}),
       },
     });
