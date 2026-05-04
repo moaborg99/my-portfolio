@@ -1,13 +1,22 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { Suspense } from "react";
+
 import { buttonClassName } from "@/components/ui/Button";
 import { TextColumnGrid } from "@/components/blocks/TextColumnGrid";
+import { FeaturedProjects, FeaturedProjectsSkeleton } from "@/components/blocks/FeaturedProjects";
 import { getGroupedTechStack } from "@/lib/tech-skills";
+import {
+  PUBLIC_FEATURED_PROJECT_LIMIT,
+  getFeaturedProjectPreviews,
+} from "@/lib/projects";
 import { TechStack } from "@/components/tech/TechStack";
-import { FeaturedProjects } from "@/components/blocks/FeaturedProjects";
+import { TechStackSkeleton } from "@/components/tech/TechStackSkeleton";
 import { sitePath } from "@/lib/site-paths";
 
 export const metadata: Metadata = { title: "Om mig" };
+
+export const revalidate = 300;
 
 const HERO_SIDE_LABEL = "Kreativ · Utvecklare · Fullstack";
 
@@ -26,8 +35,17 @@ const ABOUT_INTRO_COLUMNS = [
   },
 ] as const;
 
-export default async function AboutPage() {
+async function AboutFeaturedProjectsBlock() {
+  const previews = await getFeaturedProjectPreviews(PUBLIC_FEATURED_PROJECT_LIMIT);
+  return <FeaturedProjects projects={previews} />;
+}
+
+async function AboutTechStackColumn() {
   const techStackGroups = await getGroupedTechStack();
+  return <TechStack groups={techStackGroups} />;
+}
+
+export default function AboutPage() {
   return (
     <div className="flex flex-col gap-16">
       <section
@@ -94,7 +112,9 @@ export default async function AboutPage() {
             självständigt från mockup till lanserad site.
           </p>
         </div>
-        <FeaturedProjects />
+        <Suspense fallback={<FeaturedProjectsSkeleton />}>
+          <AboutFeaturedProjectsBlock />
+        </Suspense>
       </section>
 
       <section aria-label="LIA och teknik" className="border-t border-white/10 pt-12">
@@ -132,7 +152,9 @@ export default async function AboutPage() {
 
           <div className="min-w-0 lg:w-1/2">
             <div className="lg:mt-4">
-              <TechStack groups={techStackGroups} />
+              <Suspense fallback={<TechStackSkeleton />}>
+                <AboutTechStackColumn />
+              </Suspense>
             </div>
           </div>
         </div>
@@ -140,7 +162,7 @@ export default async function AboutPage() {
 
       <section
         aria-labelledby="about-cta"
-        className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-clip bg-navy-dark text-fg border-t border-white/10 pt-12"
+        className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-clip border-t border-white/10 bg-navy-dark pt-12 text-fg"
       >
         <div className="grid min-h-[28rem] grid-cols-1 md:min-h-[min(70vh,40rem)] md:grid-cols-[44vw_minmax(0,1fr)]">
           <div className="flex min-h-[18rem] flex-row md:min-h-full">

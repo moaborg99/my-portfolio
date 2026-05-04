@@ -28,9 +28,15 @@ const EDUCATIONS = [
 type AboutIntroProps = {
   techSkills: TechStackSkill[];
   techSkillsTotal: number;
+  /** When true, eagerly loads the portrait image (e.g. home LCP). */
+  portraitImagePriority?: boolean;
 };
 
-export function AboutIntro({ techSkills, techSkillsTotal }: AboutIntroProps) {
+export function AboutIntro({
+  techSkills,
+  techSkillsTotal,
+  portraitImagePriority = false,
+}: AboutIntroProps) {
   return (
     <section className="border-b border-white/10 py-12 md:py-16 lg:py-20">
       <div className="container mx-auto max-w-7xl">
@@ -41,6 +47,7 @@ export function AboutIntro({ techSkills, techSkillsTotal }: AboutIntroProps) {
                 src="/about-cta.jpg"
                 alt="Porträtt av Moa Borg"
                 fill
+                priority={portraitImagePriority}
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                 sizes="(max-width: 1024px) 100vw, 40vw"
               />
@@ -122,6 +129,42 @@ export function AboutIntro({ techSkills, techSkillsTotal }: AboutIntroProps) {
                 className="transition-transform duration-200 ease-out group-hover:translate-x-1.5"
               />
             </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** Layout-safe placeholder while tech stack loads for the home AboutIntro block. */
+export function AboutIntroSkeleton() {
+  return (
+    <section
+      className="border-b border-white/10 py-12 md:py-16 lg:py-20"
+      aria-busy="true"
+      aria-label="Läser in innehåll"
+    >
+      <div className="container mx-auto max-w-7xl">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:items-stretch">
+          <div className="flex flex-col gap-6 lg:col-span-2">
+            <div className="min-h-[248px] flex-1 animate-pulse rounded-3xl border border-white/10 bg-navy-light/30" />
+            <div className="h-48 shrink-0 animate-pulse rounded-2xl border border-white/10 bg-navy-light/25 md:h-52" />
+          </div>
+          <div className="lg:col-span-3">
+            <div className="min-h-[28rem] animate-pulse rounded-3xl border border-white/10 bg-navy-light/20 p-8 md:p-10">
+              <div className="h-4 w-24 rounded bg-white/10" />
+              <div className="mt-10 h-10 w-2/3 max-w-sm rounded bg-white/10" />
+              <div className="mt-8 space-y-3">
+                <div className="h-4 w-full rounded bg-white/10" />
+                <div className="h-4 w-full rounded bg-white/10" />
+                <div className="h-4 w-4/5 rounded bg-white/10" />
+              </div>
+              <div className="mt-8 flex flex-wrap gap-2">
+                <div className="h-8 w-16 rounded-full bg-white/10" />
+                <div className="h-8 w-24 rounded-full bg-white/10" />
+                <div className="h-8 w-20 rounded-full bg-white/10" />
+              </div>
+            </div>
           </div>
         </div>
       </div>

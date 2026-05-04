@@ -138,7 +138,7 @@ export function CarouselPrevious({ className, ...props }: React.ComponentProps<"
       type="button"
       aria-label="Föregående bild"
       className={[
-        "absolute z-10 inline-flex size-9 items-center justify-center rounded-full border border-white/20 bg-navy-dark/80 text-fg transition hover:border-turquoise/50 hover:text-turquoise disabled:opacity-40",
+        "absolute z-10 inline-flex size-11 min-h-[44px] min-w-[44px] touch-manipulation items-center justify-center rounded-full border border-white/20 bg-navy-dark/80 text-fg transition hover:border-turquoise/50 hover:text-turquoise disabled:opacity-40",
         orientation === "horizontal"
           ? "left-2 top-1/2 -translate-y-1/2"
           : "left-1/2 top-2 -translate-x-1/2 rotate-90",
@@ -163,7 +163,7 @@ export function CarouselNext({ className, ...props }: React.ComponentProps<"butt
       type="button"
       aria-label="Nästa bild"
       className={[
-        "absolute z-10 inline-flex size-9 items-center justify-center rounded-full border border-white/20 bg-navy-dark/80 text-fg transition hover:border-turquoise/50 hover:text-turquoise disabled:opacity-40",
+        "absolute z-10 inline-flex size-11 min-h-[44px] min-w-[44px] touch-manipulation items-center justify-center rounded-full border border-white/20 bg-navy-dark/80 text-fg transition hover:border-turquoise/50 hover:text-turquoise disabled:opacity-40",
         orientation === "horizontal"
           ? "right-2 top-1/2 -translate-y-1/2"
           : "bottom-2 left-1/2 -translate-x-1/2 rotate-90",

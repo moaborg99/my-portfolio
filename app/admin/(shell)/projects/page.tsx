@@ -3,11 +3,11 @@ import Link from "next/link";
 import { DeleteProjectForm } from "@/components/admin/DeleteProjectForm";
 import { buttonClassName } from "@/components/ui/Button";
 import { NavLink } from "@/components/ui/NavLink";
-import { getProjects } from "@/lib/projects";
+import { getAdminProjectList } from "@/lib/projects";
 import { sitePath } from "@/lib/site-paths";
 
 export default async function AdminProjectsListPage() {
-  const projects = await getProjects();
+  const projects = await getAdminProjectList();
 
   return (
     <section className="space-y-4">

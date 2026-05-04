@@ -2,12 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { TechPill } from "@/components/tech/TechPill";
-import type { Project } from "@/types/projects";
+import type { ProjectSummary } from "@/types/projects";
 import { sitePath } from "@/lib/site-paths";
 
 const MAX_SKILLS_ON_CARD = 3;
 
-export default function ProjectCard({ project }: { project: Project }) {
+export default function ProjectCard({ project }: { project: ProjectSummary }) {
   const skills = project.skills;
   const visible = skills.slice(0, MAX_SKILLS_ON_CARD);
   const extraCount = skills.length > MAX_SKILLS_ON_CARD ? skills.length - MAX_SKILLS_ON_CARD : 0;

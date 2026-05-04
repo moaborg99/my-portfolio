@@ -47,3 +47,15 @@ export type Project = {
   techDetails: DetailItem[];
   learnings: ProjectLearningBullet[];
 };
+
+/** Listing cards — avoids loading gallery, case study blobs, etc. */
+export type ProjectSummary = Pick<
+  Project,
+  "id" | "slug" | "title" | "summary" | "featuredImage" | "skills"
+>;
+
+/** Featured strip only — no skill join or id (carousel does not show pills). */
+export type FeaturedProjectPreview = Pick<Project, "slug" | "title" | "summary" | "featuredImage">;
+
+/** Admin projects table — identifiers and title only. */
+export type AdminProjectListItem = Pick<Project, "id" | "slug" | "title">;

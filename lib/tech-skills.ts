@@ -1,10 +1,17 @@
+import { cache } from "react";
 import { prisma } from "@/lib/prisma";
 import type { TechnicalSkillListItem } from "@/types/technical-skill";
 import type { TechStackGroup } from "@/types/tech-stack";
 import type { TechStackGroupListItem } from "@/types/tech-stack-group";
 
-export async function getGroupedTechStack(): Promise<TechStackGroup[]> {
-  const rows = await prisma.technicalSkill.findMany({ include: { group: true } });
+async function loadGroupedTechStack(): Promise<TechStackGroup[]> {
+  const rows = await prisma.technicalSkill.findMany({
+    select: {
+      name: true,
+      slug: true,
+      group: { select: { name: true } },
+    },
+  });
 
   const byGroup = new Map<string, { name: string; slug: string }[]>();
 
@@ -26,8 +33,16 @@ export async function getGroupedTechStack(): Promise<TechStackGroup[]> {
   }));
 }
 
-export async function getAllTechnicalSkills(): Promise<TechnicalSkillListItem[]> {
-  const rows = await prisma.technicalSkill.findMany({ include: { group: true } });
+async function loadAllTechnicalSkills(): Promise<TechnicalSkillListItem[]> {
+  const rows = await prisma.technicalSkill.findMany({
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      groupId: true,
+      group: { select: { name: true } },
+    },
+  });
 
   const compare = (a: { group: { name: string }; name: string }, b: typeof a) => {
     const g = a.group.name.localeCompare(b.group.name, "sv");
@@ -44,7 +59,7 @@ export async function getAllTechnicalSkills(): Promise<TechnicalSkillListItem[]>
   }));
 }
 
-export async function getTechnicalSkillBySlug(
+async function loadTechnicalSkillBySlug(
   slug: string
 ): Promise<TechnicalSkillListItem | undefined> {
   const clean = typeof slug === "string" ? slug.trim() : "";
@@ -52,7 +67,13 @@ export async function getTechnicalSkillBySlug(
 
   const row = await prisma.technicalSkill.findUnique({
     where: { slug: clean },
-    include: { group: true },
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      groupId: true,
+      group: { select: { name: true } },
+    },
   });
 
   if (!row) return undefined;
@@ -66,20 +87,31 @@ export async function getTechnicalSkillBySlug(
   };
 }
 
-export async function getAllTechStackGroups(): Promise<TechStackGroupListItem[]> {
-  const rows = await prisma.techStackGroup.findMany();
+async function loadAllTechStackGroups(): Promise<TechStackGroupListItem[]> {
+  const rows = await prisma.techStackGroup.findMany({
+    select: { id: true, name: true, slug: true },
+  });
   return [...rows]
     .sort((a, b) => a.name.localeCompare(b.name, "sv"))
     .map((r) => ({ id: r.id, name: r.name, slug: r.slug }));
 }
 
-export async function getTechStackGroupBySlug(
+async function loadTechStackGroupBySlug(
   slug: string
 ): Promise<TechStackGroupListItem | undefined> {
   const clean = typeof slug === "string" ? slug.trim() : "";
   if (clean === "") return undefined;
 
-  const row = await prisma.techStackGroup.findUnique({ where: { slug: clean } });
+  const row = await prisma.techStackGroup.findUnique({
+    where: { slug: clean },
+    select: { id: true, name: true, slug: true },
+  });
   if (!row) return undefined;
-  return { id: row.id, name: row.name, slug: row.slug };
+  return row;
 }
+
+export const getGroupedTechStack = cache(loadGroupedTechStack);
+export const getAllTechnicalSkills = cache(loadAllTechnicalSkills);
+export const getTechnicalSkillBySlug = cache(loadTechnicalSkillBySlug);
+export const getAllTechStackGroups = cache(loadAllTechStackGroups);
+export const getTechStackGroupBySlug = cache(loadTechStackGroupBySlug);

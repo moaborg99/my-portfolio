@@ -13,11 +13,11 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/Carousel";
-import type { Project } from "@/types/projects";
+import type { FeaturedProjectPreview } from "@/types/projects";
 import { sitePath } from "@/lib/site-paths";
 
 type FeaturedProjectsCarouselProps = {
-  projects: Project[];
+  projects: FeaturedProjectPreview[];
 };
 
 export function FeaturedProjectsCarousel({ projects }: FeaturedProjectsCarouselProps) {
@@ -97,15 +97,20 @@ export function FeaturedProjectsCarousel({ projects }: FeaturedProjectsCarouselP
             key={project.slug}
             type="button"
             onClick={() => api?.scrollTo(index)}
-            className={[
-              "h-2 rounded-full transition-all",
-              current === index ? "w-8 bg-turquoise" : "w-2 bg-fg-muted/50 hover:bg-fg-muted",
-            ].join(" ")}
+            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border-0 bg-transparent p-0 touch-manipulation"
             role="tab"
             aria-selected={current === index}
             aria-label={`Gå till ${project.title}`}
             aria-controls={`featured-carousel-item-${index}`}
-          />
+          >
+            <span
+              className={[
+                "block h-2 rounded-full transition-all",
+                current === index ? "w-8 bg-turquoise" : "w-2 bg-fg-muted/50 hover:bg-fg-muted",
+              ].join(" ")}
+              aria-hidden
+            />
+          </button>
         ))}
       </div>
     </div>

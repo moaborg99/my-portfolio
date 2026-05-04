@@ -31,6 +31,7 @@ export function Hero() {
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
             href={sitePath.projects}
+            prefetch
             className={`${buttonClassName("primary")} group inline-flex items-center gap-2`}
           >
             Mina projekt
@@ -43,6 +44,7 @@ export function Hero() {
 
           <Link
             href={sitePath.contact}
+            prefetch
             className={`${buttonClassName("secondary")} inline-flex items-center gap-2`}
           >
             Kontakta mig

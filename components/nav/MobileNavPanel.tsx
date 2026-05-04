@@ -56,6 +56,7 @@ export function MobileNavPanel({ id, open, onClose }: MobileNavPanelProps) {
               <li key={href}>
                 <Link
                   href={href}
+                  prefetch
                   className="block py-7 text-3xl font-semibold leading-none tracking-tight text-fg transition-colors hover:text-turquoise sm:py-8 sm:text-4xl"
                   onClick={onClose}
                 >

@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { ProjectDetail } from "@/components/projects/ProjectDetail";
 import { getProjectBySlug } from "@/lib/projects";
 
+export const revalidate = 300;
+
 export async function generateMetadata({
   params,
 }: {

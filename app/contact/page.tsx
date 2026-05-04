@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   description: "Kontakta Moa Borg.",
 };
 
+export const revalidate = 300;
+
 export default function ContactPage() {
   return (
     <section aria-labelledby="contact-heading">
