@@ -28,7 +28,6 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
   if (!project) notFound();
 
-  const previewStubHeroLinks = true;
   const usePlaceholderCaseStudy =
     project.techDetails.length === 0 && project.learnings.length === 0;
 
@@ -48,7 +47,6 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       learnings={project.learnings}
       usePlaceholderCaseStudy={usePlaceholderCaseStudy}
       backLabel="Tillbaka till projekt"
-      showStubActionLinks={previewStubHeroLinks}
     />
   );
 }
