@@ -14,17 +14,17 @@ export async function logout() {
   redirect("/admin/login");
 }
 
-/** DELETE via form POST: fields `slug` (required). */
-export async function deleteProject(formData: FormData) {
-  const raw = formData.get("slug");
-  if (typeof raw !== "string" || raw.trim() === "") {
+/** DELETE via form POST: slug passed from `action={deleteProject.bind(null, slug)}`. */
+export async function deleteProject(slug: string, formData: FormData) {
+  void formData;
+
+  const clean = typeof slug === "string" ? slug.trim() : "";
+  if (clean === "") {
     redirect("/admin");
   }
 
-  const slug = raw.trim();
-
   try {
-    await prisma.project.deleteMany({ where: { slug } });
+    await prisma.project.deleteMany({ where: { slug: clean } });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       redirect("/admin");
@@ -33,7 +33,7 @@ export async function deleteProject(formData: FormData) {
   }
 
   revalidatePath("/projects");
-  revalidatePath(`/projects/${slug}`);
+  revalidatePath(`/projects/${clean}`);
   revalidatePath("/");
   revalidatePath("/admin");
 

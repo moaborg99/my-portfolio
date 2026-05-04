@@ -1,10 +1,12 @@
 "use server";
 
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { uploadFeaturedImageToBlob } from "@/lib/featured-image";
+import { parseProjectDetailRepeaterFields } from "@/lib/project-detail-from-form";
 import { prisma } from "@/lib/prisma";
 
 function getText(formData: FormData, key: string): string {
@@ -47,14 +49,24 @@ export async function updateProjectAction(
     videoUrl: getText(formData, "videoUrl"),
   });
 
-  if (!parsed.success) {
-    const flat = parsed.error.flatten();
+  const detail = parseProjectDetailRepeaterFields(formData);
+
+  if (!parsed.success || !detail.ok) {
+    const fieldErrors: Record<string, string[] | undefined> = {};
+    if (!parsed.success) {
+      Object.assign(fieldErrors, parsed.error.flatten().fieldErrors);
+    }
+    if (!detail.ok) {
+      Object.assign(fieldErrors, detail.fieldErrors);
+    }
+
+    const flat = parsed.success ? null : parsed.error.flatten();
 
     return {
       ok: false,
-      fieldErrors: flat.fieldErrors,
+      fieldErrors,
       formError:
-        flat.formErrors.length > 0
+        flat && flat.formErrors.length > 0
           ? flat.formErrors.join(" ")
           : "Fix the highlighted fields and try again.",
     };
@@ -81,13 +93,47 @@ export async function updateProjectAction(
     featuredImage = blob.url;
   }
 
-  await prisma.project.update({
-    where: { slug },
-    data: {
-      ...scalarData,
-      featuredImage,
-    },
-  });
+  try {
+    await prisma.$transaction(async (tx) => {
+      await tx.projectTechUsageItem.deleteMany({ where: { projectId: existing.id } });
+      await tx.projectLearningItem.deleteMany({ where: { projectId: existing.id } });
+
+      if (detail.techUsageItems.length > 0) {
+        await tx.projectTechUsageItem.createMany({
+          data: detail.techUsageItems.map((item, sortOrder) => ({
+            projectId: existing.id,
+            techName: item.techName,
+            usage: item.usage,
+            sortOrder,
+          })),
+        });
+      }
+
+      if (detail.learningItems.length > 0) {
+        await tx.projectLearningItem.createMany({
+          data: detail.learningItems.map((item, sortOrder) => ({
+            projectId: existing.id,
+            title: item.title,
+            description: item.description,
+            sortOrder,
+          })),
+        });
+      }
+
+      await tx.project.update({
+        where: { slug },
+        data: {
+          ...scalarData,
+          featuredImage,
+        },
+      });
+    });
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      return { ok: false, formError: "Could not save project. Try again." };
+    }
+    throw e;
+  }
 
   revalidatePath("/projects");
   revalidatePath(`/projects/${slug}`);

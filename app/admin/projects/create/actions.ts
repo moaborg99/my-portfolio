@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { uploadFeaturedImageToBlob } from "@/lib/featured-image";
+import { parseProjectDetailRepeaterFields } from "@/lib/project-detail-from-form";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slugify";
 
@@ -66,13 +67,18 @@ export async function createProjectAction(
     videoUrl: getText(formData, "videoUrl"),
   });
 
+  const detail = parseProjectDetailRepeaterFields(formData);
+
   const fileField = formData.get("featuredImageFile");
   const fileOk = fileField instanceof File && fileField.size > 0;
 
-  if (!parsed.success || !fileOk) {
+  if (!parsed.success || !detail.ok || !fileOk) {
     const fieldErrors: Record<string, string[] | undefined> = {};
     if (!parsed.success) {
       Object.assign(fieldErrors, parsed.error.flatten().fieldErrors);
+    }
+    if (!detail.ok) {
+      Object.assign(fieldErrors, detail.fieldErrors);
     }
     if (!fileOk) {
       fieldErrors.featuredImageFile = ["Choose an image file (JPEG, PNG, WebP, or GIF)."];
@@ -111,6 +117,20 @@ export async function createProjectAction(
         slug,
         featuredImage: blob.url,
         ...parsed.data,
+        techUsageItems: {
+          create: detail.techUsageItems.map((item, sortOrder) => ({
+            techName: item.techName,
+            usage: item.usage,
+            sortOrder,
+          })),
+        },
+        learningItems: {
+          create: detail.learningItems.map((item, sortOrder) => ({
+            title: item.title,
+            description: item.description,
+            sortOrder,
+          })),
+        },
       },
     });
   } catch (e) {
