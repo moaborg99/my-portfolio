@@ -8,11 +8,12 @@ export default function AdminCreateProjectPage() {
         <NavLink href="/admin" leadingArrow className="text-sm">
           Alla projekt
         </NavLink>
-        <h1 className="mt-4 h2">Skapa projekt</h1>
-        <p className="mt-1 text-sm text-fg-muted">
-          Lägger till ett nytt projekt i databasen. Galleri och tekniker läggs till senare.
-        </p>
       </div>
+      <header>
+        <h1 className="text-2xl font-bold tracking-tight text-fg sm:text-3xl">
+          Skapa nytt projekt
+        </h1>
+      </header>
       <CreateProjectForm />
     </section>
   );

@@ -19,9 +19,11 @@ export default async function AdminEditProjectPage({ params }: PageProps) {
         <NavLink href="/admin" leadingArrow className="text-sm">
           Alla projekt
         </NavLink>
-        <h1 className="mt-4 h2">Redigera projekt</h1>
-        <p className="mt-1 text-fg-muted">Redigera projektet {project.title}.</p>
       </div>
+      <header>
+        <h1 className="text-2xl font-bold tracking-tight text-fg sm:text-3xl">Redigera projekt</h1>
+        <p className="mt-1 text-sm text-fg-muted">{project.title}</p>
+      </header>
       <EditProjectForm project={project} />
     </section>
   );

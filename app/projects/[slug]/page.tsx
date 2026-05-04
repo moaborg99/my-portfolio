@@ -28,8 +28,9 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
   if (!project) notFound();
 
-  // Set false when seeds/DB populate deploy, GitHub and video URLs.
   const previewStubHeroLinks = true;
+  const usePlaceholderCaseStudy =
+    project.techDetails.length === 0 && project.learnings.length === 0;
 
   return (
     <ProjectDetail
@@ -43,6 +44,9 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       videoUrl={project.videoUrl}
       images={project.images}
       skills={project.skills.map((s) => s.name)}
+      techDetails={project.techDetails}
+      learnings={project.learnings}
+      usePlaceholderCaseStudy={usePlaceholderCaseStudy}
       backLabel="Tillbaka till projekt"
       showStubActionLinks={previewStubHeroLinks}
     />
