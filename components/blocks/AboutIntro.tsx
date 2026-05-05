@@ -48,6 +48,7 @@ export function AboutIntro({
                 alt="Porträtt av Moa Borg"
                 fill
                 priority={portraitImagePriority}
+                fetchPriority={portraitImagePriority ? "high" : "auto"}
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                 sizes="(max-width: 1024px) 100vw, 40vw"
               />

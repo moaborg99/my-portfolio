@@ -47,12 +47,7 @@ export type ProjectDetailProps = {
   skills: string[];
   techDetails?: DetailItem[];
   learnings?: ProjectDetailLearning[];
-  /** When true and CMS arrays are empty, show neutral placeholder copy for the case-study sections */
   usePlaceholderCaseStudy?: boolean;
-  /**
-   * When true, any missing deploy/github/video URL still renders that hero button using a stub link
-   * so you can tune layout. Turn off when publishing.
-   */
   showStubActionLinks?: boolean;
   backHref?: string;
   backLabel?: string;
@@ -97,7 +92,15 @@ export function ProjectDetail({
     <article className="pb-20">
       <header className="relative ml-[calc(50%-50vw)] w-screen max-w-[100vw] overflow-x-clip">
         <div className="relative min-h-[min(72vh,52rem)] w-full md:min-h-[min(76vh,56rem)]">
-          <Image src={featuredImage} alt="" fill priority sizes="100vw" className="object-cover" />
+          <Image
+            src={featuredImage}
+            alt={`Utvald projektbild: ${title}`}
+            fill
+            priority
+            fetchPriority="high"
+            sizes="100vw"
+            className="object-cover"
+          />
           <div
             className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[var(--palette-navy-dark)]/18 via-transparent to-transparent"
             aria-hidden

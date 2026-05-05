@@ -35,6 +35,7 @@ export default function ContactPage() {
             width={900}
             height={1125}
             priority
+            fetchPriority="high"
             className="h-auto w-full object-cover"
             sizes="(max-width: 1024px) 100vw, 50vw"
           />
