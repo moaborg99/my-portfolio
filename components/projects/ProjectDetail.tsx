@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Code, ExternalLink, GitBranch, Play } from "lucide-react";
 
 import { TextColumnGrid } from "@/components/blocks/TextColumnGrid";
@@ -22,6 +23,8 @@ import { DetailItemList } from "./DetailItemList";
 const STUB_DEPLOY_URL = "https://example.com";
 const STUB_GITHUB_URL = "https://github.com";
 const STUB_VIDEO_URL = "https://example.com";
+const GALLERY_THUMB_QUALITY = 72;
+const LIGHTBOX_IMAGE_QUALITY = 90;
 
 export type ProjectDetailImage = {
   src: string;
@@ -72,10 +75,12 @@ export function ProjectDetail({
   backLabel = "Tillbaka till projekt",
 }: ProjectDetailProps) {
   const sortedImages = [...images].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
   const effectiveDeployUrl = deployUrl ?? (showStubActionLinks ? STUB_DEPLOY_URL : null);
   const effectiveGithubUrl = githubUrl ?? (showStubActionLinks ? STUB_GITHUB_URL : null);
   const effectiveVideoUrl = videoUrl ?? (showStubActionLinks ? STUB_VIDEO_URL : null);
+  const selectedImage = selectedImageIndex === null ? null : sortedImages[selectedImageIndex];
 
   const resolvedTechDetails =
     techDetails.length > 0
@@ -88,6 +93,24 @@ export function ProjectDetail({
 
   const hasHeroActions = Boolean(effectiveDeployUrl || effectiveGithubUrl || effectiveVideoUrl);
 
+  useEffect(() => {
+    if (selectedImageIndex === null) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelectedImageIndex(null);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [selectedImageIndex]);
+
+  useEffect(() => {
+    if (selectedImageIndex === null) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [selectedImageIndex]);
+
   return (
     <article className="pb-20">
       <header className="relative ml-[calc(50%-50vw)] w-screen max-w-[100vw] overflow-x-clip">
@@ -99,17 +122,13 @@ export function ProjectDetail({
             priority
             fetchPriority="high"
             sizes="100vw"
-            className="object-cover"
+            quality={90}
+            className="object-cover object-center"
           />
           <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[var(--palette-navy-dark)]/18 via-transparent to-transparent"
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-t from-[var(--background)]/88 via-[var(--background)]/26 to-transparent md:h-44"
             aria-hidden
           />
-          <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--background)] from-0% via-navy-dark/32 via-[38%] to-transparent"
-            aria-hidden
-          />
-
           <NavLink
             href={backHref}
             leadingArrow
@@ -117,8 +136,6 @@ export function ProjectDetail({
           >
             {backLabel}
           </NavLink>
-
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-[var(--background)] from-0% via-[var(--background)]/32 via-[45%] to-transparent pt-36 pb-0 md:pt-44 md:pb-4" />
 
           <div className="absolute inset-x-0 bottom-0 z-20 pb-12 pt-36 md:pb-14 md:pt-44">
             <div className="container px-[var(--container-padding-x)]">
@@ -241,28 +258,72 @@ export function ProjectDetail({
               Galleri
             </h2>
             <ul className="mx-auto grid w-full list-none grid-cols-1 gap-4 p-0 sm:gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-7">
-              {sortedImages.map((image) => (
+              {sortedImages.map((image, index) => (
                 <li key={`${image.src}-${image.sortOrder ?? 0}`} className="min-w-0 list-none">
-                  <figure className="group m-0 w-full overflow-hidden rounded-2xl border border-white/10 bg-navy-light/25 shadow-sm shadow-black/20">
-                    <div
-                      className="relative w-full min-w-0 overflow-hidden"
-                      style={{ aspectRatio: "4 / 3" }}
-                    >
-                      <Image
-                        src={image.src}
-                        alt={image.alt || `${title} — galleri`}
-                        fill
-                        sizes="(max-width: 767px) 92vw, (max-width: 1023px) 46vw, 32vw"
-                        className="object-cover transition-transform duration-300 ease-out motion-reduce:transition-none lg:group-hover:scale-[1.03]"
-                      />
-                    </div>
-                  </figure>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedImageIndex(index)}
+                    className="group block w-full rounded-2xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-turquoise/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
+                    aria-label={`Öppna bild ${index + 1} i större vy`}
+                  >
+                    <figure className="m-0 w-full overflow-hidden rounded-2xl border border-white/10 bg-navy-light/25 shadow-sm shadow-black/20">
+                      <div
+                        className="relative w-full min-w-0 overflow-hidden"
+                        style={{ aspectRatio: "16 / 9" }}
+                      >
+                        <Image
+                          src={image.src}
+                          alt={image.alt || `${title} — galleri`}
+                          fill
+                          sizes="(max-width: 767px) 92vw, (max-width: 1023px) 46vw, 32vw"
+                          quality={GALLERY_THUMB_QUALITY}
+                          className="object-cover transition-transform duration-300 ease-out motion-reduce:transition-none lg:group-hover:scale-[1.03]"
+                        />
+                      </div>
+                    </figure>
+                  </button>
                 </li>
               ))}
             </ul>
           </section>
         ) : null}
       </div>
+
+      {selectedImage ? (
+        <div
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-navy-dark/90 p-4 md:p-8"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Förstorad galleribild"
+          onClick={() => setSelectedImageIndex(null)}
+        >
+          <div
+            className="relative w-full max-w-6xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setSelectedImageIndex(null)}
+              className="absolute right-2 top-2 z-10 rounded-md bg-navy-dark/80 px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-navy-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-turquoise/60 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-dark"
+              aria-label="Stäng förstorad bild"
+            >
+              Stäng
+            </button>
+            <div className="relative mx-auto max-h-[85vh] w-full overflow-hidden rounded-xl border border-white/15 bg-black/40">
+              <div className="relative h-[min(85vh,56.25vw)] w-full max-h-[85vh]">
+                <Image
+                  src={selectedImage.src}
+                  alt={selectedImage.alt || `${title} — galleri`}
+                  fill
+                  sizes="100vw"
+                  quality={LIGHTBOX_IMAGE_QUALITY}
+                  className="object-contain"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </article>
   );
 }
