@@ -48,7 +48,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       techDetails={project.techDetails}
       learnings={project.learnings}
       usePlaceholderCaseStudy={usePlaceholderCaseStudy}
-      backLabel="Tillbaka till projekt"
+      backLabel="Alla projekt"
     />
   );
 }

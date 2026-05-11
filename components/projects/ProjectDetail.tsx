@@ -3,12 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Code, ExternalLink, GitBranch, Play } from "lucide-react";
+import { ArrowLeft, Code, ExternalLink, GitBranch, Play } from "lucide-react";
 
 import { TextColumnGrid } from "@/components/blocks/TextColumnGrid";
 import { TechPill } from "@/components/tech/TechPill";
 import { buttonClassName } from "@/components/ui/Button";
-import { NavLink } from "@/components/ui/NavLink";
 import {
   PROJECT_LEARNINGS_FALLBACK,
   PROJECT_TECH_DETAILS_FALLBACK,
@@ -72,7 +71,7 @@ export function ProjectDetail({
   usePlaceholderCaseStudy = true,
   showStubActionLinks = false,
   backHref = sitePath.projects,
-  backLabel = "Tillbaka till projekt",
+  backLabel = "Alla projekt",
 }: ProjectDetailProps) {
   const sortedImages = [...images].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
@@ -125,22 +124,36 @@ export function ProjectDetail({
             quality={90}
             className="object-cover object-center"
           />
+
           <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-t from-[var(--background)]/88 via-[var(--background)]/26 to-transparent md:h-44"
+            className="pointer-events-none absolute inset-0 z-[1] bg-black/22 md:bg-black/18"
             aria-hidden
           />
-          <NavLink
+          <div
+            className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-36 bg-gradient-to-b from-black/65 to-transparent md:h-44 md:from-black/55"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-[min(70vh,36rem)] bg-gradient-to-t from-[var(--background)]/96 via-black/42 to-transparent md:h-[min(72vh,40rem)]"
+            aria-hidden
+          />
+          <Link
             href={backHref}
-            leadingArrow
-            className="absolute left-[max(var(--container-padding-x),calc((100vw-var(--container-max-width))/2+var(--container-padding-x)))] top-7 z-20 text-[0.8125rem] font-semibold !text-white hover:!text-white/88 focus-visible:!text-white [&_svg]:!text-current drop-shadow-[0_1px_3px_rgb(0_0_0/0.75)] md:text-sm"
+            className={[
+              buttonClassName("secondary"),
+              "absolute left-[max(var(--container-padding-x),calc((100vw-var(--container-max-width))/2+var(--container-padding-x)))] top-7 z-20 gap-2 [&_svg]:size-4",
+            ].join(" ")}
           >
+            <ArrowLeft aria-hidden />
             {backLabel}
-          </NavLink>
+          </Link>
 
           <div className="absolute inset-x-0 bottom-0 z-20 pb-12 pt-36 md:pb-14 md:pt-44">
             <div className="container px-[var(--container-padding-x)]">
-              <h1 className="max-w-full text-pretty text-white md:max-w-4xl">{title}</h1>
-              <p className="mt-4 max-w-2xl text-pretty leading-relaxed text-white/82 md:text-lg">
+              <h1 className="max-w-full text-pretty text-white [text-shadow:0_1px_2px_rgb(0_0_0/0.75),0_0_28px_rgb(0_0_0/0.45)] md:max-w-4xl">
+                {title}
+              </h1>
+              <p className="mt-4 max-w-2xl text-pretty leading-relaxed text-white/90 [text-shadow:0_1px_2px_rgb(0_0_0/0.7),0_0_20px_rgb(0_0_0/0.4)] md:text-lg">
                 {summary}
               </p>
 
@@ -297,10 +310,7 @@ export function ProjectDetail({
           aria-label="Förstorad galleribild"
           onClick={() => setSelectedImageIndex(null)}
         >
-          <div
-            className="relative w-full max-w-6xl"
-            onClick={(event) => event.stopPropagation()}
-          >
+          <div className="relative w-full max-w-6xl" onClick={(event) => event.stopPropagation()}>
             <button
               type="button"
               onClick={() => setSelectedImageIndex(null)}
