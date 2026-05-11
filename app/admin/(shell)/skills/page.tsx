@@ -31,8 +31,7 @@ export default async function AdminSkillsListPage() {
               <div className="min-w-0">
                 <p className="font-medium text-fg">{skill.name}</p>
                 <p className="text-fg-muted">
-                  {skill.group} · /
-                  <span className="font-mono text-fg-muted-50">{skill.slug}</span>
+                  {skill.group} · /<span className="font-mono text-fg-muted-50">{skill.slug}</span>
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-6">

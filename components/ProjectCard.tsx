@@ -41,7 +41,9 @@ export default function ProjectCard({ project }: { project: ProjectSummary }) {
               className="inline-flex"
               aria-label={`${extraCount} ytterligare ${extraCount === 1 ? "teknik" : "tekniker"}`}
             >
-              <TechPill onMedia compact>+{extraCount}</TechPill>
+              <TechPill onMedia compact>
+                +{extraCount}
+              </TechPill>
             </span>
           ) : null}
         </div>

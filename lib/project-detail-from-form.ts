@@ -38,7 +38,8 @@ export function parseProjectDetailRepeaterFields(formData: FormData): ParsedRepe
       continue;
     }
     if (techName === "" || usage === "") {
-      if (techName === "") fieldErrors[tn] = ["Tekniknamn krävs när användningsbeskrivning är ifylld."];
+      if (techName === "")
+        fieldErrors[tn] = ["Tekniknamn krävs när användningsbeskrivning är ifylld."];
       if (usage === "")
         fieldErrors[tu] = ["Användningsbeskrivning krävs när tekniknamn är ifyllt."];
       ti += 1;

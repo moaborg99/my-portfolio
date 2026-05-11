@@ -2,10 +2,7 @@
 
 import type { ProjectFormFieldErrors } from "@/components/admin/ProjectFormTypes";
 import { DarkFormMultiPicklist } from "@/components/ui/DarkFormMultiPicklist";
-import {
-  formFieldErrorMessage,
-  formSectionCardClassName,
-} from "@/components/ui/FormField";
+import { formFieldErrorMessage, formSectionCardClassName } from "@/components/ui/FormField";
 import type { TechnicalSkillListItem } from "@/types/technical-skill";
 
 type ProjectFormSkillsSectionProps = {
@@ -27,10 +24,7 @@ export function ProjectFormSkillsSection({
 
   return (
     <section className={formSectionCardClassName} aria-labelledby="project-skills-heading">
-      <h2
-        id="project-skills-heading"
-        className="mb-2 text-lg font-semibold tracking-tight text-fg"
-      >
+      <h2 id="project-skills-heading" className="mb-2 text-lg font-semibold tracking-tight text-fg">
         Tekniska färdigheter
       </h2>
       <p className="mb-4 text-xs leading-relaxed text-fg-muted">

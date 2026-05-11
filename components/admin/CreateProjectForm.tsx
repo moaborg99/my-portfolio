@@ -35,11 +35,7 @@ export function CreateProjectForm({ skills }: CreateProjectFormProps) {
 
       <ProjectFormMediaSection mode="create" fieldErrors={err} />
 
-      <ProjectFormActions
-        pending={pending}
-        submitLabel="Skapa projekt"
-        pendingLabel="Skapar…"
-      />
+      <ProjectFormActions pending={pending} submitLabel="Skapa projekt" pendingLabel="Skapar…" />
     </form>
   );
 }

@@ -59,9 +59,7 @@ async function loadAllTechnicalSkills(): Promise<TechnicalSkillListItem[]> {
   }));
 }
 
-async function loadTechnicalSkillBySlug(
-  slug: string
-): Promise<TechnicalSkillListItem | undefined> {
+async function loadTechnicalSkillBySlug(slug: string): Promise<TechnicalSkillListItem | undefined> {
   const clean = typeof slug === "string" ? slug.trim() : "";
   if (clean === "") return undefined;
 
@@ -96,9 +94,7 @@ async function loadAllTechStackGroups(): Promise<TechStackGroupListItem[]> {
     .map((r) => ({ id: r.id, name: r.name, slug: r.slug }));
 }
 
-async function loadTechStackGroupBySlug(
-  slug: string
-): Promise<TechStackGroupListItem | undefined> {
+async function loadTechStackGroupBySlug(slug: string): Promise<TechStackGroupListItem | undefined> {
   const clean = typeof slug === "string" ? slug.trim() : "";
   if (clean === "") return undefined;
 

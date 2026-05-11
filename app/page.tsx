@@ -1,17 +1,11 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 
-import {
-  FeaturedProjects,
-  FeaturedProjectsSkeleton,
-} from "@/components/blocks/FeaturedProjects";
+import { FeaturedProjects, FeaturedProjectsSkeleton } from "@/components/blocks/FeaturedProjects";
 import { Hero } from "@/components/blocks/Hero";
 import { AboutIntro, AboutIntroSkeleton } from "@/components/blocks/AboutIntro";
 import { getGroupedTechStack } from "@/lib/tech-skills";
-import {
-  PUBLIC_FEATURED_PROJECT_LIMIT,
-  getFeaturedProjectPreviews,
-} from "@/lib/projects";
+import { PUBLIC_FEATURED_PROJECT_LIMIT, getFeaturedProjectPreviews } from "@/lib/projects";
 
 export const metadata: Metadata = {
   title: "Start",

@@ -11,10 +11,7 @@ type PageProps = {
 
 export default async function AdminEditProjectPage({ params }: PageProps) {
   const { slug } = await params;
-  const [project, skills] = await Promise.all([
-    getProjectBySlug(slug),
-    getAllTechnicalSkills(),
-  ]);
+  const [project, skills] = await Promise.all([getProjectBySlug(slug), getAllTechnicalSkills()]);
   if (!project) notFound();
 
   return (

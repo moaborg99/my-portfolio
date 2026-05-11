@@ -54,7 +54,10 @@ export async function uploadProjectImageToBlob(
     });
     return { ok: true, url: blob.url };
   } catch {
-    return { ok: false, message: "Uppladdning misslyckades. Kontrollera BLOB_READ_WRITE_TOKEN och försök igen." };
+    return {
+      ok: false,
+      message: "Uppladdning misslyckades. Kontrollera BLOB_READ_WRITE_TOKEN och försök igen.",
+    };
   }
 }
 

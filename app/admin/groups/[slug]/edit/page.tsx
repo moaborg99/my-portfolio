@@ -23,7 +23,9 @@ export default async function AdminEditTechStackGroupPage({ params }: PageProps)
         </NavLink>
       </div>
       <header>
-        <h1 className="text-2xl font-bold tracking-tight text-fg sm:text-3xl">Redigera teknikgrupp</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-fg sm:text-3xl">
+          Redigera teknikgrupp
+        </h1>
         <p className="mt-1 text-sm text-fg-muted">{group.name}</p>
       </header>
       <EditTechStackGroupForm group={group} />

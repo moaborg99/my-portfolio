@@ -5,7 +5,13 @@ import { buttonClassName } from "@/components/ui/Button";
 const cardClassName =
   "flex h-full flex-col justify-between gap-4 rounded-lg border border-white/10 bg-navy-light/30 p-5 transition-colors hover:border-turquoise/40";
 
-const CARDS: { href: string; createHref: string; title: string; description: string; createLabel: string }[] = [
+const CARDS: {
+  href: string;
+  createHref: string;
+  title: string;
+  description: string;
+  createLabel: string;
+}[] = [
   {
     href: "/admin/projects",
     createHref: "/admin/projects/create",

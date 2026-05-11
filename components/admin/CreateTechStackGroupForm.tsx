@@ -29,17 +29,15 @@ export function CreateTechStackGroupForm() {
 
       <div className={formSectionCardClassName}>
         <div className={formFieldStackClassName}>
-          <TextField
-            name="name"
-            label="Namn"
-            required
-            error={err?.name?.[0]}
-            autoComplete="off"
-          />
+          <TextField name="name" label="Namn" required error={err?.name?.[0]} autoComplete="off" />
         </div>
       </div>
 
-      <ProjectFormActions pending={pending} submitLabel="Skapa teknikgrupp" pendingLabel="Skapar…" />
+      <ProjectFormActions
+        pending={pending}
+        submitLabel="Skapa teknikgrupp"
+        pendingLabel="Skapar…"
+      />
     </form>
   );
 }

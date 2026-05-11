@@ -6,10 +6,7 @@ import { buttonClassName } from "@/components/ui/Button";
 import { TextColumnGrid } from "@/components/blocks/TextColumnGrid";
 import { FeaturedProjects, FeaturedProjectsSkeleton } from "@/components/blocks/FeaturedProjects";
 import { getGroupedTechStack } from "@/lib/tech-skills";
-import {
-  PUBLIC_FEATURED_PROJECT_LIMIT,
-  getFeaturedProjectPreviews,
-} from "@/lib/projects";
+import { PUBLIC_FEATURED_PROJECT_LIMIT, getFeaturedProjectPreviews } from "@/lib/projects";
 import { TechStack } from "@/components/tech/TechStack";
 import { TechStackSkeleton } from "@/components/tech/TechStackSkeleton";
 import { sitePath } from "@/lib/site-paths";

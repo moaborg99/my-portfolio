@@ -18,8 +18,7 @@ import type { Project } from "@/types/projects";
 
 const FEATURED_IMAGE_ACCEPT = "image/jpeg,image/png,image/webp,image/gif";
 
-const filePickStatusClassName =
-  "min-w-0 max-w-full truncate text-sm text-fg-muted sm:max-w-md";
+const filePickStatusClassName = "min-w-0 max-w-full truncate text-sm text-fg-muted sm:max-w-md";
 
 function FeaturedImageField({
   fieldErrors,
@@ -93,7 +92,9 @@ export function ProjectFormMediaSection(props: ProjectFormMediaSectionProps) {
   return (
     <>
       <div className={formSectionCardClassName}>
-        <h2 className="mb-3 text-lg font-semibold tracking-tight text-fg sm:mb-4">Media &amp; länkar</h2>
+        <h2 className="mb-3 text-lg font-semibold tracking-tight text-fg sm:mb-4">
+          Media &amp; länkar
+        </h2>
 
         <div className={formFieldStackClassName}>
           {props.mode === "create" ? (

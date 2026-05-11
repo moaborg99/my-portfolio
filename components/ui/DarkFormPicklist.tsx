@@ -66,9 +66,7 @@ export function DarkFormPicklist({
   const [panelRect, setPanelRect] = useState<PanelRect | null>(null);
 
   const rows: DarkFormPicklistOption[] =
-    placeholder !== undefined
-      ? [{ value: "", label: placeholder }, ...options]
-      : options;
+    placeholder !== undefined ? [{ value: "", label: placeholder }, ...options] : options;
 
   const selectedLabel = rows.find((r) => r.value === value)?.label ?? placeholder ?? "—";
 
@@ -220,7 +218,10 @@ export function DarkFormPicklist({
           {selectedLabel}
         </span>
         <ChevronDown
-          className={["size-4 shrink-0 text-fg-muted transition-transform", open ? "rotate-180" : ""]
+          className={[
+            "size-4 shrink-0 text-fg-muted transition-transform",
+            open ? "rotate-180" : "",
+          ]
             .filter(Boolean)
             .join(" ")}
           aria-hidden

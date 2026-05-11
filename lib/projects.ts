@@ -113,7 +113,8 @@ async function loadProjectSummaries(): Promise<ProjectSummary[]> {
 }
 
 async function loadFeaturedProjectPreviews(limit: number): Promise<FeaturedProjectPreview[]> {
-  const safe = Number.isFinite(limit) && limit > 0 ? Math.min(limit, 50) : PUBLIC_FEATURED_PROJECT_LIMIT;
+  const safe =
+    Number.isFinite(limit) && limit > 0 ? Math.min(limit, 50) : PUBLIC_FEATURED_PROJECT_LIMIT;
 
   const rows = await prisma.project.findMany({
     orderBy: { id: "asc" },

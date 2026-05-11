@@ -35,13 +35,7 @@ export function CreateTechnicalSkillForm({ groups }: CreateTechnicalSkillFormPro
 
       <div className={formSectionCardClassName}>
         <div className={formFieldStackClassName}>
-          <TextField
-            name="name"
-            label="Namn"
-            required
-            error={err?.name?.[0]}
-            autoComplete="off"
-          />
+          <TextField name="name" label="Namn" required error={err?.name?.[0]} autoComplete="off" />
 
           <DarkFormPicklist
             name="groupId"
@@ -49,9 +43,7 @@ export function CreateTechnicalSkillForm({ groups }: CreateTechnicalSkillFormPro
             options={groups.map((g) => ({ value: String(g.id), label: g.name }))}
             defaultValue=""
             placeholder={
-              groups.length > 0
-                ? "Välj teknikgrupp…"
-                : "Inga teknikgrupper finns — skapa en först"
+              groups.length > 0 ? "Välj teknikgrupp…" : "Inga teknikgrupper finns — skapa en först"
             }
             error={err?.groupId?.[0]}
           />
