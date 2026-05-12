@@ -48,7 +48,8 @@ export default function HomePage() {
         <div className="mb-10 text-center">
           <h2 className="text-fg">Utvalda projekt</h2>
           <p className="mx-auto mt-3 max-w-2xl text-fg-muted">
-            Kika in i några av de senaste projekten
+            Kika in några av projekten jag arbetat med — från kundprojekt till moderna
+            webbapplikationer.
           </p>
         </div>
 

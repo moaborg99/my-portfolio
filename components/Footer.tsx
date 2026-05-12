@@ -10,7 +10,7 @@ export default function Footer() {
             <Link href="/" className="text-xl font-semibold text-fg">
               Moa Borg
             </Link>
-            <p className="text-base text-fg-muted">Mjukvaruutvecklare</p>
+            <p className="text-base text-fg-muted">Fullstack utvecklare</p>
           </div>
 
           <SocialLinks className="flex w-full flex-wrap items-center justify-start gap-5 md:w-auto md:self-center" />

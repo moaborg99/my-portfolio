@@ -17,15 +17,17 @@ export function Hero() {
       </div>
 
       <div className="container relative z-10 w-full py-16 text-center">
-        <p className="type-overline mx-auto text-turquoise">Lorem ipsum dolor sit amet</p>
+        <p className="type-overline mx-auto text-turquoise">FULLSTACK • FRONTEND • UX/UI</p>
 
         <h1 className="type-display mx-auto text-fg">
-          Lorem ipsum
-          <span className="mt-2 block text-turquoise">Lorem ipsum dolor sit</span>
+          Design möter
+          <span className="mt-2 block text-turquoise">modern webbutveckling</span>
         </h1>
 
         <p className="mx-auto mt-2 max-w-3xl text-fg-muted">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+          Jag är en kreativ fullstackutvecklare som bygger applikationer som känns genomtänkta,
+          responsiva och intuitiva att använda. Design möter välstrukturerad kod — med fokus på både
+          användarupplevelse och funktionalitet.
         </p>
 
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">

@@ -12,10 +12,10 @@ import { SECTION_OVERLINE_LABEL } from "@/lib/section-label";
 import { sitePath } from "@/lib/site-paths";
 
 const FUN_FACTS = [
-  "Studerat till webbutvecklare för att kombinera kreativitet, nyfikenhet och logik",
-  "Tror på starka, prestigelösa team som lyfter och utvecklas tillsammans",
-  "Flyttat från Göteborg till landet – renoverar hus själv med min sambo genom learning-by-doing",
-  "Jag älskar djur och har en hund på fem år",
+  "Renoverar hus på landet genom learning-by-doing",
+  "Drivs av nyfikenhet, kreativitet och viljan att fortsätta utvecklas",
+  "Trivs bäst i prestigelösa team där man lär sig och utvecklas tillsammans",
+  "Djurmänniska med en glad hund på fem år",
 ] as const;
 const EDUCATIONS = [
   { programme: "Frontendutvecklare (Fullstack)", school: "EC-utbildning, Väsjö (Distans)" },
@@ -81,11 +81,11 @@ export function AboutIntro({
               </div>
 
               <p className="mb-10 max-w-none text-xl leading-relaxed text-fg-muted">
-                Mitt namn är Moa och jag är en kreativ fullstack-utvecklare som ser värdet i god
-                design och solid kod. Har en bakgrund som utbildad inredare och ser stort värde i
-                god design och användarvänliga applikationer. Jag tar examen som till sommaren och
-                nu är jag redo för min första roll som utvecklare, med fina referenser från sex
-                månaders LIA i ryggen.
+                Mitt namn är Moa och jag är en fullstackutvecklare med intresse för design,
+                användarupplevelse och moderna webbapplikationer. Med bakgrund inom inredning har
+                jag med mig ett starkt öga för detaljer och uppskattar lösningar där design och
+                välstrukturerad kod arbetar tillsammans. Till sommaren tar jag examen och söker nu
+                min första roll som utvecklare, efter sex månaders LIA med fina referenser.
               </p>
 
               <div className="mb-10 space-y-6 pb-2">
