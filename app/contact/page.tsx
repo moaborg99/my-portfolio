@@ -28,7 +28,7 @@ export default function ContactPage() {
           <SocialLinks className="flex gap-4" iconClassName="h-8 w-8" />
         </div>
 
-        <div className="w-full">
+        <div className="w-full overflow-hidden rounded-3xl border border-white/10">
           <Image
             src="/about-cta.jpg"
             alt="Porträtt av Moa Borg"

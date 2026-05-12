@@ -78,7 +78,7 @@ export default function AboutPage() {
                   {HERO_SIDE_LABEL}
                 </span>
               </div>
-              <div className="relative min-h-[18rem] flex-1 bg-gradient-to-br from-navy-light to-navy-dark md:min-h-0">
+              <div className="relative min-h-[18rem] min-w-0 flex-1 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-navy-light to-navy-dark md:min-h-0">
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-4 text-center">
                   <span className="text-xs font-medium text-fg-muted/80">Bildyta</span>
                   <span className="max-w-[10rem] text-[0.65rem] leading-snug text-fg-muted/60">
@@ -91,7 +91,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section aria-labelledby="about-body-heading" className="border-t border-white/10 pt-12">
+      <section aria-labelledby="about-body-heading">
         <div className="container">
           <h2 id="about-body-heading" className="text-fg">
             Om mig
@@ -172,7 +172,7 @@ export default function AboutPage() {
         <div className="container">
           <div className="grid min-h-[28rem] grid-cols-1 gap-8 md:min-h-[min(70vh,40rem)] md:grid-cols-2 md:items-stretch md:gap-10">
             <div className="flex min-h-[18rem] flex-row md:min-h-0">
-              <div className="relative min-h-[18rem] flex-1 bg-gradient-to-br from-navy-light to-navy-dark md:min-h-0">
+              <div className="relative min-h-[18rem] min-w-0 flex-1 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-navy-light to-navy-dark md:min-h-0">
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-4 text-center">
                   <span className="text-xs font-medium text-fg-muted/80">Bildyta</span>
                   <span className="max-w-[10rem] text-[0.65rem] leading-snug text-fg-muted/60">
