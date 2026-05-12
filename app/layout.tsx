@@ -35,7 +35,7 @@ export default function RootLayout({
     <html lang="sv" className={`${inter.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="flex min-h-screen flex-col">
         <Navbar />
-        <main className="container flex-1 pt-12">{children}</main>
+        <main className="flex min-h-0 min-w-0 flex-1 flex-col pt-12">{children}</main>
         <Footer />
       </body>
     </html>

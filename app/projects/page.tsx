@@ -10,10 +10,13 @@ export const revalidate = 300;
 
 export default function ProjectsPage() {
   return (
-    <section>
+    <section className="container">
       <div className="text-center">
         <h1>Projekt</h1>
-        <p className="mx-auto mt-2 text-fg-muted">Innehåll kommer att läggas till här</p>
+        <p className="mx-auto mt-2 text-fg-muted">
+          Här delar jag några av mina projekt från studier, LIA och egna initiativ — från
+          kundprojekt till moderna webbapplikationer.
+        </p>
       </div>
 
       <Suspense fallback={<ProjectGridSkeleton />}>

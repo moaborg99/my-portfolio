@@ -11,7 +11,7 @@ export const revalidate = 300;
 
 export default function ContactPage() {
   return (
-    <section aria-labelledby="contact-heading">
+    <section aria-labelledby="contact-heading" className="container">
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-center">
         <div className="flex flex-col gap-2">
           <h1 id="contact-heading">Letar ni efter en ny kollega?</h1>
