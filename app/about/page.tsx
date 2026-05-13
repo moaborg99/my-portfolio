@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import { MailIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -15,20 +17,20 @@ export const metadata: Metadata = { title: "Om mig" };
 
 export const revalidate = 300;
 
-const HERO_SIDE_LABEL = "Kreativ · Utvecklare · Fullstack";
+const HERO_SIDE_LABEL = "Fullstack · Modern webbutveckling";
 
 const ABOUT_INTRO_COLUMNS = [
   {
     title: "Bakgrund",
-    body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit — tempus cursus eget sapien non. Vestibulum vitae lorem ut arcu varius tincidunt. Integer posuere, neque id facilisis aliquet, metus purus fermentum nibh, ut gravida nisl nunc vel risus. Donec pulvinar velit sed orci efficitur, in interdum nulla facilisis. Curabitur at sapien sit amet erat malesuada tincidunt eget quis justo, non gravida justo.",
+    body: "Innan jag började med webbutveckling utbildade jag mig inom inredning har arbetat flera år inom industri och service. Det har gett mig erfarenhet av teamwork, kundkontakt och att arbeta strukturerat även i högt tempo — något jag har stor nytta av idag som utvecklare.",
   },
   {
     title: "Utbildning",
-    body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit — tempus cursus eget sapien non. Vestibulum vitae lorem ut arcu varius tincidunt. Integer posuere, neque id facilisis aliquet, metus purus fermentum nibh, ut gravida nisl nunc vel risus. Donec pulvinar velit sed orci efficitur, in interdum nulla facilisis. Curabitur at sapien sit amet erat malesuada tincidunt eget quis justo, non gravida justo.",
+    body: "Under min utbildning hos EC Utbildning har jag arbetat brett inom både frontend och backend genom projekt, LIA och egna initiativ. Jag tycker om att kombinera design och funktion och har fått erfarenhet av hela utvecklingsprocessen — från idé och mockups till implementation, support och vidareutveckling i befintliga kodbaser.",
   },
   {
     title: "Vem är jag",
-    body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit — tempus cursus eget sapien non. Vestibulum vitae lorem ut arcu varius tincidunt. Integer posuere, neque id facilisis aliquet, metus purus fermentum nibh, ut gravida nisl nunc vel risus. Donec pulvinar velit sed orci efficitur, in interdum nulla facilisis. Curabitur at sapien sit amet erat malesuada tincidunt eget quis justo, non gravida justo.",
+    body: "Jag gillar att kombinera kreativitet med struktur och trivs bäst när jag får arbeta både praktiskt och problemlösande. Oavsett om det handlar om webbutveckling, renovering eller design drivs jag av nyfikenhet och viljan att hela tiden utvecklas. Jag tror också på prestigelösa team där man delar kunskap och utvecklas tillsammans.",
   },
 ] as const;
 
@@ -51,19 +53,22 @@ export default function AboutPage() {
       >
         <div className="container">
           <div className="grid min-h-[28rem] grid-cols-1 gap-8 md:min-h-[min(70vh,40rem)] md:grid-cols-2 md:items-stretch md:gap-10">
-            <div className="flex flex-col justify-center gap-6 pt-2 md:pt-0">
+            <div className="flex flex-col items-start justify-center gap-6 pt-2 md:pt-0">
               <h1 id="about-hero-heading" className="type-display text-fg">
-                Moa Borg
+                Modern webbutveckling
               </h1>
               <p className="max-w-xl text-pretty text-base leading-relaxed text-fg-muted md:text-lg">
-                Jag är student i frontend, närmar mig examen, och bygger broar mellan design och
-                kod. Här berättar jag mer om mig själv, min utbildning och vad jag vill härnäst.
+                Jag heter Moa och är en fullstackutvecklare med intresse för design,
+                användarupplevelse och modern webbutveckling. Med bakgrund inom inredning drivs jag
+                av att skapa genomtänkta lösningar för webben där teknik möter design.
               </p>
               <Link
                 href={sitePath.contact}
-                className={`${buttonClassName("primary")} mt-2 inline-flex w-full justify-center sm:w-fit`}
+                prefetch
+                className={`${buttonClassName("secondary")} inline-flex items-center gap-2`}
               >
-                Säg hej
+                Kontakta mig
+                <MailIcon className="h-4 w-4" />
               </Link>
             </div>
             <div className="flex min-h-[18rem] flex-row md:min-h-0">
@@ -78,13 +83,16 @@ export default function AboutPage() {
                   {HERO_SIDE_LABEL}
                 </span>
               </div>
-              <div className="relative min-h-[18rem] min-w-0 flex-1 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-navy-light to-navy-dark md:min-h-0">
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-4 text-center">
-                  <span className="text-xs font-medium text-fg-muted/80">Bildyta</span>
-                  <span className="max-w-[10rem] text-[0.65rem] leading-snug text-fg-muted/60">
-                    Lägg bilden här — fyll med next/image, fill, object-cover.
-                  </span>
-                </div>
+              <div className="relative min-h-[18rem] min-w-0 flex-1 overflow-hidden rounded-3xl border border-white/10 bg-navy-light/30 md:min-h-0">
+                <Image
+                  src="/about-cta.jpg"
+                  alt="Porträtt av Moa Borg"
+                  fill
+                  priority
+                  fetchPriority="high"
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 45vw"
+                />
               </div>
             </div>
           </div>
@@ -110,8 +118,8 @@ export default function AboutPage() {
               Utvalda projekt
             </h2>
             <p className="mx-auto mt-3 max-w-2xl text-fg-muted">
-              Utforska några av projekten jag byggt. De skarpa kundprojekten är projekt jag drivit
-              självständigt från mockup till lanserad site.
+              Kika in några av projekten jag byggt inom frontend, fullstack och modern
+              webbutveckling — inklusive kundprojekt jag drivit från mockup till lanserad site.
             </p>
           </div>
           <Suspense fallback={<FeaturedProjectsSkeleton />}>
@@ -128,29 +136,33 @@ export default function AboutPage() {
                 LIA
               </h2>
               <p className="mt-3 max-w-prose text-fg-muted">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit — tempus cursus eget sapien
-                non. Vestibulum vitae lorem ut arcu varius tincidunt. Integer posuere, neque id
-                facilisis aliquet, metus purus fermentum nibh, ut gravida nisl nunc vel risus. Donec
-                pulvinar velit sed orci efficitur, in interdum nulla facilisis. Curabitur at sapien
-                sit amet erat malesuada tincidunt eget quis justo, non gravida justo. Lorem ipsum
-                dolor sit amet, consectetur adipiscing elit — tempus cursus eget sapien non.
+                Under min LIA på Adgrowth, en B2B-byrå inom digital marknadsföring där
+                webbutveckling är en del av erbjudandet, arbetade jag brett med både support,
+                vidareutveckling och egna kundprojekt. Företaget har traditionellt byggt
+                WordPress-sidor med eget tema, men befinner sig samtidigt i en omställning mot
+                modernare lösningar med fokus på deras egen försäljningsplattform i Laravel och
+                Livewire.
                 <br />
-                <br /> Vestibulum vitae lorem ut arcu varius tincidunt. Integer posuere, neque id
-                facilisis aliquet, metus purus fermentum nibh, ut gravida nisl nunc vel risus. Donec
-                pulvinar velit sed orci efficitur, in interdum nulla facilisis. Curabitur at sapien
-                sit amet erat malesuada tincidunt eget quis justo, non gravida justo.
+                <br /> I det mindre utvecklingsteamet fick jag snabbt ta stort eget ansvar och drev
+                flera kundprojekt självständigt — från mockup och implementation till färdig
+                lanserad webbplats. Utöver det arbetade jag löpande med felsökning, support, domän-
+                och DNS-frågor samt vidareutveckling av befintliga webbplatser. Jag har även fått
+                möjlighet att arbeta med egna projekt i Laravel, Livewire, Inertia, React och Vue
+                som en del av företagets nya tekniska riktning.
               </p>
 
               <h2 id="about-tech-intro-heading" className="text-fg">
                 Teknik och kunskaper
               </h2>
-              <p className="mt-3 max-w-prose text-sm leading-relaxed text-fg-muted">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit — tempus cursus eget sapien
-                non. Vestibulum vitae lorem ut arcu varius tincidunt. Integer posuere, neque id
-                facilisis aliquet, metus purus fermentum nibh, ut gravida nisl nunc vel risus. Donec
-                pulvinar velit sed orci efficitur, in interdum nulla facilisis. Curabitur at sapien
-                sit amet erat malesuada tincidunt eget quis justo, non gravida justo. Lorem ipsum
-                dolor sit amet, consectetur adipiscing elit — tempus cursus eget sapien non.
+              <p className="mt-3 max-w-prose text-fg-muted">
+                Genom utbildning, LIA och egna projekt har jag fått arbeta med många olika tekniker,
+                ramverk och arbetssätt inom både frontend, backend och fullstackutveckling. Jag
+                tycker om att utforska nya verktyg och ser det som en styrka att snabbt kunna sätta
+                mig in i nya tekniker och förstå olika typer av kodbaser. <br /> <br /> I en bransch
+                som förändras snabbt drivs jag av att fortsätta utvecklas och hitta smartare sätt
+                att bygga moderna och användarvänliga lösningar. Jag är flexibel i hur jag vill
+                fortsätta utvecklas framåt och öppen för att både fördjupa mig inom tekniker jag
+                redan arbetat med eller ta mig an helt nya ramverk och arbetssätt.
               </p>
             </div>
 
@@ -172,13 +184,14 @@ export default function AboutPage() {
         <div className="container">
           <div className="grid min-h-[28rem] grid-cols-1 gap-8 md:min-h-[min(70vh,40rem)] md:grid-cols-2 md:items-stretch md:gap-10">
             <div className="flex min-h-[18rem] flex-row md:min-h-0">
-              <div className="relative min-h-[18rem] min-w-0 flex-1 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-navy-light to-navy-dark md:min-h-0">
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-4 text-center">
-                  <span className="text-xs font-medium text-fg-muted/80">Bildyta</span>
-                  <span className="max-w-[10rem] text-[0.65rem] leading-snug text-fg-muted/60">
-                    Lägg bilden här — fyll med next/image, fill, object-cover.
-                  </span>
-                </div>
+              <div className="relative min-h-[18rem] min-w-0 flex-1 overflow-hidden rounded-3xl border border-white/10 bg-navy-light/30 md:min-h-0">
+                <Image
+                  src="/social-portrait.jpg"
+                  alt="Moa Borg vid en diskussion"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 45vw"
+                />
               </div>
               <div
                 className="flex shrink-0 items-end justify-center border-r border-white/10 bg-navy-dark px-3 py-10 md:px-4"
@@ -190,14 +203,17 @@ export default function AboutPage() {
                 Hör av dig
               </h2>
               <p className="max-w-xl text-pretty text-fg-muted">
-                Vill du prata om ett projekt, LIA eller bara utbyta idéer? Skicka ett meddelande —
-                jag svarar så snart jag kan.
+                Jag söker nu min första roll som utvecklare efter examen och är öppen för
+                möjligheter inom frontend, fullstack och UX/UI. Söker ert team en nyfiken och
+                kreativ problemlösare? Jag ser fram emot att höra från er.
               </p>
               <Link
                 href={sitePath.contact}
-                className={`${buttonClassName("primary")} mt-2 inline-flex w-full justify-center sm:w-fit`}
+                prefetch
+                className={`${buttonClassName("secondary")} inline-flex w-full items-center justify-center gap-2 md:w-auto md:self-start`}
               >
-                Säg hej
+                Kontakta mig
+                <MailIcon className="h-4 w-4" />
               </Link>
             </div>
           </div>

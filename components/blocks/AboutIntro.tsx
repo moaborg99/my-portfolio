@@ -44,7 +44,7 @@ export function AboutIntro({
           <div className="flex flex-col gap-6 lg:col-span-2 lg:min-h-0 lg:h-full">
             <div className="group relative min-h-[248px] flex-1 overflow-hidden rounded-3xl border border-white/10 bg-navy-light/30 transition-all duration-500 hover:border-turquoise/30">
               <Image
-                src="/about-cta.jpg"
+                src="/social-conversation.jpg"
                 alt="Porträtt av Moa Borg"
                 fill
                 priority={portraitImagePriority}
