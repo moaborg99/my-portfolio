@@ -65,7 +65,7 @@ export default function AboutPage() {
               <Link
                 href={sitePath.contact}
                 prefetch
-                className={`${buttonClassName("secondary")} inline-flex items-center gap-2`}
+                className={`${buttonClassName("secondary")} inline-flex w-full items-center justify-center gap-2 md:w-auto md:self-start`}
               >
                 Kontakta mig
                 <MailIcon className="h-4 w-4" />

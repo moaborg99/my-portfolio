@@ -56,7 +56,7 @@ export function Hero() {
 
         <SocialLinks
           className="mt-10 flex items-center justify-center gap-5"
-          iconClassName="h-6 w-6"
+          iconClassName="h-8 w-8"
         />
       </div>
     </section>

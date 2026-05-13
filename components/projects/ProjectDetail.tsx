@@ -137,19 +137,22 @@ export function ProjectDetail({
             className="pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-[min(70vh,36rem)] bg-gradient-to-t from-[var(--background)]/96 via-black/42 to-transparent md:h-[min(72vh,40rem)]"
             aria-hidden
           />
-          <Link
-            href={backHref}
-            className={[
-              buttonClassName("secondary"),
-              "absolute left-[max(var(--container-padding-x),calc((100vw-var(--container-max-width))/2+var(--container-padding-x)))] top-7 z-20 gap-2 [&_svg]:size-4",
-            ].join(" ")}
-          >
-            <ArrowLeft aria-hidden />
-            {backLabel}
-          </Link>
+          <div className="absolute inset-x-0 top-7 z-20">
+            <div className="container">
+              <Link
+                href={backHref}
+                className={[buttonClassName("secondary"), "inline-flex gap-2 [&_svg]:size-4"].join(
+                  " "
+                )}
+              >
+                <ArrowLeft aria-hidden />
+                {backLabel}
+              </Link>
+            </div>
+          </div>
 
           <div className="absolute inset-x-0 bottom-0 z-20 pb-12 pt-36 md:pb-14 md:pt-44">
-            <div className="container px-[var(--container-padding-x)]">
+            <div className="container">
               <h1 className="max-w-full text-pretty text-white [text-shadow:0_1px_2px_rgb(0_0_0/0.75),0_0_28px_rgb(0_0_0/0.45)] md:max-w-4xl">
                 {title}
               </h1>
@@ -208,7 +211,7 @@ export function ProjectDetail({
         </div>
       </header>
 
-      <div className="relative z-10 mt-2 w-full max-w-[80rem] space-y-[3.75rem] md:space-y-20">
+      <div className="container relative z-10 mt-2 space-y-[3.75rem] md:space-y-20">
         <section aria-labelledby="project-tech-heading">
           <div className="mb-6 flex items-center gap-3 md:gap-3.5">
             <Code aria-hidden className="size-6 shrink-0 text-turquoise" />
