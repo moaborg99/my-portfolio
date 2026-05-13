@@ -29,7 +29,7 @@ export function EditProjectForm({ project, skills }: EditProjectFormProps) {
   const formError = state?.ok === false ? state.formError : undefined;
 
   return (
-    <form action={formAction} className="mx-auto max-w-4xl space-y-8">
+    <form action={formAction} className="w-full space-y-8">
       <input type="hidden" name="slug" value={project.slug} />
 
       <FormLevelError message={formError} />

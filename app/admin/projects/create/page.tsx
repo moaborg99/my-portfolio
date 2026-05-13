@@ -8,7 +8,7 @@ export default async function AdminCreateProjectPage() {
   const skills = await getAllTechnicalSkills();
 
   return (
-    <section className="space-y-6">
+    <section className="mx-auto w-full max-w-4xl space-y-6">
       <div>
         <NavLink href="/admin/projects" leadingArrow className="text-sm">
           Alla projekt
