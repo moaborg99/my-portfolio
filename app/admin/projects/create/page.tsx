@@ -2,6 +2,8 @@ import { CreateProjectForm } from "@/components/admin/CreateProjectForm";
 import { NavLink } from "@/components/ui/NavLink";
 import { getAllTechnicalSkills } from "@/lib/tech-skills";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminCreateProjectPage() {
   const skills = await getAllTechnicalSkills();
 

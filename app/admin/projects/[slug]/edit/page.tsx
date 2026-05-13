@@ -5,6 +5,8 @@ import { NavLink } from "@/components/ui/NavLink";
 import { getProjectBySlug } from "@/lib/projects";
 import { getAllTechnicalSkills } from "@/lib/tech-skills";
 
+export const dynamic = "force-dynamic";
+
 type PageProps = {
   params: Promise<{ slug: string }>;
 };

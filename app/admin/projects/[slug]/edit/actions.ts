@@ -254,6 +254,8 @@ export async function updateProjectAction(
   revalidatePath(`/projects/${slug}`);
   revalidatePath("/");
   revalidatePath("/admin/projects");
+  revalidatePath("/admin/projects/create");
+  revalidatePath(`/admin/projects/${slug}/edit`);
 
   redirect("/admin/projects");
 }

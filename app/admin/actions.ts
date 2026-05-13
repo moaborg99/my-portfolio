@@ -37,6 +37,8 @@ export async function deleteProject(slug: string, formData: FormData) {
   revalidatePath(`/projects/${clean}`);
   revalidatePath("/");
   revalidatePath("/admin/projects");
+  revalidatePath("/admin/projects/create");
+  revalidatePath(`/admin/projects/${clean}/edit`);
 
   redirect("/admin/projects");
 }
