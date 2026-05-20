@@ -35,7 +35,7 @@ export default function ContactPage() {
 
         <div className="relative mx-auto aspect-[5/6] w-full max-w-lg overflow-hidden rounded-3xl border border-white/10">
           <Image
-            src="/about-cta.jpg"
+            src="/portfolio-me.jpg"
             alt="Porträtt av Moa Borg"
             fill
             priority

@@ -85,7 +85,7 @@ export default function AboutPage() {
               </div>
               <div className="relative min-h-[18rem] min-w-0 flex-1 overflow-hidden rounded-3xl border border-white/10 bg-navy-light/30 md:min-h-0">
                 <Image
-                  src="/about-cta.jpg"
+                  src="/portfolio-me3.jpg"
                   alt="Porträtt av Moa Borg"
                   fill
                   priority
