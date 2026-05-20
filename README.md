@@ -1,3 +1,9 @@
+## About this project
+
+Personal portfolio and project showcase site. Visitors can browse **About**, **Contact**, and **Projects** (with detail pages). **Projects**, **skills**, and **tech stack groups** live in **PostgreSQL** and are edited via the password-protected **admin** UI; other pages and copy are **static** in the codebase (`app/`, assets). Built with **[Next.js](https://nextjs.org)** (App Router), **React**, and **TypeScript**, styled with **Tailwind CSS**, and backed by **Prisma ORM**.
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
